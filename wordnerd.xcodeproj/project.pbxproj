@@ -1,0 +1,434 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7A28CF631AE47540008E9B9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF621AE47540008E9B9C /* AppDelegate.swift */; };
+		7A28CF651AE47540008E9B9C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF641AE47540008E9B9C /* ViewController.swift */; };
+		7A28CF681AE47540008E9B9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A28CF661AE47540008E9B9C /* Main.storyboard */; };
+		7A28CF6A1AE47540008E9B9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A28CF691AE47540008E9B9C /* Images.xcassets */; };
+		7A28CF6D1AE47540008E9B9C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A28CF6B1AE47540008E9B9C /* LaunchScreen.xib */; };
+		7A28CF791AE47540008E9B9C /* wordnerdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF781AE47540008E9B9C /* wordnerdTests.swift */; };
+		7A28CF871AE47A98008E9B9C /* VisibleFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF861AE47A98008E9B9C /* VisibleFormViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7A28CF731AE47540008E9B9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7A28CF551AE4753F008E9B9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7A28CF5C1AE47540008E9B9C;
+			remoteInfo = wordnerd;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7A28CF5D1AE47540008E9B9C /* wordnerd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wordnerd.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A28CF611AE47540008E9B9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7A28CF621AE47540008E9B9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7A28CF641AE47540008E9B9C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7A28CF671AE47540008E9B9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7A28CF691AE47540008E9B9C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7A28CF6C1AE47540008E9B9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		7A28CF721AE47540008E9B9C /* wordnerdTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wordnerdTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A28CF771AE47540008E9B9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7A28CF781AE47540008E9B9C /* wordnerdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wordnerdTests.swift; sourceTree = "<group>"; };
+		7A28CF851AE47A98008E9B9C /* VisibleFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisibleFormViewController.h; sourceTree = "<group>"; };
+		7A28CF861AE47A98008E9B9C /* VisibleFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisibleFormViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7A28CF5A1AE47540008E9B9C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7A28CF6F1AE47540008E9B9C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7A28CF541AE4753F008E9B9C = {
+			isa = PBXGroup;
+			children = (
+				7A28CF5F1AE47540008E9B9C /* wordnerd */,
+				7A28CF751AE47540008E9B9C /* wordnerdTests */,
+				7A28CF5E1AE47540008E9B9C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7A28CF5E1AE47540008E9B9C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7A28CF5D1AE47540008E9B9C /* wordnerd.app */,
+				7A28CF721AE47540008E9B9C /* wordnerdTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7A28CF5F1AE47540008E9B9C /* wordnerd */ = {
+			isa = PBXGroup;
+			children = (
+				7A28CF851AE47A98008E9B9C /* VisibleFormViewController.h */,
+				7A28CF861AE47A98008E9B9C /* VisibleFormViewController.m */,
+				7A28CF621AE47540008E9B9C /* AppDelegate.swift */,
+				7A28CF641AE47540008E9B9C /* ViewController.swift */,
+				7A28CF661AE47540008E9B9C /* Main.storyboard */,
+				7A28CF691AE47540008E9B9C /* Images.xcassets */,
+				7A28CF6B1AE47540008E9B9C /* LaunchScreen.xib */,
+				7A28CF601AE47540008E9B9C /* Supporting Files */,
+			);
+			path = wordnerd;
+			sourceTree = "<group>";
+		};
+		7A28CF601AE47540008E9B9C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7A28CF611AE47540008E9B9C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7A28CF751AE47540008E9B9C /* wordnerdTests */ = {
+			isa = PBXGroup;
+			children = (
+				7A28CF781AE47540008E9B9C /* wordnerdTests.swift */,
+				7A28CF761AE47540008E9B9C /* Supporting Files */,
+			);
+			path = wordnerdTests;
+			sourceTree = "<group>";
+		};
+		7A28CF761AE47540008E9B9C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7A28CF771AE47540008E9B9C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7A28CF5C1AE47540008E9B9C /* wordnerd */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7A28CF7C1AE47540008E9B9C /* Build configuration list for PBXNativeTarget "wordnerd" */;
+			buildPhases = (
+				7A28CF591AE47540008E9B9C /* Sources */,
+				7A28CF5A1AE47540008E9B9C /* Frameworks */,
+				7A28CF5B1AE47540008E9B9C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = wordnerd;
+			productName = wordnerd;
+			productReference = 7A28CF5D1AE47540008E9B9C /* wordnerd.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7A28CF711AE47540008E9B9C /* wordnerdTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7A28CF7F1AE47540008E9B9C /* Build configuration list for PBXNativeTarget "wordnerdTests" */;
+			buildPhases = (
+				7A28CF6E1AE47540008E9B9C /* Sources */,
+				7A28CF6F1AE47540008E9B9C /* Frameworks */,
+				7A28CF701AE47540008E9B9C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7A28CF741AE47540008E9B9C /* PBXTargetDependency */,
+			);
+			name = wordnerdTests;
+			productName = wordnerdTests;
+			productReference = 7A28CF721AE47540008E9B9C /* wordnerdTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7A28CF551AE4753F008E9B9C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Michael Miller";
+				TargetAttributes = {
+					7A28CF5C1AE47540008E9B9C = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					7A28CF711AE47540008E9B9C = {
+						CreatedOnToolsVersion = 6.3;
+						TestTargetID = 7A28CF5C1AE47540008E9B9C;
+					};
+				};
+			};
+			buildConfigurationList = 7A28CF581AE4753F008E9B9C /* Build configuration list for PBXProject "wordnerd" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7A28CF541AE4753F008E9B9C;
+			productRefGroup = 7A28CF5E1AE47540008E9B9C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7A28CF5C1AE47540008E9B9C /* wordnerd */,
+				7A28CF711AE47540008E9B9C /* wordnerdTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7A28CF5B1AE47540008E9B9C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A28CF681AE47540008E9B9C /* Main.storyboard in Resources */,
+				7A28CF6D1AE47540008E9B9C /* LaunchScreen.xib in Resources */,
+				7A28CF6A1AE47540008E9B9C /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7A28CF701AE47540008E9B9C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7A28CF591AE47540008E9B9C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A28CF871AE47A98008E9B9C /* VisibleFormViewController.m in Sources */,
+				7A28CF651AE47540008E9B9C /* ViewController.swift in Sources */,
+				7A28CF631AE47540008E9B9C /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7A28CF6E1AE47540008E9B9C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A28CF791AE47540008E9B9C /* wordnerdTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7A28CF741AE47540008E9B9C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7A28CF5C1AE47540008E9B9C /* wordnerd */;
+			targetProxy = 7A28CF731AE47540008E9B9C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7A28CF661AE47540008E9B9C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7A28CF671AE47540008E9B9C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		7A28CF6B1AE47540008E9B9C /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7A28CF6C1AE47540008E9B9C /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7A28CF7A1AE47540008E9B9C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7A28CF7B1AE47540008E9B9C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7A28CF7D1AE47540008E9B9C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = wordnerd/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7A28CF7E1AE47540008E9B9C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = wordnerd/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7A28CF801AE47540008E9B9C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = wordnerdTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wordnerd.app/wordnerd";
+			};
+			name = Debug;
+		};
+		7A28CF811AE47540008E9B9C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = wordnerdTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wordnerd.app/wordnerd";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7A28CF581AE4753F008E9B9C /* Build configuration list for PBXProject "wordnerd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A28CF7A1AE47540008E9B9C /* Debug */,
+				7A28CF7B1AE47540008E9B9C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7A28CF7C1AE47540008E9B9C /* Build configuration list for PBXNativeTarget "wordnerd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A28CF7D1AE47540008E9B9C /* Debug */,
+				7A28CF7E1AE47540008E9B9C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7A28CF7F1AE47540008E9B9C /* Build configuration list for PBXNativeTarget "wordnerdTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A28CF801AE47540008E9B9C /* Debug */,
+				7A28CF811AE47540008E9B9C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7A28CF551AE4753F008E9B9C /* Project object */;
+}
