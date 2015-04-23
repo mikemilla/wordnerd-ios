@@ -71,6 +71,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
+    /*
+    * Hide status bar
+    */
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
