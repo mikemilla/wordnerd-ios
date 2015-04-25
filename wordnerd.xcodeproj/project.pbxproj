@@ -14,6 +14,7 @@
 		7A28CF6D1AE47540008E9B9C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A28CF6B1AE47540008E9B9C /* LaunchScreen.xib */; };
 		7A28CF791AE47540008E9B9C /* wordnerdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF781AE47540008E9B9C /* wordnerdTests.swift */; };
 		7A28CF871AE47A98008E9B9C /* VisibleFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF861AE47A98008E9B9C /* VisibleFormViewController.m */; };
+		7AEB33A91AEC4C2100A70DF2 /* VarelaRound.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7AEB33A81AEC4C2100A70DF2 /* VarelaRound.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		7A28CF781AE47540008E9B9C /* wordnerdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wordnerdTests.swift; sourceTree = "<group>"; };
 		7A28CF851AE47A98008E9B9C /* VisibleFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisibleFormViewController.h; sourceTree = "<group>"; };
 		7A28CF861AE47A98008E9B9C /* VisibleFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisibleFormViewController.m; sourceTree = "<group>"; };
+		7AEB33A81AEC4C2100A70DF2 /* VarelaRound.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VarelaRound.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 		7A28CF541AE4753F008E9B9C = {
 			isa = PBXGroup;
 			children = (
+				7AEB33A81AEC4C2100A70DF2 /* VarelaRound.otf */,
 				7A28CF5F1AE47540008E9B9C /* wordnerd */,
 				7A28CF751AE47540008E9B9C /* wordnerdTests */,
 				7A28CF5E1AE47540008E9B9C /* Products */,
@@ -198,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A28CF681AE47540008E9B9C /* Main.storyboard in Resources */,
+				7AEB33A91AEC4C2100A70DF2 /* VarelaRound.otf in Resources */,
 				7A28CF6D1AE47540008E9B9C /* LaunchScreen.xib in Resources */,
 				7A28CF6A1AE47540008E9B9C /* Images.xcassets in Resources */,
 			);

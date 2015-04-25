@@ -10,21 +10,40 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var computerRhyme: UILabel!
     @IBOutlet weak var userRhyme: UITextField!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    
-    var oldKeyboardHeight: CGFloat = 0
-    var difference: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Computer Rhyme Styles
+        computerRhyme.font = UIFont.boldSystemFontOfSize(40.0)
+        computerRhyme.font = UIFont(name: "VarelaRound", size: 40)
+        
+        // User Rhyme Styles
         userRhyme.textAlignment = .Center;
+        userRhyme.font = UIFont (name: "VarelaRound", size: 40)
+        
+        // Open Keyboard on launch
         userRhyme.delegate = self;
         userRhyme.becomeFirstResponder()
         
+        // Keyboard will show notification
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
+        
+        // Keyboard will hide notification
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+        
+        // TextField textChangeListener notification
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userRhyme);
+    }
+    
+    /*
+    * Hide status bar
+    */
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
     
     /*
@@ -32,25 +51,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
     */
     func keyboardWillShow(sender: NSNotification) {
         
-        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+        // Get Keyboard Height
+        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() {
             
-            if (oldKeyboardHeight != keyboardSize.height && oldKeyboardHeight != 0) {
-                
-                // Find Difference is keyboard height
-                difference = keyboardSize.height - oldKeyboardHeight
-                bottomConstraint.constant = keyboardSize.height - difference
-            } else {
-                bottomConstraint.constant = keyboardSize.height
-            }
-            
-            // Reset oldKeyboardHeight
-            oldKeyboardHeight = keyboardSize.height
+            // Set the Bottom UITextfield Constraint
+            bottomConstraint.constant = keyboardSize.height
             
             // Animate Changes
             UIView.animateWithDuration(0.25, animations: { () -> Void in
                 self.view.layoutIfNeeded()
             })
         }
+        
     }
     
     /*
@@ -58,12 +70,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     */
     func keyboardWillHide(sender: NSNotification) {
         
-        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            oldKeyboardHeight = keyboardSize.height
-        }
-        
-        // Change the bottom constraint
-        self.bottomConstraint.constant = 0
+        // Set the Bottom UITextfield Constraint
+        bottomConstraint.constant = 0
         
         // Animate Changes
         UIView.animateWithDuration(0.25, animations: { () -> Void in
@@ -72,10 +80,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-    * Hide status bar
+    * UITextField Change Listener
     */
-    override func prefersStatusBarHidden() -> Bool {
-        return true
+    func textFieldDidChange(sender: NSNotification) {
+        
+        // Variable for handling userRhyme " " replacement
+        let userRhymeWithNoSpaces = userRhyme.text.stringByReplacingOccurrencesOfString(" ", withString: "")
+        
+        // Set text of userRhyme to the string with no spaces
+        userRhyme.text = userRhymeWithNoSpaces
+        
+        println(self.userRhyme.text)
+        //methodThatWillTakeOverTheWorld(txtAfterUpdate)
+    }
+    
+    func methodThatWillTakeOverTheWorld(txtAfterUpdate: NSString) {
+        println("Sup")
     }
     
 }

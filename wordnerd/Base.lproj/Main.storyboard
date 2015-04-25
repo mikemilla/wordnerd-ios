@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="VarelaRound.otf">
+            <string>VarelaRound</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -12,30 +17,52 @@
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS" userLabel="Game">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZPL-GZ-nIN">
-                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QIu-De-Zd1" userLabel="GameView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZPL-GZ-nIN" userLabel="UserRhyme">
+                                        <rect key="frame" x="0.0" y="520" width="600" height="80"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="80" id="Sim-iy-cvb"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="word" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MI4-ef-bJV">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
+                                        <fontDescription key="fontDescription" name="VarelaRound" family="Varela Round" pointSize="40"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="l10-T4-cW4"/>
+                                    <constraint firstItem="MI4-ef-bJV" firstAttribute="leading" secondItem="QIu-De-Zd1" secondAttribute="leading" id="JJC-qr-NqL"/>
+                                    <constraint firstItem="ZPL-GZ-nIN" firstAttribute="leading" secondItem="QIu-De-Zd1" secondAttribute="leading" id="bil-hg-VfU"/>
+                                    <constraint firstItem="MI4-ef-bJV" firstAttribute="top" secondItem="QIu-De-Zd1" secondAttribute="top" id="fwt-Lf-n7Z"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZPL-GZ-nIN" secondAttribute="trailing" id="izh-RC-mC3"/>
+                                    <constraint firstAttribute="bottom" secondItem="MI4-ef-bJV" secondAttribute="bottom" constant="80" id="rUZ-JC-HKP"/>
+                                    <constraint firstAttribute="trailing" secondItem="MI4-ef-bJV" secondAttribute="trailing" id="uki-4P-AtI"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZPL-GZ-nIN" secondAttribute="bottom" id="uyz-vH-m4m"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.28888448786964893" green="0.8078773021697998" blue="0.27397035329498082" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.12941176470588237" green="0.58823529411764708" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="ZPL-GZ-nIN" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="0RR-3E-E4Z"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="ZPL-GZ-nIN" secondAttribute="bottom" id="2Wl-pa-teJ"/>
-                            <constraint firstAttribute="trailing" secondItem="ZPL-GZ-nIN" secondAttribute="trailing" id="khH-Wu-pgf"/>
+                            <constraint firstItem="QIu-De-Zd1" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="EMx-fA-P8v"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="QIu-De-Zd1" secondAttribute="bottom" id="GnI-T1-VeA"/>
+                            <constraint firstAttribute="trailing" secondItem="QIu-De-Zd1" secondAttribute="trailing" id="Gwn-5p-fP7"/>
+                            <constraint firstItem="QIu-De-Zd1" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="q9p-Ky-qfk"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="bottomConstraint" destination="2Wl-pa-teJ" id="2c9-kJ-kEr"/>
-                        <outlet property="userRhyme" destination="ZPL-GZ-nIN" id="QH7-07-g5C"/>
+                        <outlet property="bottomConstraint" destination="GnI-T1-VeA" id="Day-cB-rg6"/>
+                        <outlet property="computerRhyme" destination="MI4-ef-bJV" id="jK4-7H-lkA"/>
+                        <outlet property="userRhyme" destination="ZPL-GZ-nIN" id="CUB-M4-ec5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
