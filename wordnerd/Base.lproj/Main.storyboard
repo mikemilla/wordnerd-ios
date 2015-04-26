@@ -21,10 +21,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QIu-De-Zd1" userLabel="GameView">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QIu-De-Zd1" userLabel="Game View">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZPL-GZ-nIN" userLabel="UserRhyme">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZPL-GZ-nIN" userLabel="User Rhyme">
                                         <rect key="frame" x="0.0" y="520" width="600" height="80"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -33,25 +33,43 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="word" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MI4-ef-bJV">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="word" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MI4-ef-bJV" userLabel="Computer Rhyme">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
                                         <fontDescription key="fontDescription" name="VarelaRound" family="Varela Round" pointSize="40"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="rmQ-Ww-JYF">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="2"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="2" id="6zJ-Ei-HDo"/>
+                                        </constraints>
+                                        <color key="progressTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </progressView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEG-hE-CCz">
+                                        <rect key="frame" x="534" y="26" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="rmQ-Ww-JYF" firstAttribute="leading" secondItem="QIu-De-Zd1" secondAttribute="leading" id="7Hm-n7-9qJ"/>
                                     <constraint firstItem="MI4-ef-bJV" firstAttribute="leading" secondItem="QIu-De-Zd1" secondAttribute="leading" id="JJC-qr-NqL"/>
+                                    <constraint firstItem="cEG-hE-CCz" firstAttribute="top" secondItem="rmQ-Ww-JYF" secondAttribute="bottom" constant="24" id="ae3-bN-Ag5"/>
                                     <constraint firstItem="ZPL-GZ-nIN" firstAttribute="leading" secondItem="QIu-De-Zd1" secondAttribute="leading" id="bil-hg-VfU"/>
                                     <constraint firstItem="MI4-ef-bJV" firstAttribute="top" secondItem="QIu-De-Zd1" secondAttribute="top" id="fwt-Lf-n7Z"/>
+                                    <constraint firstAttribute="trailing" secondItem="cEG-hE-CCz" secondAttribute="trailing" constant="24" id="h90-Zv-q4b"/>
                                     <constraint firstAttribute="trailing" secondItem="ZPL-GZ-nIN" secondAttribute="trailing" id="izh-RC-mC3"/>
-                                    <constraint firstAttribute="bottom" secondItem="MI4-ef-bJV" secondAttribute="bottom" constant="80" id="rUZ-JC-HKP"/>
+                                    <constraint firstItem="rmQ-Ww-JYF" firstAttribute="top" secondItem="QIu-De-Zd1" secondAttribute="top" id="pFj-QW-T2L"/>
+                                    <constraint firstAttribute="bottom" secondItem="MI4-ef-bJV" secondAttribute="bottom" constant="60" id="rUZ-JC-HKP"/>
+                                    <constraint firstAttribute="trailing" secondItem="rmQ-Ww-JYF" secondAttribute="trailing" id="s3V-tP-MyA"/>
                                     <constraint firstAttribute="trailing" secondItem="MI4-ef-bJV" secondAttribute="trailing" id="uki-4P-AtI"/>
                                     <constraint firstAttribute="bottom" secondItem="ZPL-GZ-nIN" secondAttribute="bottom" id="uyz-vH-m4m"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.12941176470588237" green="0.58823529411764708" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.011764705882352941" green="0.66274509803921566" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="QIu-De-Zd1" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="EMx-fA-P8v"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="QIu-De-Zd1" secondAttribute="bottom" id="GnI-T1-VeA"/>
@@ -62,6 +80,8 @@
                     <connections>
                         <outlet property="bottomConstraint" destination="GnI-T1-VeA" id="Day-cB-rg6"/>
                         <outlet property="computerRhyme" destination="MI4-ef-bJV" id="jK4-7H-lkA"/>
+                        <outlet property="progressBar" destination="rmQ-Ww-JYF" id="n8j-qt-9Mp"/>
+                        <outlet property="scoreLabel" destination="cEG-hE-CCz" id="eLB-Nk-FDT"/>
                         <outlet property="userRhyme" destination="ZPL-GZ-nIN" id="CUB-M4-ec5"/>
                     </connections>
                 </viewController>

@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var progressBar: UIProgressView!
+    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var computerRhyme: UILabel!
     @IBOutlet weak var userRhyme: UITextField!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
@@ -17,8 +19,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        startGame()
+        
+        // Progress View Styles
+        var transform = CGAffineTransformMakeScale(1, 8)
+        progressBar.transform = transform
+        progressBar.trackTintColor = UIColor.clearColor()
+        
+        // Score Label Styles
+        scoreLabel.font = UIFont (name: "VarelaRound", size: 28)
+        scoreLabel.alpha = 0.5
+        scoreLabel.text = "12"
+        
         // Computer Rhyme Styles
-        computerRhyme.font = UIFont.boldSystemFontOfSize(40.0)
+        computerRhyme.textAlignment = .Center;
         computerRhyme.font = UIFont(name: "VarelaRound", size: 40)
         
         // User Rhyme Styles
@@ -29,14 +43,45 @@ class ViewController: UIViewController, UITextFieldDelegate {
         userRhyme.delegate = self;
         userRhyme.becomeFirstResponder()
         
-        // Keyboard will show notification
+        // Keyboard notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
-        
-        // Keyboard will hide notification
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
         
         // TextField textChangeListener notification
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userRhyme);
+        
+        checkUserRhyme()
+    }
+    
+    var startTime = NSTimeInterval()
+    var timer = NSTimer()
+    var gameTime:Double = 4
+    
+    func startGame() {
+        progressBar.setProgress(1, animated: false)
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("updateTime"), userInfo: nil, repeats: true)
+        startTime = NSDate.timeIntervalSinceReferenceDate()
+    }
+    
+    func updateTime() {
+        var currentTime = NSDate.timeIntervalSinceReferenceDate()
+        var elapsedTime = currentTime - startTime
+        var seconds = gameTime - elapsedTime
+        if seconds > 0 {
+            elapsedTime -= NSTimeInterval(seconds)
+            
+            print(-Float(seconds))
+            
+            //println(gameTime)
+            //println(currentTime)
+            //println(elapsedTime)
+            
+            progressBar.setProgress(-Float(seconds), animated: true)
+            
+        } else {
+            timer.invalidate()
+            print("nigga")
+        }
     }
     
     /*
@@ -92,10 +137,33 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         println(self.userRhyme.text)
         //methodThatWillTakeOverTheWorld(txtAfterUpdate)
+        
+        checkUserRhyme()
+        
+    }
+    
+    func timerCountDown() {
+        //progressBar.progress += timer;
+        println("Sweet Timer End")
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        //textField.resignFirstResponder()
+        startGame()
+        //println("Dope")
+        return true
     }
     
     func methodThatWillTakeOverTheWorld(txtAfterUpdate: NSString) {
         println("Sup")
+    }
+    
+    func checkUserRhyme() {
+        if (userRhyme.text == "") {
+            userRhyme.backgroundColor = UIColor.blueColor()
+        } else {
+            userRhyme.backgroundColor = UIColor.whiteColor()
+        }
     }
     
 }
