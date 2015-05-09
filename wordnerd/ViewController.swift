@@ -76,6 +76,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
             // Shuffle words if it's the first run
             shuffledWords = shuffle(words)
         }
+        else if (increment == words.count) {
+            // Index out of bounds will never happen again
+            shuffledWords = shuffle(words)
+            increment = 1
+        }
         item = shuffledWords[increment]
         println(shuffledWords)
         println(increment)
