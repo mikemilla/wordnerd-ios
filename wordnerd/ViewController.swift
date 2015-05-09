@@ -10,21 +10,25 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
     
+    // Outlets
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var computerRhyme: UILabel!
     @IBOutlet weak var userRhyme: UITextField!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
+    // Instances
+    var timer = NSTimer()
+    var gameTime:Double = 400
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        startGame()
         
         // Progress View Styles
         var transform = CGAffineTransformMakeScale(1, 8)
         progressBar.transform = transform
         progressBar.trackTintColor = UIColor.clearColor()
+        progressBar.setProgress(0, animated: false)
         
         // Score Label Styles
         scoreLabel.font = UIFont (name: "VarelaRound", size: 28)
@@ -49,38 +53,32 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // TextField textChangeListener notification
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userRhyme);
-        
+      
         checkUserRhyme()
     }
     
-    var startTime = NSTimeInterval()
-    var timer = NSTimer()
-    var gameTime:Double = 4
-    
+    /*
+    * Reset Timer
+    */
     func startGame() {
+        timer.invalidate()
+        gameTime = 400;
         progressBar.setProgress(1, animated: false)
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("updateTime"), userInfo: nil, repeats: true)
-        startTime = NSDate.timeIntervalSinceReferenceDate()
+        timer = NSTimer.scheduledTimerWithTimeInterval(
+            0.01, target: self, selector: Selector("updateTime"), userInfo: nil, repeats: true)
     }
     
+    /*
+    * Update Progress bar and do countdown
+    */
     func updateTime() {
-        var currentTime = NSDate.timeIntervalSinceReferenceDate()
-        var elapsedTime = currentTime - startTime
-        var seconds = gameTime - elapsedTime
-        if seconds > 0 {
-            elapsedTime -= NSTimeInterval(seconds)
-            
-            print(-Float(seconds))
-            
-            //println(gameTime)
-            //println(currentTime)
-            //println(elapsedTime)
-            
-            progressBar.setProgress(-Float(seconds), animated: true)
-            
+        progressBar.setProgress(Float(0.0025 * gameTime), animated: true)
+        if (gameTime > 0) {
+            gameTime--;
+            println(gameTime)
         } else {
             timer.invalidate()
-            print("nigga")
+            println("GAME OVER")
         }
     }
     
@@ -142,15 +140,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func timerCountDown() {
-        //progressBar.progress += timer;
-        println("Sweet Timer End")
-    }
-    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         //textField.resignFirstResponder()
+        // Restart the countdown
         startGame()
-        //println("Dope")
         return true
     }
     
