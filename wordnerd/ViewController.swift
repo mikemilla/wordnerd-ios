@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 class ViewController: UIViewController, UITextFieldDelegate {
     
@@ -20,6 +21,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
     // Instances
     var timer = NSTimer()
     var gameTime:Double = 400
+    var shuffledWords = Array<String>()
+    var item: String = ""
+    var increment = 0
+    
+    // Outer class reference?
+    var words = ["word", "dope", "sweet", "gnar", "factory"]
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,25 +43,56 @@ class ViewController: UIViewController, UITextFieldDelegate {
         scoreLabel.text = "12"
         
         // Computer Rhyme Styles
-        computerRhyme.textAlignment = .Center;
+        computerRhyme.textAlignment = .Center
         computerRhyme.font = UIFont(name: "VarelaRound", size: 40)
         
         // User Rhyme Styles
-        userRhyme.textAlignment = .Center;
+        userRhyme.textAlignment = .Center
         userRhyme.font = UIFont (name: "VarelaRound", size: 40)
         
         // Open Keyboard on launch
-        userRhyme.delegate = self;
+        userRhyme.delegate = self
         userRhyme.becomeFirstResponder()
         
         // Keyboard notifications
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil)
         
         // TextField textChangeListener notification
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userRhyme);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userRhyme)
       
+        // Check if text is entered
         checkUserRhyme()
+        
+        // Create a word to rhyme with
+        generateRhyme()
+    }
+    
+    /**
+    * Set the computer rhyme word
+    */
+    func generateRhyme() {
+        if (increment == 0) {
+            // Shuffle words if it's the first run
+            shuffledWords = shuffle(words)
+        }
+        item = shuffledWords[increment]
+        println(shuffledWords)
+        println(increment)
+        computerRhyme.text = item
+        increment++
+    }
+    
+    /**
+    * Shuffle an array
+    */
+    func shuffle < C: MutableCollectionType where C.Index == Int>(var list: C) -> C {
+        let c = count(list)
+        for i in 0..<(c - 1) {
+            let j = Int(arc4random_uniform(UInt32(c - i))) + i
+            swap(&list[i], &list[j])
+        }
+        return list
     }
     
     /*
@@ -62,7 +100,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     */
     func startGame() {
         timer.invalidate()
-        gameTime = 400;
+        gameTime = 400
         progressBar.setProgress(1, animated: false)
         timer = NSTimer.scheduledTimerWithTimeInterval(
             0.01, target: self, selector: Selector("updateTime"), userInfo: nil, repeats: true)
@@ -74,11 +112,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func updateTime() {
         progressBar.setProgress(Float(0.0025 * gameTime), animated: true)
         if (gameTime > 0) {
-            gameTime--;
-            println(gameTime)
+            gameTime--
+            //println(gameTime)
         } else {
+            // Kill timer
             timer.invalidate()
-            println("GAME OVER")
+        
+            // Reset for playing again
+            increment = 0
+            
+            // Vibrate on gameover
+            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         }
     }
     
@@ -141,8 +185,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        //textField.resignFirstResponder()
+        // textField.resignFirstResponder()
         // Restart the countdown
+        generateRhyme()
         startGame()
         return true
     }
