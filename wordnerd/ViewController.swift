@@ -103,6 +103,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         NSThread.sleepForTimeInterval(delayDuration)
         homeView.hidden = true
         userRhyme.becomeFirstResponder()
+        score = 0
+        createRhyme()
     }
 
     @IBAction func homeButton(sender: AnyObject) {
