@@ -67,6 +67,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var score = 0
     var color = 0
     
+    var isGameOver = false
+    
     // Outer class reference?
     var words = ["word", "dope", "sweet", "gnar", "factory"]
   
@@ -149,19 +151,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
         } else {
             computerRhyme.slideOutIn(duration: 0.3, completionDelegate: self)
+            isGameOver = false
         }
-            
+        
+        // Index out of bounds will never happen again
         if (score == words.count) {
-            // Index out of bounds will never happen again
             shuffledWords = shuffle(words)
             score = 1
         }
         
-        item = shuffledWords[score]
-        //println(shuffledWords)
-        //println(score)
+        // If score is 0, remove the score text
         scoreLabel.text = String(score)
+        if (scoreLabel.text == String(0)) {
+            scoreLabel.text = nil
+        }
+        
+        // Set new computer rhyme text
+        item = shuffledWords[score]
         computerRhyme.text = item
+        
+        // Add one to the score
         score++
     }
     
@@ -178,34 +187,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-    * Reset Timer
-    */
-    func startGame() {
-        timer.invalidate()
-        gameTime = 400
-        progressBar.setProgress(1, animated: false)
-        timer = NSTimer.scheduledTimerWithTimeInterval(
-            0.01, target: self, selector: Selector("updateTime"), userInfo: nil, repeats: true)
-    }
-    
-    /*
     * Update Progress bar and do countdown
     */
     func updateTime() {
         progressBar.setProgress(Float(0.0025 * gameTime), animated: true)
         if (gameTime > 0) {
             gameTime--
-            //println(gameTime)
+            isGameOver = false
         } else {
             // Kill timer
             timer.invalidate()
-        
+            
             // Reset for playing again
             score = 0
             
             // Vibrate on gameover
+            
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            isGameOver = true
         }
+        println(isGameOver)
     }
     
     /*
@@ -263,14 +264,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //methodThatWillTakeOverTheWorld(txtAfterUpdate)
         
         checkUserRhyme()
-        
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        // textField.resignFirstResponder()
-        // Restart the countdown
+        
+        // Create new rhyme
         createRhyme()
-        startGame()
+        
+        // Restart timer if game isn't over
+        if (!isGameOver) {
+            timer.invalidate()
+            gameTime = 400
+            progressBar.setProgress(1, animated: false)
+            timer = NSTimer.scheduledTimerWithTimeInterval(
+                0.01, target: self, selector: Selector("updateTime"), userInfo: nil, repeats: true)
+        }
+        
         return true
     }
     
@@ -280,9 +289,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func checkUserRhyme() {
         if (userRhyme.text == "") {
-            userRhyme.backgroundColor = UIColor.blueColor()
+            userRhyme.backgroundColor = UIColor(hex: 0xF2F2F2)
         } else {
-            userRhyme.backgroundColor = UIColor.whiteColor()
+            userRhyme.backgroundColor = UIColor(hex: 0xFFFFFF)
         }
     }
     
