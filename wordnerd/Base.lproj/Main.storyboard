@@ -27,6 +27,7 @@
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZPL-GZ-nIN" userLabel="User Rhyme">
                                         <rect key="frame" x="0.0" y="520" width="600" height="80"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="Sim-iy-cvb"/>
                                         </constraints>
@@ -39,6 +40,12 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEG-hE-CCz">
+                                        <rect key="frame" x="534" y="26" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="rmQ-Ww-JYF">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="2"/>
                                         <constraints>
@@ -46,12 +53,6 @@
                                         </constraints>
                                         <color key="progressTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </progressView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEG-hE-CCz">
-                                        <rect key="frame" x="534" y="26" width="42" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="rmQ-Ww-JYF" firstAttribute="leading" secondItem="QIu-De-Zd1" secondAttribute="leading" id="7Hm-n7-9qJ"/>
@@ -68,22 +69,80 @@
                                     <constraint firstAttribute="bottom" secondItem="ZPL-GZ-nIN" secondAttribute="bottom" id="uyz-vH-m4m"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cKX-H9-vfw" userLabel="Score View">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7cb-DI-bjj">
+                                        <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="homeButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="xF9-3q-eLP"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQ6-Or-hrh">
+                                        <rect key="frame" x="554" y="0.0" width="46" height="30"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="restartButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Diy-dZ-r3Q"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="7cb-DI-bjj" firstAttribute="leading" secondItem="cKX-H9-vfw" secondAttribute="leading" id="7Q5-1l-mfv"/>
+                                    <constraint firstItem="kQ6-Or-hrh" firstAttribute="top" secondItem="cKX-H9-vfw" secondAttribute="top" id="IuS-aX-U9k"/>
+                                    <constraint firstItem="7cb-DI-bjj" firstAttribute="top" secondItem="cKX-H9-vfw" secondAttribute="top" id="fQr-KU-Uuo"/>
+                                    <constraint firstAttribute="trailing" secondItem="kQ6-Or-hrh" secondAttribute="trailing" id="xvj-or-nCc"/>
+                                </constraints>
+                            </view>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="31u-sG-LL4" userLabel="Home View">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Fb-cG-lYC">
+                                        <rect key="frame" x="277" y="285" width="33" height="30"/>
+                                        <state key="normal" title="Start">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="startGameButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="70s-yM-1Bx"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.3294117647" green="0.70980392160000005" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="2Fb-cG-lYC" secondAttribute="centerY" id="YXE-P8-0hp"/>
+                                    <constraint firstAttribute="centerX" secondItem="2Fb-cG-lYC" secondAttribute="centerX" constant="6.5" id="rIq-sP-wVt"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.011764705882352941" green="0.66274509803921566" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="cKX-H9-vfw" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="021-5U-49e"/>
                             <constraint firstItem="QIu-De-Zd1" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="EMx-fA-P8v"/>
+                            <constraint firstItem="31u-sG-LL4" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="FE1-ba-pvT"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="QIu-De-Zd1" secondAttribute="bottom" id="GnI-T1-VeA"/>
                             <constraint firstAttribute="trailing" secondItem="QIu-De-Zd1" secondAttribute="trailing" id="Gwn-5p-fP7"/>
+                            <constraint firstItem="31u-sG-LL4" firstAttribute="top" secondItem="QIu-De-Zd1" secondAttribute="top" id="NyV-VU-uLW"/>
+                            <constraint firstItem="31u-sG-LL4" firstAttribute="trailing" secondItem="cKX-H9-vfw" secondAttribute="trailing" id="Qes-ow-RNH"/>
+                            <constraint firstItem="31u-sG-LL4" firstAttribute="leading" secondItem="cKX-H9-vfw" secondAttribute="leading" id="YIx-up-yMy"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="cKX-H9-vfw" secondAttribute="bottom" id="huu-i1-TB2"/>
+                            <constraint firstAttribute="trailing" secondItem="cKX-H9-vfw" secondAttribute="trailing" id="jGY-EV-e23"/>
                             <constraint firstItem="QIu-De-Zd1" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="q9p-Ky-qfk"/>
+                            <constraint firstItem="cKX-H9-vfw" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="yHY-FD-njn"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="bottomConstraint" destination="GnI-T1-VeA" id="Day-cB-rg6"/>
                         <outlet property="computerRhyme" destination="MI4-ef-bJV" id="jK4-7H-lkA"/>
-                        <outlet property="computerRhymeLeftConstraint" destination="JJC-qr-NqL" id="8u8-J6-3dK"/>
-                        <outlet property="computerRhymeRightConstraint" destination="uki-4P-AtI" id="Bgb-GJ-4wq"/>
+                        <outlet property="homeView" destination="31u-sG-LL4" id="UaV-2i-qEE"/>
                         <outlet property="progressBar" destination="rmQ-Ww-JYF" id="n8j-qt-9Mp"/>
                         <outlet property="scoreLabel" destination="cEG-hE-CCz" id="eLB-Nk-FDT"/>
+                        <outlet property="scoreView" destination="cKX-H9-vfw" id="ao5-AY-Bf2"/>
+                        <outlet property="scoreViewBottomConstraint" destination="huu-i1-TB2" id="wg9-aj-IfZ"/>
                         <outlet property="userRhyme" destination="ZPL-GZ-nIN" id="CUB-M4-ec5"/>
                     </connections>
                 </viewController>

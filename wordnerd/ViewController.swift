@@ -43,7 +43,47 @@ extension UIView {
         slideInFromRightTransition.fillMode = kCAFillModeRemoved
         
         // Add the animation to the View's layer
-        self.layer.addAnimation(slideInFromRightTransition, forKey: "slideInFromLeftTransition")
+        self.layer.addAnimation(slideInFromRightTransition, forKey: "slideInFromRightTransition")
+    }
+    
+    func slideInFromBottom(duration: NSTimeInterval = 1.0, completionDelegate: AnyObject? = nil) {
+        // Create a CATransition animation
+        let slideInFromBottomTransition = CATransition()
+        
+        // Set its callback delegate to the completionDelegate that was provided (if any)
+        if let delegate: AnyObject = completionDelegate {
+            slideInFromBottomTransition.delegate = delegate
+        }
+        
+        // Customize the animation's properties
+        slideInFromBottomTransition.type = kCATransitionPush
+        slideInFromBottomTransition.subtype = kCATransitionFromTop
+        slideInFromBottomTransition.duration = duration
+        slideInFromBottomTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        slideInFromBottomTransition.fillMode = kCAFillModeRemoved
+        
+        // Add the animation to the View's layer
+        self.layer.addAnimation(slideInFromBottomTransition, forKey: "slideInFromBottomTransition")
+    }
+    
+    func slideOutToTop(duration: NSTimeInterval = 1.0, completionDelegate: AnyObject? = nil) {
+        // Create a CATransition animation
+        let slideOutToTopTransition = CATransition()
+        
+        // Set its callback delegate to the completionDelegate that was provided (if any)
+        if let delegate: AnyObject = completionDelegate {
+            slideOutToTopTransition.delegate = delegate
+        }
+        
+        // Customize the animation's properties
+        slideOutToTopTransition.type = kCATransitionPush
+        slideOutToTopTransition.subtype = kCATransitionFromBottom
+        slideOutToTopTransition.duration = duration
+        slideOutToTopTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        slideOutToTopTransition.fillMode = kCAFillModeRemoved
+        
+        // Add the animation to the View's layer
+        self.layer.addAnimation(slideOutToTopTransition, forKey: "slideInFromBottomTransition")
     }
 }
 
@@ -56,8 +96,30 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var userRhyme: UITextField!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var computerRhymeLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var computerRhymeRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var homeView: UIView!
+    
+    @IBAction func startGameButton(sender: AnyObject) {
+        homeView.slideInFromBottom(duration: delayDuration, completionDelegate: self)
+        NSThread.sleepForTimeInterval(delayDuration)
+        homeView.hidden = true
+        userRhyme.becomeFirstResponder()
+    }
+
+    @IBAction func homeButton(sender: AnyObject) {
+        homeView.hidden = false
+        homeView.slideOutToTop(duration: delayDuration, completionDelegate: self)
+        userRhyme.resignFirstResponder()
+        NSThread.sleepForTimeInterval(0.5)
+        scoreView.hidden = true
+    }
+    
+    @IBAction func restartButton(sender: AnyObject) {
+        createRhyme()
+    }
+    
+    @IBOutlet weak var scoreView: UIView!
+    @IBOutlet weak var scoreViewBottomConstraint: NSLayoutConstraint!
+    var delayDuration = 0.15
     
     // Instances
     var timer = NSTimer()
@@ -74,6 +136,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
   
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scoreView.hidden = true
         
         // Progress View Styles
         var transform = CGAffineTransformMakeScale(1, 8)
@@ -92,10 +156,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // User Rhyme Styles
         userRhyme.textAlignment = .Center
         userRhyme.font = UIFont (name: "VarelaRound", size: 40)
+        userRhyme.tintColor = UIColor.clearColor()
         
         // Open Keyboard on launch
         userRhyme.delegate = self
-        userRhyme.becomeFirstResponder()
+        //userRhyme.becomeFirstResponder()
         
         // Keyboard notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
@@ -115,6 +180,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     * Set the computer rhyme word
     */
     func createRhyme() {
+        
+        userRhyme.text = nil
         
         if (score == 0) {
             
@@ -148,6 +215,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 var green:Int = 0x4CAF50
                 view.backgroundColor = UIColor(hex: green)
             }
+            
+            scoreView.slideOutToTop(duration: delayDuration, completionDelegate: self)
+            NSThread.sleepForTimeInterval(delayDuration)
+            scoreView.hidden = true
+            checkUserRhyme()
             
         } else {
             computerRhyme.slideOutIn(duration: 0.3, completionDelegate: self)
@@ -204,9 +276,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
             // Vibrate on gameover
             
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            
             isGameOver = true
+            
+            scoreView.hidden = false
+            scoreView.slideInFromBottom(duration: delayDuration, completionDelegate: self)
+            userRhyme.text = ""
+            
         }
-        println(isGameOver)
     }
     
     /*
@@ -226,6 +303,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             // Set the Bottom UITextfield Constraint
             bottomConstraint.constant = keyboardSize.height
+            scoreViewBottomConstraint.constant = keyboardSize.height
             
             // Animate Changes
             UIView.animateWithDuration(0.25, animations: { () -> Void in
@@ -242,6 +320,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // Set the Bottom UITextfield Constraint
         bottomConstraint.constant = 0
+        scoreViewBottomConstraint.constant = 0
         
         // Animate Changes
         UIView.animateWithDuration(0.25, animations: { () -> Void in
@@ -260,8 +339,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // Set text of userRhyme to the string with no spaces
         userRhyme.text = userRhymeWithNoSpaces
         
-        println(self.userRhyme.text)
-        //methodThatWillTakeOverTheWorld(txtAfterUpdate)
+        //println(self.userRhyme.text)
+        methodThatWillTakeOverTheWorld(userRhyme.text)
+        
+        if (!scoreView.hidden) {
+            userRhyme.text = nil
+        }
         
         checkUserRhyme()
     }
@@ -288,8 +371,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func checkUserRhyme() {
-        if (userRhyme.text == "") {
-            userRhyme.backgroundColor = UIColor(hex: 0xF2F2F2)
+        if (userRhyme.text == "" || userRhyme.text == nil) {
+            userRhyme.backgroundColor = UIColor(hex: 0xF1F1F1)
         } else {
             userRhyme.backgroundColor = UIColor(hex: 0xFFFFFF)
         }
