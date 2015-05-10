@@ -9,6 +9,20 @@
 import UIKit
 import AudioToolbox
 
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(hex:Int) {
+        self.init(red:(hex >> 16) & 0xff, green:(hex >> 8) & 0xff, blue:hex & 0xff)
+    }
+}
+
 extension UIView {
     // Name this function in a way that makes sense to you...
     // slideFromLeft, slideRight, slideLeftToRight, etc. are great alternative names
@@ -50,7 +64,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var gameTime:Double = 400
     var shuffledWords = Array<String>()
     var item: String = ""
-    var increment = 0
+    var score = 0
+    var color = 0
     
     // Outer class reference?
     var words = ["word", "dope", "sweet", "gnar", "factory"]
@@ -67,7 +82,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // Score Label Styles
         scoreLabel.font = UIFont (name: "VarelaRound", size: 28)
         scoreLabel.alpha = 0.5
-        scoreLabel.text = "12"
         
         // Computer Rhyme Styles
         computerRhyme.textAlignment = .Center
@@ -92,32 +106,63 @@ class ViewController: UIViewController, UITextFieldDelegate {
         checkUserRhyme()
         
         // Create a word to rhyme with
-        generateRhyme()
+        createRhyme()
     }
     
     /**
     * Set the computer rhyme word
     */
-    func generateRhyme() {
+    func createRhyme() {
         
-        if (increment == 0) {
+        if (score == 0) {
+            
             // Shuffle words if it's the first run
             shuffledWords = shuffle(words)
+            
+            //var colorRandom = arc4random_uniform(5) + 1
+            
+            if (color == 0) {
+                color++
+                var blue:Int = 0x2196F3
+                view.backgroundColor = UIColor(hex: blue)
+            } else if (color == 1) {
+                color++
+                var indigo:Int = 0x3F51B5
+                view.backgroundColor = UIColor(hex: indigo)
+            } else if (color == 2) {
+                color++
+                var teal:Int = 0x009688
+                view.backgroundColor = UIColor(hex: teal)
+            } else if (color == 3) {
+                color++
+                var deep_purple:Int = 0x673AB7
+                view.backgroundColor = UIColor(hex: deep_purple)
+            } else if (color == 4) {
+                color++
+                var red:Int = 0xF44336
+                view.backgroundColor = UIColor(hex: red)
+            } else if (color == 5) {
+                color = 0
+                var green:Int = 0x4CAF50
+                view.backgroundColor = UIColor(hex: green)
+            }
+            
         } else {
             computerRhyme.slideOutIn(duration: 0.3, completionDelegate: self)
         }
             
-        if (increment == words.count) {
+        if (score == words.count) {
             // Index out of bounds will never happen again
             shuffledWords = shuffle(words)
-            increment = 1
+            score = 1
         }
         
-        item = shuffledWords[increment]
-        println(shuffledWords)
-        println(increment)
+        item = shuffledWords[score]
+        //println(shuffledWords)
+        //println(score)
+        scoreLabel.text = String(score)
         computerRhyme.text = item
-        increment++
+        score++
     }
     
     /**
@@ -156,7 +201,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             timer.invalidate()
         
             // Reset for playing again
-            increment = 0
+            score = 0
             
             // Vibrate on gameover
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
@@ -224,7 +269,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         // textField.resignFirstResponder()
         // Restart the countdown
-        generateRhyme()
+        createRhyme()
         startGame()
         return true
     }
