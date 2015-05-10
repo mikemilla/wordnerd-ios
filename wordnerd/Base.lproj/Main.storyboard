@@ -21,8 +21,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QIu-De-Zd1" userLabel="Game View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIu-De-Zd1" userLabel="Game View">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZPL-GZ-nIN" userLabel="User Rhyme">
                                         <rect key="frame" x="0.0" y="520" width="600" height="80"/>
@@ -80,6 +80,8 @@
                     <connections>
                         <outlet property="bottomConstraint" destination="GnI-T1-VeA" id="Day-cB-rg6"/>
                         <outlet property="computerRhyme" destination="MI4-ef-bJV" id="jK4-7H-lkA"/>
+                        <outlet property="computerRhymeLeftConstraint" destination="JJC-qr-NqL" id="8u8-J6-3dK"/>
+                        <outlet property="computerRhymeRightConstraint" destination="uki-4P-AtI" id="Bgb-GJ-4wq"/>
                         <outlet property="progressBar" destination="rmQ-Ww-JYF" id="n8j-qt-9Mp"/>
                         <outlet property="scoreLabel" destination="cEG-hE-CCz" id="eLB-Nk-FDT"/>
                         <outlet property="userRhyme" destination="ZPL-GZ-nIN" id="CUB-M4-ec5"/>

@@ -9,6 +9,30 @@
 import UIKit
 import AudioToolbox
 
+extension UIView {
+    // Name this function in a way that makes sense to you...
+    // slideFromLeft, slideRight, slideLeftToRight, etc. are great alternative names
+    func slideOutIn(duration: NSTimeInterval = 1.0, completionDelegate: AnyObject? = nil) {
+        // Create a CATransition animation
+        let slideInFromRightTransition = CATransition()
+        
+        // Set its callback delegate to the completionDelegate that was provided (if any)
+        if let delegate: AnyObject = completionDelegate {
+            slideInFromRightTransition.delegate = delegate
+        }
+        
+        // Customize the animation's properties
+        slideInFromRightTransition.type = kCATransitionPush
+        slideInFromRightTransition.subtype = kCATransitionFromRight
+        slideInFromRightTransition.duration = duration
+        slideInFromRightTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        slideInFromRightTransition.fillMode = kCAFillModeRemoved
+        
+        // Add the animation to the View's layer
+        self.layer.addAnimation(slideInFromRightTransition, forKey: "slideInFromLeftTransition")
+    }
+}
+
 class ViewController: UIViewController, UITextFieldDelegate {
     
     // Outlets
@@ -17,6 +41,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var computerRhyme: UILabel!
     @IBOutlet weak var userRhyme: UITextField!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var computerRhymeLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var computerRhymeRightConstraint: NSLayoutConstraint!
     
     // Instances
     var timer = NSTimer()
@@ -72,15 +99,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
     * Set the computer rhyme word
     */
     func generateRhyme() {
+        
         if (increment == 0) {
             // Shuffle words if it's the first run
             shuffledWords = shuffle(words)
+        } else {
+            computerRhyme.slideOutIn(duration: 0.3, completionDelegate: self)
         }
-        else if (increment == words.count) {
+            
+        if (increment == words.count) {
             // Index out of bounds will never happen again
             shuffledWords = shuffle(words)
             increment = 1
         }
+        
         item = shuffledWords[increment]
         println(shuffledWords)
         println(increment)
