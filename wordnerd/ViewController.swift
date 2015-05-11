@@ -59,7 +59,7 @@ extension UIView {
         slideInFromBottomTransition.type = kCATransitionPush
         slideInFromBottomTransition.subtype = kCATransitionFromTop
         slideInFromBottomTransition.duration = duration
-        slideInFromBottomTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        slideInFromBottomTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         slideInFromBottomTransition.fillMode = kCAFillModeRemoved
         
         // Add the animation to the View's layer
@@ -79,7 +79,7 @@ extension UIView {
         slideOutToTopTransition.type = kCATransitionPush
         slideOutToTopTransition.subtype = kCATransitionFromBottom
         slideOutToTopTransition.duration = duration
-        slideOutToTopTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        slideOutToTopTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         slideOutToTopTransition.fillMode = kCAFillModeRemoved
         
         // Add the animation to the View's layer
@@ -105,14 +105,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         userRhyme.becomeFirstResponder()
         score = 0
         createRhyme()
-    }
-
-    @IBAction func homeButton(sender: AnyObject) {
-        homeView.hidden = false
-        homeView.slideOutToTop(duration: delayDuration, completionDelegate: self)
-        userRhyme.resignFirstResponder()
-        NSThread.sleepForTimeInterval(0.5)
-        scoreView.hidden = true
     }
     
     @IBAction func restartButton(sender: AnyObject) {
@@ -162,7 +154,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // Open Keyboard on launch
         userRhyme.delegate = self
-        //userRhyme.becomeFirstResponder()
+        userRhyme.becomeFirstResponder()
         
         // Keyboard notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
