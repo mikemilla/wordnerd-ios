@@ -167,6 +167,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     */
     func createRhyme() {
         
+        userRhyme.text = nil
+        
         if (score == 0) {
             
             // Shuffle words if it's the first run
