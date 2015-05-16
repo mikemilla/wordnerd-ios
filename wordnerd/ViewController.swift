@@ -9,6 +9,9 @@
 import UIKit
 import AudioToolbox
 
+/**
+* UI Color with HEX
+*/
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
@@ -23,66 +26,55 @@ extension UIColor {
     }
 }
 
+/**
+* UIView Animations
+*/
 extension UIView {
-    // Name this function in a way that makes sense to you...
-    // slideFromLeft, slideRight, slideLeftToRight, etc. are great alternative names
     func slideOutIn(duration: NSTimeInterval = 1.0, completionDelegate: AnyObject? = nil) {
-        // Create a CATransition animation
         let slideInFromRightTransition = CATransition()
         
-        // Set its callback delegate to the completionDelegate that was provided (if any)
         if let delegate: AnyObject = completionDelegate {
             slideInFromRightTransition.delegate = delegate
         }
         
-        // Customize the animation's properties
         slideInFromRightTransition.type = kCATransitionPush
         slideInFromRightTransition.subtype = kCATransitionFromRight
         slideInFromRightTransition.duration = duration
         slideInFromRightTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         slideInFromRightTransition.fillMode = kCAFillModeRemoved
         
-        // Add the animation to the View's layer
         self.layer.addAnimation(slideInFromRightTransition, forKey: "slideInFromRightTransition")
     }
     
     func slideInFromBottom(duration: NSTimeInterval = 1.0, completionDelegate: AnyObject? = nil) {
-        // Create a CATransition animation
         let slideInFromBottomTransition = CATransition()
         
-        // Set its callback delegate to the completionDelegate that was provided (if any)
         if let delegate: AnyObject = completionDelegate {
             slideInFromBottomTransition.delegate = delegate
         }
         
-        // Customize the animation's properties
         slideInFromBottomTransition.type = kCATransitionPush
         slideInFromBottomTransition.subtype = kCATransitionFromTop
         slideInFromBottomTransition.duration = duration
         slideInFromBottomTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         slideInFromBottomTransition.fillMode = kCAFillModeRemoved
         
-        // Add the animation to the View's layer
         self.layer.addAnimation(slideInFromBottomTransition, forKey: "slideInFromBottomTransition")
     }
     
     func slideOutToTop(duration: NSTimeInterval = 1.0, completionDelegate: AnyObject? = nil) {
-        // Create a CATransition animation
         let slideOutToTopTransition = CATransition()
         
-        // Set its callback delegate to the completionDelegate that was provided (if any)
         if let delegate: AnyObject = completionDelegate {
             slideOutToTopTransition.delegate = delegate
         }
         
-        // Customize the animation's properties
         slideOutToTopTransition.type = kCATransitionPush
         slideOutToTopTransition.subtype = kCATransitionFromBottom
         slideOutToTopTransition.duration = duration
         slideOutToTopTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         slideOutToTopTransition.fillMode = kCAFillModeRemoved
         
-        // Add the animation to the View's layer
         self.layer.addAnimation(slideOutToTopTransition, forKey: "slideInFromBottomTransition")
     }
 }
@@ -95,9 +87,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var computerRhyme: UILabel!
     @IBOutlet weak var userRhyme: UITextField!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var homeView: UIView!
+    @IBOutlet weak var scoreView: UIView!
+    @IBOutlet weak var scoreViewBottomConstraint: NSLayoutConstraint!
     
+    // Instances
+    var timer = NSTimer()
+    var gameTime:Double = 400
+    var shuffledWords = Array<String>()
+    var item: String = ""
+    var score = 0
+    var color = 0
+    var delayDuration = 0.15
+    var isGameOver = false
+    
+    var words = rhymableWords.list
+    
+    // Actions
     @IBAction func startGameButton(sender: AnyObject) {
         homeView.slideInFromBottom(duration: delayDuration, completionDelegate: self)
         NSThread.sleepForTimeInterval(delayDuration)
@@ -110,23 +116,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBAction func restartButton(sender: AnyObject) {
         createRhyme()
     }
-    
-    @IBOutlet weak var scoreView: UIView!
-    @IBOutlet weak var scoreViewBottomConstraint: NSLayoutConstraint!
-    var delayDuration = 0.15
-    
-    // Instances
-    var timer = NSTimer()
-    var gameTime:Double = 400
-    var shuffledWords = Array<String>()
-    var item: String = ""
-    var score = 0
-    var color = 0
-    
-    var isGameOver = false
-    
-    // Outer class reference?
-    var words = ["word", "dope", "sweet", "gnar", "factory"]
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -162,7 +151,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // TextField textChangeListener notification
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userRhyme)
-      
+        
+        println(words)
+        
+        
         // Check if text is entered
         checkUserRhyme()
         
@@ -174,8 +166,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     * Set the computer rhyme word
     */
     func createRhyme() {
-        
-        userRhyme.text = nil
         
         if (score == 0) {
             
@@ -333,8 +323,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // Set text of userRhyme to the string with no spaces
         userRhyme.text = userRhymeWithNoSpaces
         
-        //println(self.userRhyme.text)
-        methodThatWillTakeOverTheWorld(userRhyme.text)
+        if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text)) {
+             advanceWord()
+        }
         
         if (!scoreView.hidden) {
             userRhyme.text = nil
@@ -344,6 +335,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        // EMPTY
+        
+        return false;
+        
+    }
+    
+    func advanceWord() {
         
         // Create new rhyme
         createRhyme()
@@ -356,12 +355,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             timer = NSTimer.scheduledTimerWithTimeInterval(
                 0.01, target: self, selector: Selector("updateTime"), userInfo: nil, repeats: true)
         }
-        
-        return true
-    }
-    
-    func methodThatWillTakeOverTheWorld(txtAfterUpdate: NSString) {
-        println("Sup")
     }
     
     func checkUserRhyme() {
