@@ -12,19 +12,16 @@ class Dope {
     
     struct acceptable {
         
-        static var rhymes = [
+        static var singles = [
             "slope",
-            "nope"
-            /*
-            "sweet",
-            "gnar",
-            "factory",
-            "water",
-            "class",
-            "eight",
-            "cold"
-            */
+            "nope",
+            "rope"]
+        
+        static var doubles = [
+            "elope"
         ]
+        
+        static var rhymes = singles + doubles
         
     }
     

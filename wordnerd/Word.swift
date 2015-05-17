@@ -12,20 +12,16 @@ class Word {
     
     struct acceptable {
         
-        static var rhymes = [
+        static var singles = [
             "turd",
             "heard",
-            "nerd"
-            /*
-            "sweet",
-            "gnar",
-            "factory",
-            "water",
-            "class",
-            "eight",
-            "cold"
-            */
+            "nerd"]
+        
+        static var doubles = [
+            "overheard"
         ]
+        
+        static var rhymes = singles + doubles
         
     }
     

@@ -331,8 +331,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // Set text of userRhyme to the string with no spaces
         userRhyme.text = userRhymeWithNoSpaces
         
-        if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text)) {
-             advanceWord()
+        if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text) != 0) {
+            advanceWord()
+            
+            // WORKING HERE
+            println(score + Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text))
         }
         
         if (!scoreView.hidden) {
