@@ -167,7 +167,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     */
     func createRhyme() {
         
-        userRhyme.text = nil
+        // Delay clearing text
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+            Int64(0.15 * Double(NSEC_PER_SEC))),
+            dispatch_get_main_queue()) {
+            self.userRhyme.text = nil
+            self.checkUserRhyme()
+        }
         
         if (score == 0) {
             
@@ -338,10 +344,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        // EMPTY
-        
-        return false;
-        
+        // Clear Text
+        userRhyme.text = nil
+        checkUserRhyme()
+        return true;
     }
     
     func advanceWord() {

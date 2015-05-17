@@ -22,7 +22,7 @@ class Verify {
         case "dope":
             rhymableWord = Dope.acceptable.rhymes
         default:
-            println("Game Over?")
+            println("Default")
             
         }
         

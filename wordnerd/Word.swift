@@ -14,7 +14,8 @@ class Word {
         
         static var rhymes = [
             "turd",
-            "heard"
+            "heard",
+            "nerd"
             /*
             "sweet",
             "gnar",
