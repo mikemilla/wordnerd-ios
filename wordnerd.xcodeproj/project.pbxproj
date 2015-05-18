@@ -18,6 +18,7 @@
 		7A6F74D91B07BB980035AF90 /* RhymeVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6F74D81B07BB980035AF90 /* RhymeVerifier.swift */; };
 		7A6F74DB1B07BF480035AF90 /* Dope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6F74DA1B07BF480035AF90 /* Dope.swift */; };
 		7A6F74DE1B07CE5F0035AF90 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6F74DD1B07CE5F0035AF90 /* Word.swift */; };
+		7ADEF3EF1B097949002E3111 /* Nerd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADEF3EE1B097949002E3111 /* Nerd.swift */; };
 		7AEB33A91AEC4C2100A70DF2 /* VarelaRound.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7AEB33A81AEC4C2100A70DF2 /* VarelaRound.otf */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		7A6F74D81B07BB980035AF90 /* RhymeVerifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RhymeVerifier.swift; sourceTree = "<group>"; };
 		7A6F74DA1B07BF480035AF90 /* Dope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dope.swift; sourceTree = "<group>"; };
 		7A6F74DD1B07CE5F0035AF90 /* Word.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		7ADEF3EE1B097949002E3111 /* Nerd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nerd.swift; sourceTree = "<group>"; };
 		7AEB33A81AEC4C2100A70DF2 /* VarelaRound.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VarelaRound.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				7A6F74DA1B07BF480035AF90 /* Dope.swift */,
+				7ADEF3EE1B097949002E3111 /* Nerd.swift */,
 				7A6F74DD1B07CE5F0035AF90 /* Word.swift */,
 			);
 			name = Words;
@@ -247,6 +250,7 @@
 				7A6F74D91B07BB980035AF90 /* RhymeVerifier.swift in Sources */,
 				7A6F74D71B07B58D0035AF90 /* Words.swift in Sources */,
 				7A28CF651AE47540008E9B9C /* ViewController.swift in Sources */,
+				7ADEF3EF1B097949002E3111 /* Nerd.swift in Sources */,
 				7A28CF631AE47540008E9B9C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

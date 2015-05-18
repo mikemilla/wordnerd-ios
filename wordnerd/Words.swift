@@ -13,6 +13,7 @@ struct rhymableWords {
     static var list = [
         "word",
         "dope",
+        "nerd"
         /*
         "sweet",
         "gnar",

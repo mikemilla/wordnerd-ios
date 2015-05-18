@@ -27,7 +27,7 @@ extension UIColor {
 }
 
 /**
-* UIView Animations
+* UIView Animation Extensions
 */
 extension UIView {
     func slideOutIn(duration: NSTimeInterval = 1.0, completionDelegate: AnyObject? = nil) {
@@ -77,6 +77,16 @@ extension UIView {
         
         self.layer.addAnimation(slideOutToTopTransition, forKey: "slideInFromBottomTransition")
     }
+    
+    func shake(){
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.075
+        animation.repeatCount = 2
+        animation.autoreverses = true
+        animation.fromValue = NSValue(CGPoint: CGPointMake(self.center.x - 5, self.center.y))
+        animation.toValue = NSValue(CGPoint: CGPointMake(self.center.x + 5, self.center.y))
+        self.layer.addAnimation(animation, forKey: "position")
+    }
 }
 
 class ViewController: UIViewController, UITextFieldDelegate {
@@ -96,11 +106,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var gameTime:Double = 400
     var shuffledWords = Array<String>()
     var item: String = ""
+    var position = 0
     var score = 0
     var color = 0
     var delayDuration = 0.15
     var isGameOver = false
-    
     var words = rhymableWords.list
     
     // Actions
@@ -109,14 +119,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
         NSThread.sleepForTimeInterval(delayDuration)
         homeView.hidden = true
         userRhyme.becomeFirstResponder()
-        score = 0
+        position = 0
         createRhyme()
     }
     
     @IBAction func restartButton(sender: AnyObject) {
+        score = 0
+        position = 0
+        scoreLabel.text = nil
+        Verify.playedRhymes.removeAllObjects()
         createRhyme()
     }
-  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -131,6 +145,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // Score Label Styles
         scoreLabel.font = UIFont (name: "VarelaRound", size: 28)
         scoreLabel.alpha = 0.5
+        scoreLabel.text = nil
         
         // Computer Rhyme Styles
         computerRhyme.textAlignment = .Center
@@ -171,11 +186,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
             Int64(0.15 * Double(NSEC_PER_SEC))),
             dispatch_get_main_queue()) {
-            self.userRhyme.text = nil
-            self.checkUserRhyme()
+                self.userRhyme.text = nil
+                self.checkUserRhyme()
         }
         
-        if (score == 0) {
+        if (position == 0) {
             
             // Shuffle words if it's the first run
             shuffledWords = shuffle(words)
@@ -219,23 +234,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         
         // Index out of bounds will never happen again
-        if (score == words.count) {
+        if (position == words.count) {
             shuffledWords = shuffle(words)
-            score = 1
-        }
-        
-        // If score is 0, remove the score text
-        scoreLabel.text = String(score)
-        if (scoreLabel.text == String(0)) {
-            scoreLabel.text = nil
+            position = 0
         }
         
         // Set new computer rhyme text
-        item = shuffledWords[score]
+        item = shuffledWords[position]
         computerRhyme.text = item
-        
-        // Add one to the score
-        score++
     }
     
     /**
@@ -263,7 +269,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             timer.invalidate()
             
             // Reset for playing again
-            score = 0
+            position = 0
             
             // Vibrate on gameover
             
@@ -331,17 +337,36 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // Set text of userRhyme to the string with no spaces
         userRhyme.text = userRhymeWithNoSpaces
         
-        if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text) != 0) {
+        
+        if (userRhyme.text == computerRhyme.text) {
+            
+            // Shake and clear if rhyme is same as generated
+            userRhyme.shake()
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                Int64(0.15 * Double(NSEC_PER_SEC))),
+                dispatch_get_main_queue()) {
+                    self.userRhyme.text = nil
+            }
+            
+        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text) == 1) {
+            
+            // Rhyme was accepted
+            score += Verify.syllables
+            scoreLabel.text = String(score)
             advanceWord()
             
-            // WORKING HERE
-            println(score + Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text))
+        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text) == 2) {
+            
+            // Rhyme was a duplicate
+            userRhyme.text = nil
         }
         
+        // Disable text in score view
         if (!scoreView.hidden) {
             userRhyme.text = nil
         }
         
+        // Check if the rhyme is null
         checkUserRhyme()
     }
     
@@ -354,6 +379,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func advanceWord() {
+        
+        // Advance the list position
+        position++
         
         // Create new rhyme
         createRhyme()
