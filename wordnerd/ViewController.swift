@@ -100,6 +100,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var homeView: UIView!
     @IBOutlet weak var scoreView: UIView!
     @IBOutlet weak var scoreViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var highScore: UILabel!
+    @IBOutlet weak var newScore: UILabel!
+    @IBOutlet weak var restartButton: UIButton!
+    
+    let defaults = NSUserDefaults.standardUserDefaults()
     
     // Instances
     var timer = NSTimer()
@@ -111,6 +116,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var color = 0
     var delayDuration = 0.15
     var isGameOver = false
+    
+    var theme = 0
+    
     var words = rhymableWords.list
     
     // Actions
@@ -124,6 +132,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func restartButton(sender: AnyObject) {
+        score = 0
+        position = 0
+        scoreLabel.text = nil
+        Verify.playedRhymes.removeAllObjects()
+        createRhyme()
+    }
+    
+    @IBAction func homeButton(sender: AnyObject) {
         score = 0
         position = 0
         scoreLabel.text = nil
@@ -155,6 +171,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         userRhyme.textAlignment = .Center
         userRhyme.font = UIFont (name: "VarelaRound", size: 40)
         userRhyme.tintColor = UIColor.clearColor()
+        
+        //  Restart Button Styles
+        restartButton.layer.cornerRadius = 4
+        setButtonObservers(restartButton)
         
         // Open Keyboard on launch
         userRhyme.delegate = self
@@ -281,6 +301,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
             scoreView.slideInFromBottom(duration: delayDuration, completionDelegate: self)
             userRhyme.text = ""
             
+            // Create a constant for the high score
+            let bestScore = defaults.integerForKey("highScore")
+            
+            // Check if new score is better than old
+            if (score > bestScore) {
+                defaults.setObject(score, forKey: "highScore")
+                highScore.text = String(score)
+            } else {
+                highScore.text = String(bestScore)
+            }
+            
+            // Show the score
+            newScore.text = String(score)
         }
     }
     
@@ -396,12 +429,75 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    // Check if the user rhyme has text
     func checkUserRhyme() {
         if (userRhyme.text == "" || userRhyme.text == nil) {
             userRhyme.backgroundColor = UIColor(hex: 0xF1F1F1)
         } else {
             userRhyme.backgroundColor = UIColor(hex: 0xFFFFFF)
         }
+    }
+    
+    // Set the observers to both of the buttons
+    func setButtonObservers(sender: UIButton) {
+        sender.addTarget(self, action: "restartButtonDown:", forControlEvents: UIControlEvents.TouchDown)
+        sender.addTarget(self, action: "restartButtonUp:", forControlEvents: UIControlEvents.TouchDragExit)
+        sender.addTarget(self, action: "restartButtonUp:", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    func getThemeColor(up: Bool) -> UIColor {
+        
+        var blue:Int = 0x2196F3
+        var indigo:Int = 0x3F51B5
+        var teal:Int = 0x009688
+        var deep_purple:Int = 0x673AB7
+        var red:Int = 0xF44336
+        var green:Int = 0x4CAF50
+        
+        print(color)
+        
+        if (up) {
+            // Handle Button Up State
+            if (color == 1) {
+                return UIColor(hex: blue)
+            } else if (color == 2) {
+                return UIColor(hex: indigo)
+            } else if (color == 3) {
+                return UIColor(hex: teal)
+            } else if (color == 4) {
+                return UIColor(hex: deep_purple)
+            } else if (color == 5) {
+                return UIColor(hex: red)
+            } else {
+                return UIColor(hex: green)
+            }
+        } else {
+            // Handle Button Down State
+            if (color == 1) {
+                return UIColor(hex: indigo)
+            } else if (color == 2) {
+                return UIColor(hex: teal)
+            } else if (color == 3) {
+                return UIColor(hex: deep_purple)
+            } else if (color == 4) {
+                return UIColor(hex: red)
+            } else if (color == 5) {
+                return UIColor(hex: green)
+            } else {
+                return UIColor(hex: blue)
+            }
+        }
+        
+    }
+    
+    // Button is touched
+    func restartButtonDown(sender: UIButton) {
+        sender.backgroundColor = getThemeColor(false)
+    }
+    
+    // Button is dragged away and canceled
+    func restartButtonUp(sender: UIButton) {
+        sender.backgroundColor = getThemeColor(true)
     }
     
 }
