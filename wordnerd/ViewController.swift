@@ -103,6 +103,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var highScore: UILabel!
     @IBOutlet weak var newScore: UILabel!
     @IBOutlet weak var restartButton: UIButton!
+    @IBOutlet weak var scoreAreaContainer: UIView!
     
     let defaults = NSUserDefaults.standardUserDefaults()
     
@@ -120,6 +121,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var theme = 0
     
     var words = rhymableWords.list
+    
+    // Colors
+    var blue:Int = 0x2196F3
+    var indigo:Int = 0x3F51B5
+    var teal:Int = 0x009688
+    var deep_purple:Int = 0x673AB7
+    var red:Int = 0xF44336
+    var green:Int = 0x4CAF50
     
     // Actions
     @IBAction func startGameButton(sender: AnyObject) {
@@ -144,7 +153,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         position = 0
         scoreLabel.text = nil
         Verify.playedRhymes.removeAllObjects()
-        createRhyme()
     }
     
     override func viewDidLoad() {
@@ -158,10 +166,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         progressBar.trackTintColor = UIColor.clearColor()
         progressBar.setProgress(0, animated: false)
         
-        // Score Label Styles
+        // Score Styles
         scoreLabel.font = UIFont (name: "VarelaRound", size: 28)
         scoreLabel.alpha = 0.5
         scoreLabel.text = nil
+        scoreAreaContainer.layer.borderColor = UIColor(hex: 0xBFBFBF).CGColor
+        scoreAreaContainer.layer.borderWidth = 2
         
         // Computer Rhyme Styles
         computerRhyme.textAlignment = .Center
@@ -188,7 +198,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userRhyme)
         
         println(words)
-        
         
         // Check if text is entered
         checkUserRhyme()
@@ -219,27 +228,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             if (color == 0) {
                 color++
-                var blue:Int = 0x2196F3
                 view.backgroundColor = UIColor(hex: blue)
             } else if (color == 1) {
                 color++
-                var indigo:Int = 0x3F51B5
                 view.backgroundColor = UIColor(hex: indigo)
             } else if (color == 2) {
                 color++
-                var teal:Int = 0x009688
                 view.backgroundColor = UIColor(hex: teal)
             } else if (color == 3) {
                 color++
-                var deep_purple:Int = 0x673AB7
                 view.backgroundColor = UIColor(hex: deep_purple)
             } else if (color == 4) {
                 color++
-                var red:Int = 0xF44336
                 view.backgroundColor = UIColor(hex: red)
             } else if (color == 5) {
                 color = 0
-                var green:Int = 0x4CAF50
                 view.backgroundColor = UIColor(hex: green)
             }
             
@@ -285,36 +288,41 @@ class ViewController: UIViewController, UITextFieldDelegate {
             gameTime--
             isGameOver = false
         } else {
-            // Kill timer
-            timer.invalidate()
-            
-            // Reset for playing again
-            position = 0
-            
-            // Vibrate on gameover
-            
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-            
             isGameOver = true
-            
-            scoreView.hidden = false
-            scoreView.slideInFromBottom(duration: delayDuration, completionDelegate: self)
-            userRhyme.text = ""
-            
-            // Create a constant for the high score
-            let bestScore = defaults.integerForKey("highScore")
-            
-            // Check if new score is better than old
-            if (score > bestScore) {
-                defaults.setObject(score, forKey: "highScore")
-                highScore.text = String(score)
-            } else {
-                highScore.text = String(bestScore)
-            }
-            
-            // Show the score
-            newScore.text = String(score)
+            onGameOver()
         }
+    }
+    
+    func onGameOver(){
+        // Kill timer
+        timer.invalidate()
+        
+        // Vibrate on gameover
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        
+        restartButton.backgroundColor = getThemeColor(true)
+        
+        // Reset for playing again
+        position = 0
+        
+        // Show the Score Screen
+        scoreView.hidden = false
+        scoreView.slideInFromBottom(duration: delayDuration, completionDelegate: self)
+        userRhyme.text = ""
+        
+        // Create a constant for the high score
+        let bestScore = defaults.integerForKey("highScore")
+        
+        // Check if new score is better than old
+        if (score > bestScore) {
+            defaults.setObject(score, forKey: "highScore")
+            highScore.text = String(score)
+        } else {
+            highScore.text = String(bestScore)
+        }
+        
+        // Show the score
+        newScore.text = String(score)
     }
     
     /*
@@ -446,16 +454,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func getThemeColor(up: Bool) -> UIColor {
-        
-        var blue:Int = 0x2196F3
-        var indigo:Int = 0x3F51B5
-        var teal:Int = 0x009688
-        var deep_purple:Int = 0x673AB7
-        var red:Int = 0xF44336
-        var green:Int = 0x4CAF50
-        
-        print(color)
-        
         if (up) {
             // Handle Button Up State
             if (color == 1) {
@@ -487,7 +485,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 return UIColor(hex: blue)
             }
         }
-        
     }
     
     // Button is touched
