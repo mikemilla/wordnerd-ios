@@ -6,6 +6,7 @@
     <customFonts key="customFonts">
         <mutableArray key="VarelaRound.otf">
             <string>VarelaRound</string>
+            <string>VarelaRound</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -140,8 +141,17 @@
                                                     <segue destination="86s-1A-pyT" kind="show" id="5XQ-Pp-BaL"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game Over" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZBU-DR-G31">
+                                                <rect key="frame" x="24" y="0.0" width="504" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="gIr-5j-e7v"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="VarelaRound" family="Varela Round" pointSize="26"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KzE-eu-H85">
-                                                <rect key="frame" x="0.0" y="8" width="35" height="21"/>
+                                                <rect key="frame" x="493" y="68" width="35" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
@@ -156,7 +166,7 @@
                                                 </state>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Best" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SlT-GP-3ud">
-                                                <rect key="frame" x="517" y="8" width="35" height="21"/>
+                                                <rect key="frame" x="493" y="103" width="35" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
@@ -165,22 +175,25 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="zKL-sn-Tum" firstAttribute="height" secondItem="7cb-DI-bjj" secondAttribute="height" id="4ae-ZF-xNH"/>
+                                            <constraint firstItem="ZBU-DR-G31" firstAttribute="top" secondItem="Uha-3t-pK9" secondAttribute="top" id="4yo-AO-lMs"/>
                                             <constraint firstAttribute="bottom" secondItem="zKL-sn-Tum" secondAttribute="bottom" id="9Ru-3T-51Y"/>
-                                            <constraint firstItem="KzE-eu-H85" firstAttribute="top" secondItem="Uha-3t-pK9" secondAttribute="top" constant="8" id="9TI-6O-SYo"/>
+                                            <constraint firstAttribute="trailing" secondItem="ZBU-DR-G31" secondAttribute="trailing" constant="24" id="9hs-m2-KiV"/>
+                                            <constraint firstAttribute="trailing" secondItem="KzE-eu-H85" secondAttribute="trailing" constant="24" id="E9g-iZ-KgX"/>
+                                            <constraint firstItem="ZBU-DR-G31" firstAttribute="leading" secondItem="Uha-3t-pK9" secondAttribute="leading" constant="24" id="Frn-Q4-dYV"/>
+                                            <constraint firstItem="SlT-GP-3ud" firstAttribute="top" secondItem="KzE-eu-H85" secondAttribute="bottom" constant="14" id="JAl-ST-Tu3"/>
                                             <constraint firstAttribute="bottom" secondItem="cHD-Qv-AjR" secondAttribute="bottom" id="JQr-1w-5ui"/>
-                                            <constraint firstItem="SlT-GP-3ud" firstAttribute="top" secondItem="Uha-3t-pK9" secondAttribute="top" constant="8" id="PGH-qo-7WI"/>
                                             <constraint firstItem="zKL-sn-Tum" firstAttribute="height" secondItem="7cb-DI-bjj" secondAttribute="height" constant="30" id="TTY-Gm-VQa"/>
                                             <constraint firstItem="cHD-Qv-AjR" firstAttribute="height" secondItem="7cb-DI-bjj" secondAttribute="height" constant="30" id="U6H-yF-fTY"/>
                                             <constraint firstItem="zKL-sn-Tum" firstAttribute="width" secondItem="7cb-DI-bjj" secondAttribute="width" id="UCm-Hc-T3l"/>
                                             <constraint firstItem="zKL-sn-Tum" firstAttribute="leading" secondItem="cHD-Qv-AjR" secondAttribute="trailing" id="W8h-Ks-3k5"/>
                                             <constraint firstAttribute="trailing" secondItem="zKL-sn-Tum" secondAttribute="trailing" id="YPr-en-N7s"/>
                                             <constraint firstItem="7cb-DI-bjj" firstAttribute="leading" secondItem="Uha-3t-pK9" secondAttribute="leading" id="ba2-tv-hCN"/>
-                                            <constraint firstAttribute="trailing" secondItem="SlT-GP-3ud" secondAttribute="trailing" id="ekp-6O-p6B"/>
                                             <constraint firstAttribute="centerX" secondItem="cHD-Qv-AjR" secondAttribute="centerX" constant="-0.5" id="hq9-ij-jpa"/>
                                             <constraint firstItem="cHD-Qv-AjR" firstAttribute="leading" secondItem="7cb-DI-bjj" secondAttribute="trailing" id="mxg-s5-6PF"/>
                                             <constraint firstAttribute="bottom" secondItem="7cb-DI-bjj" secondAttribute="bottom" id="nuS-Ws-WPt"/>
-                                            <constraint firstItem="KzE-eu-H85" firstAttribute="leading" secondItem="Uha-3t-pK9" secondAttribute="leading" id="s6M-T2-q9j"/>
                                             <constraint firstItem="cHD-Qv-AjR" firstAttribute="height" secondItem="7cb-DI-bjj" secondAttribute="height" id="sMi-5h-fHh"/>
+                                            <constraint firstItem="KzE-eu-H85" firstAttribute="top" secondItem="ZBU-DR-G31" secondAttribute="bottom" constant="8" id="urb-OY-XrY"/>
+                                            <constraint firstAttribute="trailing" secondItem="SlT-GP-3ud" secondAttribute="trailing" constant="24" id="vnN-Zn-nY8"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
@@ -231,6 +244,7 @@
                     <connections>
                         <outlet property="bottomConstraint" destination="GnI-T1-VeA" id="Day-cB-rg6"/>
                         <outlet property="computerRhyme" destination="MI4-ef-bJV" id="jK4-7H-lkA"/>
+                        <outlet property="gameOverLabel" destination="ZBU-DR-G31" id="GxU-PZ-Q12"/>
                         <outlet property="highScore" destination="SlT-GP-3ud" id="ASL-K1-lSk"/>
                         <outlet property="newScore" destination="KzE-eu-H85" id="dEs-6P-CnX"/>
                         <outlet property="progressBar" destination="rmQ-Ww-JYF" id="n8j-qt-9Mp"/>

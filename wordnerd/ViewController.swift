@@ -104,6 +104,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var newScore: UILabel!
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var scoreAreaContainer: UIView!
+    @IBOutlet weak var gameOverLabel: UILabel!
     
     let defaults = NSUserDefaults.standardUserDefaults()
     
@@ -172,6 +173,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
         scoreLabel.text = nil
         scoreAreaContainer.layer.borderColor = UIColor(hex: 0xBFBFBF).CGColor
         scoreAreaContainer.layer.borderWidth = 2
+        
+        // Add border to Score Game Over Label
+        var border = CALayer()
+        var width = CGFloat(2)
+        border.borderColor = UIColor(hex: 0xBFBFBF).CGColor
+        border.frame = CGRect(x: 0, y: gameOverLabel.frame.size.height - width, width:  gameOverLabel.frame.size.width, height: gameOverLabel.frame.size.height)
+        border.borderWidth = width
+        gameOverLabel.layer.addSublayer(border)
+        gameOverLabel.layer.masksToBounds = true
         
         // Computer Rhyme Styles
         computerRhyme.textAlignment = .Center
