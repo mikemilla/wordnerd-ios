@@ -105,6 +105,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var scoreAreaContainer: UIView!
     @IBOutlet weak var gameOverLabel: UILabel!
+    @IBOutlet weak var dashedLine: UIView!
     
     let defaults = NSUserDefaults.standardUserDefaults()
     
@@ -192,9 +193,30 @@ class ViewController: UIViewController, UITextFieldDelegate {
         userRhyme.font = UIFont (name: "VarelaRound", size: 40)
         userRhyme.tintColor = UIColor.clearColor()
         
-        //  Restart Button Styles
+        // Restart Button Styles
         restartButton.layer.cornerRadius = 4
         setButtonObservers(restartButton)
+        
+        // Dashed Score Screen Line
+        var path = UIBezierPath()
+        
+        path.moveToPoint(CGPointMake(0, 1))
+        path.addLineToPoint(CGPointMake(dashedLine.frame.size.width, 1))
+        path.stroke()
+        
+        let pattern: [CGFloat] = [dashedLine.frame.size.width / 48, dashedLine.frame.size.width / 48]
+        
+        var fill = UIColor.blackColor()
+        
+        var shapeLayer = CAShapeLayer()
+        shapeLayer.strokeStart = 0.0
+        shapeLayer.strokeColor = fill.CGColor
+        shapeLayer.lineWidth = path.bounds.width
+        shapeLayer.lineDashPattern = pattern
+        shapeLayer.path = path.CGPath
+        
+        dashedLine.layer.addSublayer(shapeLayer)
+        dashedLine.clipsToBounds = true
         
         // Open Keyboard on launch
         userRhyme.delegate = self
@@ -389,7 +411,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         userRhyme.text = userRhymeWithNoSpaces
         
         
-        if (userRhyme.text == computerRhyme.text) {
+        if (userRhyme.text.lowercaseString == computerRhyme.text) {
             
             // Shake and clear if rhyme is same as generated
             userRhyme.shake()
@@ -399,14 +421,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     self.userRhyme.text = nil
             }
             
-        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text) == 1) {
+        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text.lowercaseString) == 1) {
             
             // Rhyme was accepted
             score += Verify.syllables
             scoreLabel.text = String(score)
             advanceWord()
             
-        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text) == 2) {
+        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text.lowercaseString) == 2) {
             
             // Rhyme was a duplicate
             userRhyme.text = nil

@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>BFEFCDFB-BAAA-465C-900D-CD24B6EE7406</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>wordnerd</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>9E61A7FBEA2DA9AB65F388643FF3B40397056801</key>
 		<string>https://bitbucket.org/mikemilla/wordnerd-ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>wordnerd.xcodeproj/project.xcworkspace</string>
+	<string>wordnerd.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>9E61A7FBEA2DA9AB65F388643FF3B40397056801</key>
