@@ -157,6 +157,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         Verify.playedRhymes.removeAllObjects()
     }
     
+    @IBAction func gamesButton(sender: AnyObject) {
+        println("Games Button")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

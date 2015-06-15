@@ -32,9 +32,9 @@ class Verify {
         /*
         * How "accepted" works:
         
-            0 = neutral (most likey still entering text, never gets used below)
-            1 = good (advance word and add score)
-            2 = duplicate (clear text and shun them)
+        0 = neutral (most likey still entering text, never gets used below)
+        1 = good (advance word and add score)
+        2 = duplicate (clear text and shun them)
         
         */
         var accepted:Int = 0
@@ -46,6 +46,7 @@ class Verify {
             rhymableWord = Word.acceptable.rhymes
             singles = Word.acceptable.singles
             doubles = Word.acceptable.doubles
+            triples = Word.acceptable.triples
             break
         case "nerd":
             rhymableWord = Nerd.acceptable.rhymes
@@ -82,6 +83,14 @@ class Verify {
                 syllables = 1
             } else if (doubles.containsObject(attemptedRhyme!)) {
                 syllables = 2
+            } else if (triples.containsObject(attemptedRhyme!)) {
+                syllables = 3
+            } else if (quadruples.containsObject(attemptedRhyme!)) {
+                syllables = 4
+            } else if (quintuples.containsObject(attemptedRhyme!)) {
+                syllables = 5
+            } else if (sextuples.containsObject(attemptedRhyme!)) {
+                syllables = 6
             }
         }
         

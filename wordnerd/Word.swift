@@ -18,10 +18,14 @@ class Word {
             "nerd"]
         
         static var doubles = [
+            "preferred"
+        ]
+        
+        static var triples = [
             "overheard"
         ]
         
-        static var rhymes = singles + doubles
+        static var rhymes = singles + doubles + triples
         
     }
     
