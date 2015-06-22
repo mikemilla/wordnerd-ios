@@ -20,6 +20,9 @@ class MainMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Change Button Font
+        startButton.titleLabel!.font = UIFont(name: "8BITWONDERNominal", size: 12)
+        
         // Text Looping Animations
         loopTextChangeAnimation(true)
     }

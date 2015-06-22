@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "ic_more_vert_white_24dp.png"
+      "filename" : "OverFlow.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "ic_more_vert_white_24dp-1.png"
+      "filename" : "OverFlow-1.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "ic_more_vert_white_24dp-2.png"
+      "filename" : "OverFlow-2.png"
     }
   ],
   "info" : {

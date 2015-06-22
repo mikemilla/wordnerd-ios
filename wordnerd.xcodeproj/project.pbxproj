@@ -14,12 +14,12 @@
 		7A28CF6D1AE47540008E9B9C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A28CF6B1AE47540008E9B9C /* LaunchScreen.xib */; };
 		7A28CF791AE47540008E9B9C /* wordnerdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF781AE47540008E9B9C /* wordnerdTests.swift */; };
 		7A2921351B2C911E00AA7AB1 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2921341B2C911E00AA7AB1 /* MainMenuViewController.swift */; };
+		7A3CD93E1B374F7C00648A3C /* 8BITWONDERNominal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A3CD93D1B374F7C00648A3C /* 8BITWONDERNominal.ttf */; };
 		7A6F74D71B07B58D0035AF90 /* Words.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6F74D61B07B58D0035AF90 /* Words.swift */; };
 		7A6F74D91B07BB980035AF90 /* RhymeVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6F74D81B07BB980035AF90 /* RhymeVerifier.swift */; };
 		7A6F74DB1B07BF480035AF90 /* Dope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6F74DA1B07BF480035AF90 /* Dope.swift */; };
 		7A6F74DE1B07CE5F0035AF90 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6F74DD1B07CE5F0035AF90 /* Word.swift */; };
 		7ADEF3EF1B097949002E3111 /* Nerd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADEF3EE1B097949002E3111 /* Nerd.swift */; };
-		7AEB33A91AEC4C2100A70DF2 /* VarelaRound.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7AEB33A81AEC4C2100A70DF2 /* VarelaRound.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,12 +44,12 @@
 		7A28CF771AE47540008E9B9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A28CF781AE47540008E9B9C /* wordnerdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wordnerdTests.swift; sourceTree = "<group>"; };
 		7A2921341B2C911E00AA7AB1 /* MainMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
+		7A3CD93D1B374F7C00648A3C /* 8BITWONDERNominal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 8BITWONDERNominal.ttf; sourceTree = "<group>"; };
 		7A6F74D61B07B58D0035AF90 /* Words.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Words.swift; sourceTree = "<group>"; };
 		7A6F74D81B07BB980035AF90 /* RhymeVerifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RhymeVerifier.swift; sourceTree = "<group>"; };
 		7A6F74DA1B07BF480035AF90 /* Dope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dope.swift; sourceTree = "<group>"; };
 		7A6F74DD1B07CE5F0035AF90 /* Word.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		7ADEF3EE1B097949002E3111 /* Nerd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nerd.swift; sourceTree = "<group>"; };
-		7AEB33A81AEC4C2100A70DF2 /* VarelaRound.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VarelaRound.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +73,7 @@
 		7A28CF541AE4753F008E9B9C = {
 			isa = PBXGroup;
 			children = (
-				7AEB33A81AEC4C2100A70DF2 /* VarelaRound.otf */,
+				7A3CD93D1B374F7C00648A3C /* 8BITWONDERNominal.ttf */,
 				7A28CF5F1AE47540008E9B9C /* wordnerd */,
 				7A28CF751AE47540008E9B9C /* wordnerdTests */,
 				7A28CF5E1AE47540008E9B9C /* Products */,
@@ -222,8 +222,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A28CF681AE47540008E9B9C /* Main.storyboard in Resources */,
-				7AEB33A91AEC4C2100A70DF2 /* VarelaRound.otf in Resources */,
 				7A28CF6D1AE47540008E9B9C /* LaunchScreen.xib in Resources */,
+				7A3CD93E1B374F7C00648A3C /* 8BITWONDERNominal.ttf in Resources */,
 				7A28CF6A1AE47540008E9B9C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

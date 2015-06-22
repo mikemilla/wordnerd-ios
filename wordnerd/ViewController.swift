@@ -105,6 +105,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var scoreAreaContainer: UIView!
     @IBOutlet weak var gameOverLabel: UILabel!
+    @IBOutlet weak var syllablesLabel: UILabel!
+    @IBOutlet weak var bestLabel: UILabel!
     @IBOutlet weak var dashedLine: UIView!
     
     let defaults = NSUserDefaults.standardUserDefaults()
@@ -164,6 +166,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /* Check the Font Names
+        for fontFamilyNames in UIFont.familyNames() {
+            for fontName in UIFont.fontNamesForFamilyName(fontFamilyNames as! String) {
+                println("FONTNAME:\(fontName)")
+            }
+        }
+        */
+        
         scoreView.hidden = true
         
         // Progress View Styles
@@ -173,54 +183,31 @@ class ViewController: UIViewController, UITextFieldDelegate {
         progressBar.setProgress(0, animated: false)
         
         // Score Styles
-        scoreLabel.font = UIFont (name: "VarelaRound", size: 28)
         scoreLabel.alpha = 0.5
         scoreLabel.text = nil
-        scoreAreaContainer.layer.borderColor = UIColor(hex: 0xBFBFBF).CGColor
-        scoreAreaContainer.layer.borderWidth = 2
-        
-        // Add border to Score Game Over Label
-        var border = CALayer()
-        var width = CGFloat(2)
-        border.borderColor = UIColor(hex: 0xBFBFBF).CGColor
-        border.frame = CGRect(x: 0, y: gameOverLabel.frame.size.height - width, width:  gameOverLabel.frame.size.width, height: gameOverLabel.frame.size.height)
-        border.borderWidth = width
-        gameOverLabel.layer.addSublayer(border)
-        gameOverLabel.layer.masksToBounds = true
         
         // Computer Rhyme Styles
         computerRhyme.textAlignment = .Center
-        computerRhyme.font = UIFont(name: "VarelaRound", size: 40)
         
         // User Rhyme Styles
         userRhyme.textAlignment = .Center
-        userRhyme.font = UIFont (name: "VarelaRound", size: 40)
         userRhyme.tintColor = UIColor.clearColor()
         
         // Restart Button Styles
-        restartButton.layer.cornerRadius = 4
+        //restartButton.layer.cornerRadius = 4
+        var borderLeftNotch = CALayer()
+        borderLeftNotch.borderColor = UIColor(hex: 0xffffff).CGColor
+        borderLeftNotch.frame = CGRect(x: 0, y: 0, width: 4, height: 4)
+        borderLeftNotch.borderWidth = 4
+        restartButton.layer.addSublayer(borderLeftNotch)
+        
+        var borderRightNotch = CALayer()
+        borderRightNotch.borderColor = UIColor(hex: 0xffffff).CGColor
+        borderRightNotch.frame = CGRect(x: restartButton.frame.size.width - 4, y: 0, width: 4, height: 4)
+        borderRightNotch.borderWidth = 4
+        restartButton.layer.addSublayer(borderRightNotch)
+        restartButton.layer.masksToBounds = true
         setButtonObservers(restartButton)
-        
-        // Dashed Score Screen Line
-        var path = UIBezierPath()
-        
-        path.moveToPoint(CGPointMake(0, 1))
-        path.addLineToPoint(CGPointMake(dashedLine.frame.size.width, 1))
-        path.stroke()
-        
-        let pattern: [CGFloat] = [dashedLine.frame.size.width / 48, dashedLine.frame.size.width / 48]
-        
-        var fill = UIColor.blackColor()
-        
-        var shapeLayer = CAShapeLayer()
-        shapeLayer.strokeStart = 0.0
-        shapeLayer.strokeColor = fill.CGColor
-        shapeLayer.lineWidth = path.bounds.width
-        shapeLayer.lineDashPattern = pattern
-        shapeLayer.path = path.CGPath
-        
-        dashedLine.layer.addSublayer(shapeLayer)
-        dashedLine.clipsToBounds = true
         
         // Open Keyboard on launch
         userRhyme.delegate = self
@@ -233,6 +220,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // TextField textChangeListener notification
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userRhyme)
         
+        // Set the font type for the View Controller
+        setFonts("8BITWONDERNominal")
+        
         println(words)
         
         // Check if text is entered
@@ -240,6 +230,31 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // Create a word to rhyme with
         createRhyme()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Add border to Score Game Over Label
+        var border = CALayer()
+        border.borderColor = UIColor(hex: 0xDDDDDD).CGColor
+        border.frame = CGRect(x: 0, y: gameOverLabel.frame.size.height - 3, width:  gameOverLabel.frame.size.width, height: gameOverLabel.frame.size.height)
+        border.borderWidth = 3
+        gameOverLabel.layer.addSublayer(border)
+        gameOverLabel.layer.masksToBounds = true
+    }
+    
+    /**
+    * Set the font of the view controller elements
+    * Storyboard couldn't find the font for some reason
+    */
+    func setFonts(name: String) {
+        userRhyme.font = UIFont (name: name, size: 30)
+        computerRhyme.font = UIFont(name: name, size: 30)
+        gameOverLabel.font = UIFont (name: name, size: 20)
+        scoreLabel.font = UIFont (name: name, size: 22)
+        newScore.font = UIFont (name: name, size: 20)
+        syllablesLabel.font = UIFont (name: name, size: 16)
+        highScore.font = UIFont (name: name, size: 16)
+        bestLabel.font = UIFont (name: name, size: 16)
     }
     
     /**
