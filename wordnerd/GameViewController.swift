@@ -407,8 +407,14 @@ class GameViewController: UIViewController, UITextFieldDelegate {
         if (score > bestScore) {
             defaults.setObject(score, forKey: "highScore")
             highScore.text = String(score)
+            bestLabel.text = "New Best"
+            bestLabel.textColor = getThemeColor(true)
+            highScore.textColor = getThemeColor(true)
         } else {
             highScore.text = String(bestScore)
+            bestLabel.text = "Best"
+            bestLabel.textColor = UIColor(hex: 0xBFBFBF)
+            highScore.textColor = UIColor(hex: 0xBFBFBF)
         }
         
         // Show the score
