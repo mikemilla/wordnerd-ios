@@ -7,16 +7,13 @@
 //
 
 import UIKit
+import GameKit
 
 class MainMenuViewController: UIViewController {
     
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var loadingView: UIView!
     var fade = CATransition()
-    
-    @IBAction func overFlowMenuAction(sender: AnyObject) {
-        println("Overflow Clicked")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +23,8 @@ class MainMenuViewController: UIViewController {
         
         // Text Looping Animations
         loopTextChangeAnimation(true)
+        
+        authenticateLocalPlayer()
     }
     
     func loopTextChangeAnimation(tutorialIsShowing: Bool) {
@@ -53,6 +52,21 @@ class MainMenuViewController: UIViewController {
     */
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    /*
+    * Sign into GameCenter
+    */
+    func authenticateLocalPlayer() {
+        var localPlayer = GKLocalPlayer.localPlayer()
+        localPlayer.authenticateHandler = {(viewController, error) -> Void in
+            if (viewController != nil) {
+                self.presentViewController(viewController, animated: true, completion: nil)
+            }
+            else {
+                println((GKLocalPlayer.localPlayer().authenticated))
+            }
+        }
     }
     
 }

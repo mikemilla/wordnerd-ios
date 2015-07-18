@@ -49,7 +49,6 @@
                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="overFlowMenuAction:" destination="86s-1A-pyT" eventType="touchUpInside" id="H57-Ew-iN4"/>
                                     <segue destination="6ZQ-xm-nTU" kind="presentation" id="9e6-Dy-UXK"/>
                                 </connections>
                             </button>
