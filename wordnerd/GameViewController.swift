@@ -232,17 +232,6 @@ class GameViewController: UIViewController, UITextFieldDelegate {
         
         // Create a word to rhyme with
         createRhyme()
-        
-        // Rhyme Animation
-        userRhymeAnimation.animationImages = [UIImage]()
-        
-        for var index = 0; index < 4; index++ {
-            var frameName = String(format: "Frame%03d", index)
-            userRhymeAnimation.animationImages?.append(UIImage(named: frameName)!)
-        }
-        
-        userRhymeAnimation.animationDuration = 1
-        userRhymeAnimation.startAnimating()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -274,6 +263,9 @@ class GameViewController: UIViewController, UITextFieldDelegate {
     * Set the computer rhyme word
     */
     func createRhyme() {
+        
+        // Create the dot animation
+        createRandomUserRhymeAnimation()
         
         // Delay clearing text
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
@@ -329,6 +321,40 @@ class GameViewController: UIViewController, UITextFieldDelegate {
         // Set new computer rhyme text
         item = shuffledWords[position]
         computerRhyme.text = item
+    }
+    
+    /**
+    * Create a the animation for the user input area
+    */
+    func createRandomUserRhymeAnimation() {
+        
+        var randomNumber: Int = random() % 3;
+        var frames = "AFrame%03d"
+        
+        switch(randomNumber) {
+        case 0:
+            frames = "AFrame%03d"
+            break
+        case 1:
+            frames = "BFrame%03d"
+            break
+        case 2:
+            frames = "CFrame%03d"
+            break
+        default:
+            frames = "AFrame%03d"
+            break
+        }
+        
+        userRhymeAnimation.animationImages = [UIImage]()
+        
+        for var index = 0; index < 4; index++ {
+            var frameName = String(format: frames, index)
+            userRhymeAnimation.animationImages?.append(UIImage(named: frameName)!)
+        }
+        
+        userRhymeAnimation.animationDuration = 1
+        userRhymeAnimation.startAnimating()
     }
     
     /**

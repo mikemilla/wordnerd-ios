@@ -194,7 +194,7 @@
                                         </constraints>
                                         <color key="progressTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </progressView>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Frame000" translatesAutoresizingMaskIntoConstraints="NO" id="BUU-g5-qwT" userLabel="User Rhyme Animation">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AFrame000" translatesAutoresizingMaskIntoConstraints="NO" id="BUU-g5-qwT" userLabel="User Rhyme Animation">
                                         <rect key="frame" x="0.0" y="488" width="320" height="80"/>
                                     </imageView>
                                 </subviews>
@@ -482,8 +482,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="AFrame000" width="36" height="36"/>
         <image name="CloseIcon" width="24" height="24"/>
-        <image name="Frame000" width="24" height="24"/>
         <image name="GameIcon" width="24" height="24"/>
         <image name="HomeIcon" width="24" height="24"/>
         <image name="OverFlow" width="24" height="24"/>
