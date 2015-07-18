@@ -77,9 +77,9 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="OBf-A3-xhz"/>
                                 <exclude reference="aMo-N6-o4G"/>
                                 <exclude reference="aab-3a-Oot"/>
+                                <exclude reference="OBf-A3-xhz"/>
                             </mask>
                         </variation>
                     </view>
