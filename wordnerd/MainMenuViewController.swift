@@ -11,6 +11,7 @@ import UIKit
 class MainMenuViewController: UIViewController {
     
     @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var loadingView: UIView!
     var fade = CATransition()
     
     @IBAction func overFlowMenuAction(sender: AnyObject) {

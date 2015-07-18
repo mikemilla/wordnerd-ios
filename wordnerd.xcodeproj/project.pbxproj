@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7A28CF631AE47540008E9B9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF621AE47540008E9B9C /* AppDelegate.swift */; };
-		7A28CF651AE47540008E9B9C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF641AE47540008E9B9C /* ViewController.swift */; };
+		7A28CF651AE47540008E9B9C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF641AE47540008E9B9C /* GameViewController.swift */; };
 		7A28CF681AE47540008E9B9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A28CF661AE47540008E9B9C /* Main.storyboard */; };
 		7A28CF6A1AE47540008E9B9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A28CF691AE47540008E9B9C /* Images.xcassets */; };
 		7A28CF6D1AE47540008E9B9C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A28CF6B1AE47540008E9B9C /* LaunchScreen.xib */; };
@@ -19,6 +19,7 @@
 		7A6F74D91B07BB980035AF90 /* RhymeVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6F74D81B07BB980035AF90 /* RhymeVerifier.swift */; };
 		7A6F74DB1B07BF480035AF90 /* Dope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6F74DA1B07BF480035AF90 /* Dope.swift */; };
 		7A6F74DE1B07CE5F0035AF90 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6F74DD1B07CE5F0035AF90 /* Word.swift */; };
+		7AAF9AA51B5A035800880F0E /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAF9AA41B5A035800880F0E /* AboutViewController.swift */; };
 		7ADEF3EF1B097949002E3111 /* Nerd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADEF3EE1B097949002E3111 /* Nerd.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,7 +37,7 @@
 		7A28CF5D1AE47540008E9B9C /* wordnerd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wordnerd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A28CF611AE47540008E9B9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A28CF621AE47540008E9B9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7A28CF641AE47540008E9B9C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7A28CF641AE47540008E9B9C /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		7A28CF671AE47540008E9B9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7A28CF691AE47540008E9B9C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7A28CF6C1AE47540008E9B9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -49,6 +50,7 @@
 		7A6F74D81B07BB980035AF90 /* RhymeVerifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RhymeVerifier.swift; sourceTree = "<group>"; };
 		7A6F74DA1B07BF480035AF90 /* Dope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dope.swift; sourceTree = "<group>"; };
 		7A6F74DD1B07CE5F0035AF90 /* Word.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		7AAF9AA41B5A035800880F0E /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		7ADEF3EE1B097949002E3111 /* Nerd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nerd.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,14 +95,9 @@
 			isa = PBXGroup;
 			children = (
 				7A28CF621AE47540008E9B9C /* AppDelegate.swift */,
-				7A2921341B2C911E00AA7AB1 /* MainMenuViewController.swift */,
-				7A28CF641AE47540008E9B9C /* ViewController.swift */,
-				7A6F74D61B07B58D0035AF90 /* Words.swift */,
-				7A6F74D81B07BB980035AF90 /* RhymeVerifier.swift */,
-				7A6F74DC1B07BF560035AF90 /* Words */,
-				7A28CF661AE47540008E9B9C /* Main.storyboard */,
-				7A28CF691AE47540008E9B9C /* Images.xcassets */,
-				7A28CF6B1AE47540008E9B9C /* LaunchScreen.xib */,
+				7AAF9AA61B5A043900880F0E /* View Controllers */,
+				7AAF9AA81B5A048A00880F0E /* Word Related */,
+				7AAF9AA71B5A045E00880F0E /* UI / UX */,
 				7A28CF601AE47540008E9B9C /* Supporting Files */,
 			);
 			path = wordnerd;
@@ -131,14 +128,44 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7A6F74DC1B07BF560035AF90 /* Words */ = {
+		7A6F74DC1B07BF560035AF90 /* Word Objects */ = {
 			isa = PBXGroup;
 			children = (
 				7A6F74DA1B07BF480035AF90 /* Dope.swift */,
 				7ADEF3EE1B097949002E3111 /* Nerd.swift */,
 				7A6F74DD1B07CE5F0035AF90 /* Word.swift */,
 			);
-			name = Words;
+			name = "Word Objects";
+			sourceTree = "<group>";
+		};
+		7AAF9AA61B5A043900880F0E /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7A2921341B2C911E00AA7AB1 /* MainMenuViewController.swift */,
+				7A28CF641AE47540008E9B9C /* GameViewController.swift */,
+				7AAF9AA41B5A035800880F0E /* AboutViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		7AAF9AA71B5A045E00880F0E /* UI / UX */ = {
+			isa = PBXGroup;
+			children = (
+				7A28CF661AE47540008E9B9C /* Main.storyboard */,
+				7A28CF691AE47540008E9B9C /* Images.xcassets */,
+				7A28CF6B1AE47540008E9B9C /* LaunchScreen.xib */,
+			);
+			name = "UI / UX";
+			sourceTree = "<group>";
+		};
+		7AAF9AA81B5A048A00880F0E /* Word Related */ = {
+			isa = PBXGroup;
+			children = (
+				7A6F74D61B07B58D0035AF90 /* Words.swift */,
+				7A6F74D81B07BB980035AF90 /* RhymeVerifier.swift */,
+				7A6F74DC1B07BF560035AF90 /* Word Objects */,
+			);
+			name = "Word Related";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,9 +272,10 @@
 				7A2921351B2C911E00AA7AB1 /* MainMenuViewController.swift in Sources */,
 				7A6F74DE1B07CE5F0035AF90 /* Word.swift in Sources */,
 				7A6F74DB1B07BF480035AF90 /* Dope.swift in Sources */,
+				7AAF9AA51B5A035800880F0E /* AboutViewController.swift in Sources */,
 				7A6F74D91B07BB980035AF90 /* RhymeVerifier.swift in Sources */,
 				7A6F74D71B07B58D0035AF90 /* Words.swift in Sources */,
-				7A28CF651AE47540008E9B9C /* ViewController.swift in Sources */,
+				7A28CF651AE47540008E9B9C /* GameViewController.swift in Sources */,
 				7ADEF3EF1B097949002E3111 /* Nerd.swift in Sources */,
 				7A28CF631AE47540008E9B9C /* AppDelegate.swift in Sources */,
 			);

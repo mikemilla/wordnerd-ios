@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 import AudioToolbox
 
 /**
@@ -89,13 +90,14 @@ extension UIView {
     }
 }
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class GameViewController: UIViewController, UITextFieldDelegate {
     
     // Outlets
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var computerRhyme: UILabel!
     @IBOutlet weak var userRhyme: UITextField!
+    @IBOutlet weak var userRhymeAnimation: UIImageView!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var homeView: UIView!
     @IBOutlet weak var scoreView: UIView!
@@ -230,6 +232,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // Create a word to rhyme with
         createRhyme()
+        
+        // Rhyme Animation
+        userRhymeAnimation.animationImages = [UIImage]()
+        
+        for var index = 0; index < 4; index++ {
+            var frameName = String(format: "Frame%03d", index)
+            userRhymeAnimation.animationImages?.append(UIImage(named: frameName)!)
+        }
+        
+        userRhymeAnimation.animationDuration = 1
+        userRhymeAnimation.startAnimating()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -491,9 +504,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     // Check if the user rhyme has text
     func checkUserRhyme() {
         if (userRhyme.text == "" || userRhyme.text == nil) {
-            userRhyme.backgroundColor = UIColor(hex: 0xF1F1F1)
+            userRhymeAnimation.hidden = false
         } else {
-            userRhyme.backgroundColor = UIColor(hex: 0xFFFFFF)
+            userRhymeAnimation.hidden = true
         }
     }
     
