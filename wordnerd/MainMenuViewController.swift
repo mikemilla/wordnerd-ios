@@ -11,6 +11,7 @@ import GameKit
 
 class MainMenuViewController: UIViewController {
     
+    @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var loadingView: UIView!
     var fade = CATransition()
@@ -18,12 +19,22 @@ class MainMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Change Button Font
+        // Change Label Fonts
+        logoLabel.font = UIFont(name: "8BITWONDERNominal", size: 52)
         startButton.titleLabel!.font = UIFont(name: "8BITWONDERNominal", size: 12)
+        
+        // Set logo text
+        logoLabel.text = "Word\nNerd"
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 16
+        style.alignment = .Center
+        let attributes = [NSParagraphStyleAttributeName: style]
+        logoLabel.attributedText = NSAttributedString(string: logoLabel.text!, attributes:attributes)
         
         // Text Looping Animations
         loopTextChangeAnimation(true)
         
+        // Sign Player into Game Center
         authenticateLocalPlayer()
     }
     
@@ -58,13 +69,13 @@ class MainMenuViewController: UIViewController {
     * Sign into GameCenter
     */
     func authenticateLocalPlayer() {
-        var localPlayer = GKLocalPlayer.localPlayer()
+        let localPlayer = GKLocalPlayer.localPlayer()
         localPlayer.authenticateHandler = {(viewController, error) -> Void in
             if (viewController != nil) {
-                self.presentViewController(viewController, animated: true, completion: nil)
+                self.presentViewController(viewController!, animated: true, completion: nil)
             }
             else {
-                println((GKLocalPlayer.localPlayer().authenticated))
+                print((GKLocalPlayer.localPlayer().authenticated))
             }
         }
     }

@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jBw-Zn-PdV">
-                                <rect key="frame" x="40" y="460" width="240" height="48"/>
+                                <rect key="frame" x="40" y="472" width="240" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="ewA-Vl-bSa"/>
                                 </constraints>
@@ -52,27 +52,24 @@
                                     <segue destination="6ZQ-xm-nTU" kind="presentation" id="9e6-Dy-UXK"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bt3-YB-R9j">
-                                <rect key="frame" x="40" y="130" width="240" height="240"/>
-                                <color key="backgroundColor" red="0.3294117647" green="0.70980392160000005" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="240" id="goV-Qn-hzf"/>
-                                    <constraint firstAttribute="width" constant="240" id="u9o-up-HFf"/>
-                                </constraints>
-                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logo" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="It4-0u-lmG">
+                                <rect key="frame" x="140" y="240" width="39" height="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="It4-0u-lmG" secondAttribute="centerX" id="6Uv-Ba-5wN"/>
                             <constraint firstItem="Hfr-ep-9r4" firstAttribute="top" secondItem="TCn-2J-l0U" secondAttribute="bottom" id="7DK-xS-8ty"/>
                             <constraint firstAttribute="centerX" secondItem="jBw-Zn-PdV" secondAttribute="centerX" id="FHg-6E-V2E"/>
+                            <constraint firstAttribute="centerY" secondItem="It4-0u-lmG" secondAttribute="centerY" constant="34" id="IIK-3h-FJJ"/>
                             <constraint firstAttribute="trailing" secondItem="Hfr-ep-9r4" secondAttribute="trailing" id="LtB-gL-uVW"/>
                             <constraint firstAttribute="centerY" secondItem="jBw-Zn-PdV" secondAttribute="centerY" constant="-239" id="OBf-A3-xhz"/>
-                            <constraint firstItem="jBw-Zn-PdV" firstAttribute="top" secondItem="bt3-YB-R9j" secondAttribute="bottom" constant="90" id="XTZ-LA-7KV"/>
                             <constraint firstItem="Hfr-ep-9r4" firstAttribute="top" secondItem="TCn-2J-l0U" secondAttribute="bottom" constant="16" id="aMo-N6-o4G"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Hfr-ep-9r4" secondAttribute="trailing" id="aab-3a-Oot"/>
                             <constraint firstItem="Lu4-Zy-pIc" firstAttribute="top" secondItem="jBw-Zn-PdV" secondAttribute="bottom" constant="60" id="apx-qZ-COY"/>
-                            <constraint firstAttribute="centerX" secondItem="bt3-YB-R9j" secondAttribute="centerX" id="bg5-yw-s2D"/>
-                            <constraint firstAttribute="centerY" secondItem="bt3-YB-R9j" secondAttribute="centerY" constant="34" id="bzS-IB-oA9"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -83,6 +80,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="logoLabel" destination="It4-0u-lmG" id="hQU-fS-4fx"/>
                         <outlet property="startButton" destination="jBw-Zn-PdV" id="nSf-85-c9v"/>
                     </connections>
                 </viewController>

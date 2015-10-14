@@ -25,9 +25,9 @@ class Verify {
         var singles = []
         var doubles = []
         var triples = []
-        var quadruples = []
-        var quintuples = []
-        var sextuples = []
+        let quadruples = []
+        let quintuples = []
+        let sextuples = []
         
         /*
         * How "accepted" works:
@@ -59,7 +59,7 @@ class Verify {
             doubles = Dope.acceptable.doubles
             break
         default:
-            println("Default")
+            print("Default")
         }
         
         /*

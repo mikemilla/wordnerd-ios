@@ -11,6 +11,29 @@ import Foundation
 import AudioToolbox
 import GameKit
 
+extension CollectionType {
+    /// Return a copy of `self` with its elements shuffled
+    func shuffle() -> [Generator.Element] {
+        var list = Array(self)
+        list.shuffleInPlace()
+        return list
+    }
+}
+
+extension MutableCollectionType where Index == Int {
+    /// Shuffle the elements of `self` in-place.
+    mutating func shuffleInPlace() {
+        // empty and single-element collections don't shuffle
+        if count < 2 { return }
+        
+        for i in 0..<count - 1 {
+            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            guard i != j else { continue }
+            swap(&self[i], &self[j])
+        }
+    }
+}
+
 class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterControllerDelegate {
     
     // Outlets
@@ -59,7 +82,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     
     // Actions
     @IBAction func startGameButton(sender: AnyObject) {
-        homeView.slideInFromBottom(duration: delayDuration, completionDelegate: self)
+        homeView.slideInFromBottom(delayDuration, completionDelegate: self)
         NSThread.sleepForTimeInterval(delayDuration)
         homeView.hidden = true
         userRhyme.becomeFirstResponder()
@@ -91,16 +114,16 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         
         /* Check the Font Names
         for fontFamilyNames in UIFont.familyNames() {
-            for fontName in UIFont.fontNamesForFamilyName(fontFamilyNames as! String) {
-                println("FONTNAME:\(fontName)")
-            }
+        for fontName in UIFont.fontNamesForFamilyName(fontFamilyNames as! String) {
+        println("FONTNAME:\(fontName)")
+        }
         }
         */
         
         scoreView.hidden = true
         
         // Progress View Styles
-        var transform = CGAffineTransformMakeScale(1, 8)
+        let transform = CGAffineTransformMakeScale(1, 8)
         progressBar.transform = transform
         progressBar.trackTintColor = UIColor.clearColor()
         progressBar.setProgress(0, animated: false)
@@ -118,13 +141,13 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         
         // Restart Button Styles
         //restartButton.layer.cornerRadius = 4
-        var borderLeftNotch = CALayer()
+        let borderLeftNotch = CALayer()
         borderLeftNotch.borderColor = UIColor(hex: 0xffffff).CGColor
         borderLeftNotch.frame = CGRect(x: 0, y: 0, width: 4, height: 4)
         borderLeftNotch.borderWidth = 4
         restartButton.layer.addSublayer(borderLeftNotch)
         
-        var borderRightNotch = CALayer()
+        let borderRightNotch = CALayer()
         borderRightNotch.borderColor = UIColor(hex: 0xffffff).CGColor
         borderRightNotch.frame = CGRect(x: restartButton.frame.size.width - 4, y: 0, width: 4, height: 4)
         borderRightNotch.borderWidth = 4
@@ -146,7 +169,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         // Set the font type for the View Controller
         setFonts("8BITWONDERNominal")
         
-        println(words)
+        print(words)
         
         // Check if text is entered
         checkUserRhyme()
@@ -157,7 +180,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     
     override func viewDidAppear(animated: Bool) {
         // Add border to Score Game Over Label
-        var border = CALayer()
+        let border = CALayer()
         border.borderColor = UIColor(hex: 0xDDDDDD).CGColor
         border.frame = CGRect(x: 0, y: gameOverLabel.frame.size.height - 3, width:  gameOverLabel.frame.size.width, height: gameOverLabel.frame.size.height)
         border.borderWidth = 3
@@ -199,7 +222,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         if (position == 0) {
             
             // Shuffle words if it's the first run
-            shuffledWords = shuffle(words)
+            shuffledWords = words.shuffle()
             
             //var colorRandom = arc4random_uniform(5) + 1
             
@@ -223,19 +246,19 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
                 view.backgroundColor = UIColor(hex: green)
             }
             
-            scoreView.slideOutToTop(duration: delayDuration, completionDelegate: self)
+            scoreView.slideOutToTop(delayDuration, completionDelegate: self)
             NSThread.sleepForTimeInterval(delayDuration)
             scoreView.hidden = true
             checkUserRhyme()
             
         } else {
-            computerRhyme.slideOutIn(duration: 0.3, completionDelegate: self)
+            computerRhyme.slideOutIn(0.3, completionDelegate: self)
             isGameOver = false
         }
         
         // Index out of bounds will never happen again
         if (position == words.count) {
-            shuffledWords = shuffle(words)
+            shuffledWords = words.shuffle()
             position = 0
         }
         
@@ -249,7 +272,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     */
     func createRandomUserRhymeAnimation() {
         
-        var randomNumber: Int = random() % 3;
+        let randomNumber: Int = random() % 3;
         var frames = "AFrame%03d"
         
         switch(randomNumber) {
@@ -270,24 +293,12 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         userRhymeAnimation.animationImages = [UIImage]()
         
         for var index = 0; index < 4; index++ {
-            var frameName = String(format: frames, index)
+            let frameName = String(format: frames, index)
             userRhymeAnimation.animationImages?.append(UIImage(named: frameName)!)
         }
         
         userRhymeAnimation.animationDuration = 1
         userRhymeAnimation.startAnimating()
-    }
-    
-    /**
-    * Shuffle an array
-    */
-    func shuffle < C: MutableCollectionType where C.Index == Int>(var list: C) -> C {
-        let c = count(list)
-        for i in 0..<(c - 1) {
-            let j = Int(arc4random_uniform(UInt32(c - i))) + i
-            swap(&list[i], &list[j])
-        }
-        return list
     }
     
     /*
@@ -318,7 +329,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         
         // Show the Score Screen
         scoreView.hidden = false
-        scoreView.slideInFromBottom(duration: delayDuration, completionDelegate: self)
+        scoreView.slideInFromBottom(delayDuration, completionDelegate: self)
         userRhyme.text = ""
         
         // Create a constant for the high score
@@ -349,13 +360,16 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     func saveHighscore(score:Int) {
         // check if user is signed in
         if GKLocalPlayer.localPlayer().authenticated {
-            var scoreReporter = GKScore(leaderboardIdentifier: "Best_Score_Leaderboard") // leaderboard id here
+            let scoreReporter = GKScore(leaderboardIdentifier: "Best_Score_Leaderboard") // leaderboard id here
             scoreReporter.value = Int64(score) // score variable here (same as above)
-            var scoreArray: [GKScore] = [scoreReporter]
-            GKScore.reportScores(scoreArray, withCompletionHandler: {(error : NSError!) -> Void in
-                if error != nil {
-                    println("error")
+            let scoreArray: [GKScore] = [scoreReporter]
+            GKScore.reportScores(scoreArray, withCompletionHandler: {(NSError) -> Void in
+                if NSError != nil {
+                    print(NSError!.localizedDescription)
+                } else {
+                    print("Score Complete")
                 }
+                
             })
         }
     }
@@ -364,8 +378,8 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     * Show GameCenter
     */
     func showGameCenter() {
-        var vc = self
-        var gc = GKGameCenterViewController()
+        let vc = self
+        let gc = GKGameCenterViewController()
         gc.gameCenterDelegate = self
         vc.presentViewController(gc, animated: true, completion: nil)
     }
@@ -373,7 +387,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     /*
     * Hide GameCenter
     */
-    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
         
     }
@@ -426,13 +440,13 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     func textFieldDidChange(sender: NSNotification) {
         
         // Variable for handling userRhyme " " replacement
-        let userRhymeWithNoSpaces = userRhyme.text.stringByReplacingOccurrencesOfString(" ", withString: "")
+        let userRhymeWithNoSpaces = userRhyme.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
         
         // Set text of userRhyme to the string with no spaces
         userRhyme.text = userRhymeWithNoSpaces
         
         
-        if (userRhyme.text.lowercaseString == computerRhyme.text) {
+        if (userRhyme.text!.lowercaseString == computerRhyme.text) {
             
             // Shake and clear if rhyme is same as generated
             userRhyme.shake()
@@ -442,14 +456,14 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
                     self.userRhyme.text = nil
             }
             
-        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text.lowercaseString) == 1) {
+        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text!.lowercaseString) == 1) {
             
             // Rhyme was accepted
             score += Verify.syllables
             scoreLabel.text = String(score)
             advanceWord()
             
-        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text.lowercaseString) == 2) {
+        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text!.lowercaseString) == 2) {
             
             // Rhyme was a duplicate
             userRhyme.text = nil
