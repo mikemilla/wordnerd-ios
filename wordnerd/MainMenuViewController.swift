@@ -8,6 +8,7 @@
 
 import UIKit
 import GameKit
+import SwiftyJSON
 
 class MainMenuViewController: UIViewController {
     
@@ -36,6 +37,11 @@ class MainMenuViewController: UIViewController {
         
         // Sign Player into Game Center
         authenticateLocalPlayer()
+        
+        let url = NSURL(string: "http://www.mikemilla.com/words.json")
+        let wordData = NSData(contentsOfURL: url!)
+        let json = JSON(data: wordData!)
+        print(json)
     }
     
     func loopTextChangeAnimation(tutorialIsShowing: Bool) {

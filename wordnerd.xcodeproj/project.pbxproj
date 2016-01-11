@@ -23,6 +23,7 @@
 		7AAF9AAA1B5ADCB700880F0E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAF9AA91B5ADCB700880F0E /* Extensions.swift */; };
 		7AAF9AAC1B5AE03200880F0E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AAF9AAB1B5AE03200880F0E /* GameKit.framework */; };
 		7ADEF3EF1B097949002E3111 /* Nerd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADEF3EE1B097949002E3111 /* Nerd.swift */; };
+		D13C17446FDA84A69C3C8398 /* Pods_wordnerd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A235E234BBF22D230A35D596 /* Pods_wordnerd.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,9 @@
 		7AAF9AA91B5ADCB700880F0E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7AAF9AAB1B5AE03200880F0E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		7ADEF3EE1B097949002E3111 /* Nerd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nerd.swift; sourceTree = "<group>"; };
+		953D9C909FFB86F8AA97D461 /* Pods-wordnerd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wordnerd.release.xcconfig"; path = "Pods/Target Support Files/Pods-wordnerd/Pods-wordnerd.release.xcconfig"; sourceTree = "<group>"; };
+		A235E234BBF22D230A35D596 /* Pods_wordnerd.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_wordnerd.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECB52DD1B8631FED2E4F8C3F /* Pods-wordnerd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wordnerd.debug.xcconfig"; path = "Pods/Target Support Files/Pods-wordnerd/Pods-wordnerd.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AAF9AAC1B5AE03200880F0E /* GameKit.framework in Frameworks */,
+				D13C17446FDA84A69C3C8398 /* Pods_wordnerd.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +89,8 @@
 				7A28CF5F1AE47540008E9B9C /* wordnerd */,
 				7A28CF751AE47540008E9B9C /* wordnerdTests */,
 				7A28CF5E1AE47540008E9B9C /* Products */,
+				BA80F1F1DD675387D79499EA /* Pods */,
+				B6779155F1527BDCEFD554EC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -175,6 +182,23 @@
 			name = "Word Related";
 			sourceTree = "<group>";
 		};
+		B6779155F1527BDCEFD554EC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A235E234BBF22D230A35D596 /* Pods_wordnerd.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA80F1F1DD675387D79499EA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				ECB52DD1B8631FED2E4F8C3F /* Pods-wordnerd.debug.xcconfig */,
+				953D9C909FFB86F8AA97D461 /* Pods-wordnerd.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -182,9 +206,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7A28CF7C1AE47540008E9B9C /* Build configuration list for PBXNativeTarget "wordnerd" */;
 			buildPhases = (
+				269FEE4208E60587A8A43035 /* Check Pods Manifest.lock */,
 				7A28CF591AE47540008E9B9C /* Sources */,
 				7A28CF5A1AE47540008E9B9C /* Frameworks */,
 				7A28CF5B1AE47540008E9B9C /* Resources */,
+				D02F1603BA085820A9A3B147 /* Embed Pods Frameworks */,
+				BECEF4F5360E33AFFC4FCF0C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -278,6 +305,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		269FEE4208E60587A8A43035 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BECEF4F5360E33AFFC4FCF0C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-wordnerd/Pods-wordnerd-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D02F1603BA085820A9A3B147 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-wordnerd/Pods-wordnerd-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7A28CF591AE47540008E9B9C /* Sources */ = {
@@ -419,6 +494,7 @@
 		};
 		7A28CF7D1AE47540008E9B9C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ECB52DD1B8631FED2E4F8C3F /* Pods-wordnerd.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -434,6 +510,7 @@
 		};
 		7A28CF7E1AE47540008E9B9C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 953D9C909FFB86F8AA97D461 /* Pods-wordnerd.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
