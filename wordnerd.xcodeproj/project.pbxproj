@@ -23,6 +23,7 @@
 		7AAF9AAA1B5ADCB700880F0E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAF9AA91B5ADCB700880F0E /* Extensions.swift */; };
 		7AAF9AAC1B5AE03200880F0E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AAF9AAB1B5AE03200880F0E /* GameKit.framework */; };
 		7ADEF3EF1B097949002E3111 /* Nerd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADEF3EE1B097949002E3111 /* Nerd.swift */; };
+		7AE342A11C448F24007C1B44 /* words.json in Resources */ = {isa = PBXBuildFile; fileRef = 7AE342A01C448F24007C1B44 /* words.json */; };
 		D13C17446FDA84A69C3C8398 /* Pods_wordnerd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A235E234BBF22D230A35D596 /* Pods_wordnerd.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		7AAF9AA91B5ADCB700880F0E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7AAF9AAB1B5AE03200880F0E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		7ADEF3EE1B097949002E3111 /* Nerd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nerd.swift; sourceTree = "<group>"; };
+		7AE342A01C448F24007C1B44 /* words.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words.json; sourceTree = "<group>"; };
 		953D9C909FFB86F8AA97D461 /* Pods-wordnerd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wordnerd.release.xcconfig"; path = "Pods/Target Support Files/Pods-wordnerd/Pods-wordnerd.release.xcconfig"; sourceTree = "<group>"; };
 		A235E234BBF22D230A35D596 /* Pods_wordnerd.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_wordnerd.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECB52DD1B8631FED2E4F8C3F /* Pods-wordnerd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wordnerd.debug.xcconfig"; path = "Pods/Target Support Files/Pods-wordnerd/Pods-wordnerd.debug.xcconfig"; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 		7A28CF5F1AE47540008E9B9C /* wordnerd */ = {
 			isa = PBXGroup;
 			children = (
+				7AE342A01C448F24007C1B44 /* words.json */,
 				7A28CF621AE47540008E9B9C /* AppDelegate.swift */,
 				7AAF9AA91B5ADCB700880F0E /* Extensions.swift */,
 				7AAF9AA61B5A043900880F0E /* View Controllers */,
@@ -294,6 +297,7 @@
 				7A28CF6D1AE47540008E9B9C /* LaunchScreen.xib in Resources */,
 				7A3CD93E1B374F7C00648A3C /* 8BITWONDERNominal.ttf in Resources */,
 				7A28CF6A1AE47540008E9B9C /* Images.xcassets in Resources */,
+				7AE342A11C448F24007C1B44 /* words.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

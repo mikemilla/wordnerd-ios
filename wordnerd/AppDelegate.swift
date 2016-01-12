@@ -7,14 +7,49 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    // Default word data
+    let WORD_KEY:String = "word_key"
+    
+    var wordData: NSData {
+        get {
+            if let value = NSUserDefaults.standardUserDefaults().objectForKey(WORD_KEY) as? NSData {
+                return value
+            } else {
+                let file = NSBundle(forClass: AppDelegate.self).pathForResource("words", ofType: "json")
+                let data = NSData(contentsOfFile: file!)
+                return data!
+            }
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: WORD_KEY)
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //let json = JSON(data: defaultData as! NSData)
+        //print(json["words"][0]["rhymes"]["singles"])
+        
+        let url = NSURL(string: "http://www.mikemilla.com/words.json")
+        if let responseData = NSData(contentsOfURL: url!) {
+            NSUserDefaults.standardUserDefaults().setObject(responseData, forKey: WORD_KEY)
+        } else {
+            if (NSUserDefaults.standardUserDefaults().objectForKey(WORD_KEY) == nil) {
+                let file = NSBundle(forClass: AppDelegate.self).pathForResource("words", ofType: "json")
+                let data = NSData(contentsOfFile: file!)
+                NSUserDefaults.standardUserDefaults().setObject(data, forKey: WORD_KEY)
+            }
+        }
+        
         return true
     }
 
