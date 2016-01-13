@@ -95,15 +95,6 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for fontFamilyNames in UIFont.familyNames() {
-            for fontName in UIFont.fontNamesForFamilyName(fontFamilyNames) {
-                print("FONTNAME:\(fontName)")
-            }
-        }
-        
-        // Pass the JSON
-        json = appDelegate.json
-        
         scoreView.hidden = true
         
         // Progress View Styles
@@ -153,6 +144,9 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         // Set the font type for the View Controller
         setFonts("8BITWONDERNominal")
         
+        // Pass the JSON
+        json = appDelegate.json
+        
         // Check if text is entered
         checkUserRhyme()
         
@@ -161,6 +155,8 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
         // Add border to Score Game Over Label
         let border = CALayer()
         border.borderColor = UIColor(hex: 0xDDDDDD).CGColor
@@ -175,8 +171,8 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     * Storyboard couldn't find the font for some reason
     */
     func setFonts(name: String) {
-        userRhyme.font = UIFont (name: name, size: 30)
-        computerRhyme.font = UIFont(name: name, size: 30)
+        userRhyme.font = UIFont (name: name, size: 34)
+        computerRhyme.font = UIFont(name: name, size: 34)
         gameOverLabel.font = UIFont (name: name, size: 20)
         scoreLabel.font = UIFont (name: name, size: 22)
         newScore.font = UIFont (name: name, size: 20)
@@ -340,6 +336,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     * Save the highest score
     */
     func saveHighscore(score:Int) {
+        
         // check if user is signed in
         if GKLocalPlayer.localPlayer().authenticated {
             let scoreReporter = GKScore(leaderboardIdentifier: "Best_Score_Leaderboard") // leaderboard id here
@@ -451,90 +448,52 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         
         if let singles = json!["words"][shuffledWordArray[position]]["rhymes"]["singles"].object as? [String] {
             if (singles.contains(userRhyme.text!.lowercaseString)) {
-                playedRhymes.addObject(userRhyme.text!.lowercaseString)
-                score += 1
-                scoreLabel.text = String(score)
-                advanceWord()
+                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 1)
             }
         }
         if let doubles = json!["words"][shuffledWordArray[position]]["rhymes"]["doubles"].object as? [String] {
             if (doubles.contains(userRhyme.text!.lowercaseString)) {
-                playedRhymes.addObject(userRhyme.text!.lowercaseString)
-                score += 2
-                scoreLabel.text = String(score)
-                advanceWord()
+               addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 2)
             }
         }
-        
         if let triples = json!["words"][shuffledWordArray[position]]["rhymes"]["triples"].object as? [String] {
             if (triples.contains(userRhyme.text!.lowercaseString)) {
-                playedRhymes.addObject(userRhyme.text!.lowercaseString)
-                score += 3
-                scoreLabel.text = String(score)
-                advanceWord()
+                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 3)
             }
         }
-        
         if let quadruples = json!["words"][shuffledWordArray[position]]["rhymes"]["quadruples"].object as? [String] {
             if (quadruples.contains(userRhyme.text!.lowercaseString)) {
-                playedRhymes.addObject(userRhyme.text!.lowercaseString)
-                score += 4
-                scoreLabel.text = String(score)
-                advanceWord()
+                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 4)
             }
         }
-        
         if let quintuples = json!["words"][shuffledWordArray[position]]["rhymes"]["quintuples"].object as? [String] {
             if (quintuples.contains(userRhyme.text!.lowercaseString)) {
-                playedRhymes.addObject(userRhyme.text!.lowercaseString)
-                score += 5
-                scoreLabel.text = String(score)
-                advanceWord()
+                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 5)
             }
         }
-        
         if let sextuples = json!["words"][shuffledWordArray[position]]["rhymes"]["sextuples"].object as? [String] {
             if (sextuples.contains(userRhyme.text!.lowercaseString)) {
-                playedRhymes.addObject(userRhyme.text!.lowercaseString)
-                score += 6
-                scoreLabel.text = String(score)
-                advanceWord()
+                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 6)
             }
         }
-        
         if let septuples = json!["words"][shuffledWordArray[position]]["rhymes"]["septuples"].object as? [String] {
             if (septuples.contains(userRhyme.text!.lowercaseString)) {
-                playedRhymes.addObject(userRhyme.text!.lowercaseString)
-                score += 7
-                scoreLabel.text = String(score)
-                advanceWord()
+                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 7)
             }
         }
-        
         if let octuples = json!["words"][shuffledWordArray[position]]["rhymes"]["octuples"].object as? [String] {
             if (octuples.contains(userRhyme.text!.lowercaseString)) {
-                playedRhymes.addObject(userRhyme.text!.lowercaseString)
-                score += 8
-                scoreLabel.text = String(score)
-                advanceWord()
+                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 8)
             }
         }
-        
         if let nonuples = json!["words"][shuffledWordArray[position]]["rhymes"]["nonuples"].object as? [String] {
             if (nonuples.contains(userRhyme.text!.lowercaseString)) {
-                playedRhymes.addObject(userRhyme.text!.lowercaseString)
-                score += 9
-                scoreLabel.text = String(score)
-                advanceWord()
+                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 9)
             }
         }
-        
         if let decuples = json!["words"][shuffledWordArray[position]]["rhymes"]["decuples"].object as? [String] {
             if (decuples.contains(userRhyme.text!.lowercaseString)) {
-                playedRhymes.addObject(userRhyme.text!.lowercaseString)
-                score += 10
-                scoreLabel.text = String(score)
-                advanceWord()
+                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 10)
             }
         }
         
@@ -545,6 +504,14 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         
         // Check if the rhyme is null
         checkUserRhyme()
+    }
+    
+    func addScoreAndAdvance(rhymePlayed: String, points: Int) {
+        playedRhymes.addObject(rhymePlayed)
+        score += points
+        scoreLabel.text = String(score)
+        advanceWord()
+        return
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
