@@ -13,25 +13,9 @@ import SwiftyJSON
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    // Default word data
+    var json:JSON?
+    var wordCountArray = [Int]()
     let WORD_KEY:String = "word_key"
-    
-    var wordData: NSData {
-        get {
-            if let value = NSUserDefaults.standardUserDefaults().objectForKey(WORD_KEY) as? NSData {
-                return value
-            } else {
-                let file = NSBundle(forClass: AppDelegate.self).pathForResource("words", ofType: "json")
-                let data = NSData(contentsOfFile: file!)
-                return data!
-            }
-        }
-        set {
-            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: WORD_KEY)
-            NSUserDefaults.standardUserDefaults().synchronize()
-        }
-    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -48,6 +32,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let data = NSData(contentsOfFile: file!)
                 NSUserDefaults.standardUserDefaults().setObject(data, forKey: WORD_KEY)
             }
+        }
+        
+        // Set JSON to global
+        let data = NSUserDefaults.standardUserDefaults().objectForKey(WORD_KEY)
+        json = JSON(data: data as! NSData)
+        
+        // Set array count position variable
+        for index in 0...(json!["words"].count - 1) {
+            wordCountArray.append(index)
         }
         
         return true

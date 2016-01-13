@@ -38,14 +38,6 @@ class MainMenuViewController: UIViewController {
         
         // Sign Player into Game Center
         authenticateLocalPlayer()
-        
-        let data = NSUserDefaults.standardUserDefaults().objectForKey(WORD_KEY)
-        let json = JSON(data: data as! NSData)
-        
-        let index = 123
-        
-        print(json["words"][index]["word"])
-        //print(json["words"][0]["rhymes"]["singles"])
     }
     
     func loopTextChangeAnimation(tutorialIsShowing: Bool) {

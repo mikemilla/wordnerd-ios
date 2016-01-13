@@ -10,31 +10,12 @@ import UIKit
 import Foundation
 import AudioToolbox
 import GameKit
-
-extension CollectionType {
-    /// Return a copy of `self` with its elements shuffled
-    func shuffle() -> [Generator.Element] {
-        var list = Array(self)
-        list.shuffleInPlace()
-        return list
-    }
-}
-
-extension MutableCollectionType where Index == Int {
-    /// Shuffle the elements of `self` in-place.
-    mutating func shuffleInPlace() {
-        // empty and single-element collections don't shuffle
-        if count < 2 { return }
-        
-        for i in 0..<count - 1 {
-            let j = Int(arc4random_uniform(UInt32(count - i))) + i
-            guard i != j else { continue }
-            swap(&self[i], &self[j])
-        }
-    }
-}
+import SwiftyJSON
 
 class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterControllerDelegate {
+    
+    var json:JSON?
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     // Outlets
     @IBOutlet weak var progressBar: UIProgressView!
@@ -55,6 +36,8 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     @IBOutlet weak var bestLabel: UILabel!
     @IBOutlet weak var dashedLine: UIView!
     
+    var playedRhymes:NSMutableArray = []
+    
     let defaults = NSUserDefaults.standardUserDefaults()
     
     // Instances
@@ -70,7 +53,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     
     var theme = 0
     
-    var words = rhymableWords.list
+    var shuffledWordArray = [Int]()
     
     // Colors
     var blue:Int = 0x2196F3
@@ -94,7 +77,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         score = 0
         position = 0
         scoreLabel.text = nil
-        Verify.playedRhymes.removeAllObjects()
+        playedRhymes.removeAllObjects()
         createRhyme()
     }
     
@@ -102,7 +85,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         score = 0
         position = 0
         scoreLabel.text = nil
-        Verify.playedRhymes.removeAllObjects()
+        playedRhymes.removeAllObjects()
     }
     
     @IBAction func gamesButton(sender: AnyObject) {
@@ -112,13 +95,14 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /* Check the Font Names
         for fontFamilyNames in UIFont.familyNames() {
-        for fontName in UIFont.fontNamesForFamilyName(fontFamilyNames as! String) {
-        println("FONTNAME:\(fontName)")
+            for fontName in UIFont.fontNamesForFamilyName(fontFamilyNames) {
+                print("FONTNAME:\(fontName)")
+            }
         }
-        }
-        */
+        
+        // Pass the JSON
+        json = appDelegate.json
         
         scoreView.hidden = true
         
@@ -168,8 +152,6 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         
         // Set the font type for the View Controller
         setFonts("8BITWONDERNominal")
-        
-        print(words)
         
         // Check if text is entered
         checkUserRhyme()
@@ -222,7 +204,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         if (position == 0) {
             
             // Shuffle words if it's the first run
-            shuffledWords = words.shuffle()
+            shuffledWordArray = appDelegate.wordCountArray.shuffle()
             
             //var colorRandom = arc4random_uniform(5) + 1
             
@@ -257,13 +239,13 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         }
         
         // Index out of bounds will never happen again
-        if (position == words.count) {
-            shuffledWords = words.shuffle()
+        if (position == (json!["words"].count - 1)) {
+            shuffledWordArray = appDelegate.wordCountArray.shuffle()
             position = 0
         }
         
         // Set new computer rhyme text
-        item = shuffledWords[position]
+        item = json!["words"][shuffledWordArray[position]]["word"].stringValue
         computerRhyme.text = item
     }
     
@@ -445,7 +427,6 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         // Set text of userRhyme to the string with no spaces
         userRhyme.text = userRhymeWithNoSpaces
         
-        
         if (userRhyme.text!.lowercaseString == computerRhyme.text) {
             
             // Shake and clear if rhyme is same as generated
@@ -455,18 +436,106 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
                 dispatch_get_main_queue()) {
                     self.userRhyme.text = nil
             }
+        }
+        
+        if (playedRhymes.containsObject(userRhyme.text!.lowercaseString)) {
             
-        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text!.lowercaseString) == 1) {
-            
-            // Rhyme was accepted
-            score += Verify.syllables
-            scoreLabel.text = String(score)
-            advanceWord()
-            
-        } else if (Verify.crunchTheWord(computerRhyme.text, attemptedRhyme: userRhyme.text!.lowercaseString) == 2) {
-            
-            // Rhyme was a duplicate
-            userRhyme.text = nil
+            // Shake and clear if rhyme is same as generated
+            userRhyme.shake()
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                Int64(0.15 * Double(NSEC_PER_SEC))),
+                dispatch_get_main_queue()) {
+                    self.userRhyme.text = nil
+            }
+        }
+        
+        if let singles = json!["words"][shuffledWordArray[position]]["rhymes"]["singles"].object as? [String] {
+            if (singles.contains(userRhyme.text!.lowercaseString)) {
+                playedRhymes.addObject(userRhyme.text!.lowercaseString)
+                score += 1
+                scoreLabel.text = String(score)
+                advanceWord()
+            }
+        }
+        if let doubles = json!["words"][shuffledWordArray[position]]["rhymes"]["doubles"].object as? [String] {
+            if (doubles.contains(userRhyme.text!.lowercaseString)) {
+                playedRhymes.addObject(userRhyme.text!.lowercaseString)
+                score += 2
+                scoreLabel.text = String(score)
+                advanceWord()
+            }
+        }
+        
+        if let triples = json!["words"][shuffledWordArray[position]]["rhymes"]["triples"].object as? [String] {
+            if (triples.contains(userRhyme.text!.lowercaseString)) {
+                playedRhymes.addObject(userRhyme.text!.lowercaseString)
+                score += 3
+                scoreLabel.text = String(score)
+                advanceWord()
+            }
+        }
+        
+        if let quadruples = json!["words"][shuffledWordArray[position]]["rhymes"]["quadruples"].object as? [String] {
+            if (quadruples.contains(userRhyme.text!.lowercaseString)) {
+                playedRhymes.addObject(userRhyme.text!.lowercaseString)
+                score += 4
+                scoreLabel.text = String(score)
+                advanceWord()
+            }
+        }
+        
+        if let quintuples = json!["words"][shuffledWordArray[position]]["rhymes"]["quintuples"].object as? [String] {
+            if (quintuples.contains(userRhyme.text!.lowercaseString)) {
+                playedRhymes.addObject(userRhyme.text!.lowercaseString)
+                score += 5
+                scoreLabel.text = String(score)
+                advanceWord()
+            }
+        }
+        
+        if let sextuples = json!["words"][shuffledWordArray[position]]["rhymes"]["sextuples"].object as? [String] {
+            if (sextuples.contains(userRhyme.text!.lowercaseString)) {
+                playedRhymes.addObject(userRhyme.text!.lowercaseString)
+                score += 6
+                scoreLabel.text = String(score)
+                advanceWord()
+            }
+        }
+        
+        if let septuples = json!["words"][shuffledWordArray[position]]["rhymes"]["septuples"].object as? [String] {
+            if (septuples.contains(userRhyme.text!.lowercaseString)) {
+                playedRhymes.addObject(userRhyme.text!.lowercaseString)
+                score += 7
+                scoreLabel.text = String(score)
+                advanceWord()
+            }
+        }
+        
+        if let octuples = json!["words"][shuffledWordArray[position]]["rhymes"]["octuples"].object as? [String] {
+            if (octuples.contains(userRhyme.text!.lowercaseString)) {
+                playedRhymes.addObject(userRhyme.text!.lowercaseString)
+                score += 8
+                scoreLabel.text = String(score)
+                advanceWord()
+            }
+        }
+        
+        if let nonuples = json!["words"][shuffledWordArray[position]]["rhymes"]["nonuples"].object as? [String] {
+            if (nonuples.contains(userRhyme.text!.lowercaseString)) {
+                playedRhymes.addObject(userRhyme.text!.lowercaseString)
+                score += 9
+                scoreLabel.text = String(score)
+                advanceWord()
+            }
+        }
+        
+        if let decuples = json!["words"][shuffledWordArray[position]]["rhymes"]["decuples"].object as? [String] {
+            if (decuples.contains(userRhyme.text!.lowercaseString)) {
+                playedRhymes.addObject(userRhyme.text!.lowercaseString)
+                score += 10
+                scoreLabel.text = String(score)
+                advanceWord()
+            }
         }
         
         // Disable text in score view

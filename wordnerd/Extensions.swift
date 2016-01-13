@@ -8,9 +8,6 @@
 
 import UIKit
 
-/**
-* UI Color with HEX
-*/
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
@@ -25,9 +22,6 @@ extension UIColor {
     }
 }
 
-/**
-* UIView Animation Extensions
-*/
 extension UIView {
     func slideOutIn(duration: NSTimeInterval = 1.0, completionDelegate: AnyObject? = nil) {
         let slideInFromRightTransition = CATransition()
@@ -85,5 +79,28 @@ extension UIView {
         animation.fromValue = NSValue(CGPoint: CGPointMake(self.center.x - 5, self.center.y))
         animation.toValue = NSValue(CGPoint: CGPointMake(self.center.x + 5, self.center.y))
         self.layer.addAnimation(animation, forKey: "position")
+    }
+}
+
+extension CollectionType {
+    /// Return a copy of `self` with its elements shuffled
+    func shuffle() -> [Generator.Element] {
+        var list = Array(self)
+        list.shuffleInPlace()
+        return list
+    }
+}
+
+extension MutableCollectionType where Index == Int {
+    /// Shuffle the elements of `self` in-place.
+    mutating func shuffleInPlace() {
+        // empty and single-element collections don't shuffle
+        if count < 2 { return }
+        
+        for i in 0..<count - 1 {
+            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            guard i != j else { continue }
+            swap(&self[i], &self[j])
+        }
     }
 }
