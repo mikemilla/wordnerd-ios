@@ -15,8 +15,12 @@ class MainMenuViewController: UIViewController {
     let WORD_KEY:String = "word_key"
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
-    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var menuButton: UIButton!
     var fade = CATransition()
+    
+    @IBAction func playButton(sender: AnyObject) {
+        performSegueWithIdentifier("PlayGame", sender: self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +42,26 @@ class MainMenuViewController: UIViewController {
         
         // Sign Player into Game Center
         authenticateLocalPlayer()
+        
+        setButtonObservers(startButton)
+        setButtonObservers(menuButton)
+    }
+    
+    // Set the observers to both of the buttons
+    func setButtonObservers(sender: UIButton) {
+        sender.addTarget(self, action: "buttonDown:", forControlEvents: UIControlEvents.TouchDown)
+        sender.addTarget(self, action: "buttonUp:", forControlEvents: UIControlEvents.TouchDragExit)
+        sender.addTarget(self, action: "buttonUp:", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    // Button is touched
+    func buttonDown(sender: UIButton) {
+        sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+    }
+    
+    // Button is dragged away and canceled
+    func buttonUp(sender: UIButton) {
+        sender.backgroundColor = UIColor.clearColor()
     }
     
     func loopTextChangeAnimation(tutorialIsShowing: Bool) {

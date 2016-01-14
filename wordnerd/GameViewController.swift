@@ -16,6 +16,11 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     
     var json:JSON?
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let HIDE_BACK_BUTTON:CGFloat = -60
+    let SHOW_BACK_BUTTON:CGFloat = 0
+    
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var backButtonLeadingConstraint: NSLayoutConstraint!
     
     // Outlets
     @IBOutlet weak var progressBar: UIProgressView!
@@ -81,15 +86,12 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         createRhyme()
     }
     
-    @IBAction func homeButton(sender: AnyObject) {
-        score = 0
-        position = 0
-        scoreLabel.text = nil
-        playedRhymes.removeAllObjects()
-    }
-    
     @IBAction func gamesButton(sender: AnyObject) {
         showGameCenter()
+    }
+    
+    @IBAction func backButton(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func viewDidLoad() {
@@ -129,6 +131,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         restartButton.layer.addSublayer(borderRightNotch)
         restartButton.layer.masksToBounds = true
         setButtonObservers(restartButton)
+        setButtonObservers(backButton)
         
         // Open Keyboard on launch
         userRhyme.delegate = self
@@ -294,6 +297,14 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     }
     
     func onGameOver(){
+        
+        if (backButtonLeadingConstraint.constant != SHOW_BACK_BUTTON) {
+            backButtonLeadingConstraint.constant = SHOW_BACK_BUTTON
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.backButton.layoutIfNeeded()
+            })
+        }
+        
         // Kill timer
         timer.invalidate()
         
@@ -524,6 +535,14 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     
     func advanceWord() {
         
+        // Slide out the back button
+        if (backButtonLeadingConstraint.constant != HIDE_BACK_BUTTON) {
+            backButtonLeadingConstraint.constant = HIDE_BACK_BUTTON
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.backButton.layoutIfNeeded()
+            })
+        }
+        
         // Advance the list position
         position++
         
@@ -547,13 +566,6 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         } else {
             userRhymeAnimation.hidden = true
         }
-    }
-    
-    // Set the observers to both of the buttons
-    func setButtonObservers(sender: UIButton) {
-        sender.addTarget(self, action: "restartButtonDown:", forControlEvents: UIControlEvents.TouchDown)
-        sender.addTarget(self, action: "restartButtonUp:", forControlEvents: UIControlEvents.TouchDragExit)
-        sender.addTarget(self, action: "restartButtonUp:", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     func getThemeColor(up: Bool) -> UIColor {
@@ -590,14 +602,29 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         }
     }
     
+    // Set the observers to both of the buttons
+    func setButtonObservers(sender: UIButton) {
+        sender.addTarget(self, action: "buttonDown:", forControlEvents: UIControlEvents.TouchDown)
+        sender.addTarget(self, action: "buttonUp:", forControlEvents: UIControlEvents.TouchDragExit)
+        sender.addTarget(self, action: "buttonUp:", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
     // Button is touched
-    func restartButtonDown(sender: UIButton) {
-        sender.backgroundColor = getThemeColor(false)
+    func buttonDown(sender: UIButton) {
+        if (sender == backButton) {
+            sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        } else {
+            sender.backgroundColor = getThemeColor(false)
+        }
     }
     
     // Button is dragged away and canceled
-    func restartButtonUp(sender: UIButton) {
-        sender.backgroundColor = getThemeColor(true)
+    func buttonUp(sender: UIButton) {
+        if (sender == backButton) {
+            sender.backgroundColor = UIColor.clearColor()
+        } else {
+            sender.backgroundColor = getThemeColor(true)
+        }
     }
     
 }
