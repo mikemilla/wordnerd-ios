@@ -379,7 +379,6 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     */
     func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
-        
     }
     
     /*

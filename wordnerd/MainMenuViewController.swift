@@ -19,7 +19,7 @@ class MainMenuViewController: UIViewController {
     var fade = CATransition()
     
     @IBAction func playButton(sender: AnyObject) {
-        performSegueWithIdentifier("PlayGame", sender: self)
+        performSegueWithIdentifier("PlayNewGame", sender: self)
     }
     
     override func viewDidLoad() {
@@ -82,13 +82,6 @@ class MainMenuViewController: UIViewController {
                     self.loopTextChangeAnimation(true)
             }
         }
-    }
-    
-    /*
-    * Hide status bar
-    */
-    override func prefersStatusBarHidden() -> Bool {
-        return true
     }
     
     /*

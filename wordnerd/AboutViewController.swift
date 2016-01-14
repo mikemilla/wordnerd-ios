@@ -8,13 +8,22 @@
 
 import UIKit
 import GameKit
+import SwiftyJSON
 
 class AboutViewController: UIViewController {
+    
+    var position = 0
+    var shuffledWordArray = [Int]()
+    var json:JSON?
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        json = appDelegate.json
+        shuffledWordArray = appDelegate.wordCountArray.shuffle()
+        print(json!["words"][shuffledWordArray[position]]["word"].stringValue)
     }
     
     override func didReceiveMemoryWarning() {
