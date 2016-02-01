@@ -28,6 +28,8 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
     var isGameOver = false
     let HIDE_BACK_BUTTON:CGFloat = -60
     let SHOW_BACK_BUTTON:CGFloat = 0
+    let HIDE_SCORE_VIEW:CGFloat = UIScreen.mainScreen().applicationFrame.height
+    let SHOW_SCORE_VIEW:CGFloat = 0
     
     @IBOutlet weak var backButtonLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var wordLabel: UILabel!
@@ -37,6 +39,14 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var userInput: UITextField!
     @IBOutlet weak var gameViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scoreView: UIView!
+    @IBOutlet weak var restartButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var scoreViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scoreViewHeight: NSLayoutConstraint!
+    
+    @IBAction func restartButton(sender: AnyObject) {
+        restartGame()
+    }
     
     @IBAction func backButton(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -79,80 +89,91 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
         
         // Set the word
         createRhyme()
+        
+        // Game Over View
+        restartButtonWidth.constant = view.frame.width / 3
+        scoreViewTopConstraint.constant = HIDE_SCORE_VIEW
     }
     
     func textFieldDidChange(sender: NSNotification) {
-        let userRhymeWithNoSpaces = userInput.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
-        userInput.text = userRhymeWithNoSpaces
         
-        // Animation Logic
-        if (userInput.text == "" || userInput.text == nil) {
-            createRandomUserRhymeAnimation()
-            cursorImageView.hidden = false
+        
+        if (isGameOver) {
+            userInput.text = nil
         } else {
-            cursorImageView.stopAnimating()
-            cursorImageView.hidden = true
-        }
-        
-        if (playedRhymes.containsObject(userInput.text!.lowercaseString)
-            || userInput.text!.lowercaseString == wordLabel.text) {
-            userInput.shake()
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
-                Int64(0.15 * Double(NSEC_PER_SEC))),
-                dispatch_get_main_queue()) {
-                    self.userInput.text = nil
+            
+            let userRhymeWithNoSpaces = userInput.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
+            userInput.text = userRhymeWithNoSpaces
+            
+            // Animation Logic
+            if (userInput.text == "" || userInput.text == nil) {
+                createRandomUserRhymeAnimation()
+                cursorImageView.hidden = false
+            } else {
+                cursorImageView.stopAnimating()
+                cursorImageView.hidden = true
             }
-            return
-        }
-        
-        if let singles = json!["words"][shuffledWordArray[position]]["rhymes"]["singles"].object as? [String] {
-            if (singles.contains(userInput.text!.lowercaseString)) {
-                addScoreAndAdvance(1)
+            
+            if (playedRhymes.containsObject(userInput.text!.lowercaseString)
+                || userInput.text!.lowercaseString == wordLabel.text) {
+                    userInput.shake()
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                        Int64(0.15 * Double(NSEC_PER_SEC))),
+                        dispatch_get_main_queue()) {
+                            self.userInput.text = nil
+                    }
+                    return
             }
-        }
-        if let doubles = json!["words"][shuffledWordArray[position]]["rhymes"]["doubles"].object as? [String] {
-            if (doubles.contains(userInput.text!.lowercaseString)) {
-                addScoreAndAdvance(2)
+            
+            if let singles = json!["words"][shuffledWordArray[position]]["rhymes"]["singles"].object as? [String] {
+                if (singles.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(1)
+                }
             }
-        }
-        if let triples = json!["words"][shuffledWordArray[position]]["rhymes"]["triples"].object as? [String] {
-            if (triples.contains(userInput.text!.lowercaseString)) {
-                addScoreAndAdvance(3)
+            if let doubles = json!["words"][shuffledWordArray[position]]["rhymes"]["doubles"].object as? [String] {
+                if (doubles.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(2)
+                }
             }
-        }
-        if let quadruples = json!["words"][shuffledWordArray[position]]["rhymes"]["quadruples"].object as? [String] {
-            if (quadruples.contains(userInput.text!.lowercaseString)) {
-                addScoreAndAdvance(4)
+            if let triples = json!["words"][shuffledWordArray[position]]["rhymes"]["triples"].object as? [String] {
+                if (triples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(3)
+                }
             }
-        }
-        if let quintuples = json!["words"][shuffledWordArray[position]]["rhymes"]["quintuples"].object as? [String] {
-            if (quintuples.contains(userInput.text!.lowercaseString)) {
-                addScoreAndAdvance(5)
+            if let quadruples = json!["words"][shuffledWordArray[position]]["rhymes"]["quadruples"].object as? [String] {
+                if (quadruples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(4)
+                }
             }
-        }
-        if let sextuples = json!["words"][shuffledWordArray[position]]["rhymes"]["sextuples"].object as? [String] {
-            if (sextuples.contains(userInput.text!.lowercaseString)) {
-                addScoreAndAdvance(6)
+            if let quintuples = json!["words"][shuffledWordArray[position]]["rhymes"]["quintuples"].object as? [String] {
+                if (quintuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(5)
+                }
             }
-        }
-        if let septuples = json!["words"][shuffledWordArray[position]]["rhymes"]["septuples"].object as? [String] {
-            if (septuples.contains(userInput.text!.lowercaseString)) {
-                addScoreAndAdvance(7)
+            if let sextuples = json!["words"][shuffledWordArray[position]]["rhymes"]["sextuples"].object as? [String] {
+                if (sextuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(6)
+                }
             }
-        }
-        if let octuples = json!["words"][shuffledWordArray[position]]["rhymes"]["octuples"].object as? [String] {
-            if (octuples.contains(userInput.text!.lowercaseString)) {
-                addScoreAndAdvance(8)
+            if let septuples = json!["words"][shuffledWordArray[position]]["rhymes"]["septuples"].object as? [String] {
+                if (septuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(7)
+                }
             }
-        }
-        if let nonuples = json!["words"][shuffledWordArray[position]]["rhymes"]["nonuples"].object as? [String] {
-            if (nonuples.contains(userInput.text!.lowercaseString)) {
-                addScoreAndAdvance(9)
+            if let octuples = json!["words"][shuffledWordArray[position]]["rhymes"]["octuples"].object as? [String] {
+                if (octuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(8)
+                }
             }
-        }
-        if let decuples = json!["words"][shuffledWordArray[position]]["rhymes"]["decuples"].object as? [String] {
-            if (decuples.contains(userInput.text!.lowercaseString)) {
-                addScoreAndAdvance(10)
+            if let nonuples = json!["words"][shuffledWordArray[position]]["rhymes"]["nonuples"].object as? [String] {
+                if (nonuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(9)
+                }
+            }
+            if let decuples = json!["words"][shuffledWordArray[position]]["rhymes"]["decuples"].object as? [String] {
+                if (decuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(10)
+                }
             }
         }
     }
@@ -169,6 +190,8 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
             Int64(0.15 * Double(NSEC_PER_SEC))),
             dispatch_get_main_queue()) {
                 self.userInput.text = nil
+                self.createRandomUserRhymeAnimation()
+                self.cursorImageView.hidden = false
         }
         
         // Restart timer if game isn't over
@@ -221,27 +244,56 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
         if (gameTime > 0) {
             gameTime--
         } else {
-            
-            // Game Over
-            timer.invalidate()
-            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-            userInput.text = nil
-            
-            // Create a constant for the high score
-            let bestScore = defaults.integerForKey(HIGH_SCORE)
-            if (score > bestScore) {
-                defaults.setObject(score, forKey: HIGH_SCORE)
-                print("New Best Score")
-            } else {
-                print(bestScore)
-            }
-            
-            if (backButtonLeftConstraint.constant != SHOW_BACK_BUTTON) {
-                backButtonLeftConstraint.constant = SHOW_BACK_BUTTON
-                UIView.animateWithDuration(0.25, animations: { () -> Void in
-                    self.backButton.layoutIfNeeded()
-                })
-            }
+            gameOver()
+        }
+    }
+    
+    func gameOver() {
+        
+        isGameOver = true
+        
+        // Game Over
+        timer.invalidate()
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        userInput.text = nil
+        
+        // Create a constant for the high score
+        let bestScore = defaults.integerForKey(HIGH_SCORE)
+        if (score > bestScore) {
+            defaults.setObject(score, forKey: HIGH_SCORE)
+            print("New Best Score")
+        } else {
+            print(bestScore)
+        }
+        
+        scoreView.hidden = false
+        if (backButtonLeftConstraint.constant != SHOW_BACK_BUTTON) {
+            backButtonLeftConstraint.constant = SHOW_BACK_BUTTON
+            scoreViewTopConstraint.constant = 0
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.backButton.layoutIfNeeded()
+                self.scoreView.layoutIfNeeded()
+            })
+        }
+    }
+    
+    func restartGame() {
+        userInput.text = nil
+        scoreLabel.text = nil
+        isGameOver = false
+        position = 0
+        score = 0
+        createRandomUserRhymeAnimation()
+        cursorImageView.hidden = false
+        playedRhymes.removeAllObjects()
+        createRhyme()
+        if (scoreViewTopConstraint.constant != HIDE_SCORE_VIEW) {
+            scoreViewTopConstraint.constant = HIDE_SCORE_VIEW
+            UIView.animateWithDuration(0.25, animations: {
+                self.scoreView.layoutIfNeeded()
+                }, completion: { finished in
+                    self.scoreView.hidden = true
+            })
         }
     }
     
@@ -255,6 +307,7 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
     func keyboardWillShow(sender: NSNotification) {
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() {
             gameViewBottomConstraint.constant = keyboardSize.height
+            scoreViewHeight.constant = UIScreen.mainScreen().applicationFrame.height - keyboardSize.height
             UIView.animateWithDuration(0.25, animations: { () -> Void in
                 self.view.layoutIfNeeded()
             })
@@ -263,6 +316,7 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
     
     func keyboardWillHide(sender: NSNotification) {
         gameViewBottomConstraint.constant = 0
+        scoreViewHeight.constant = UIScreen.mainScreen().applicationFrame.height
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.view.layoutIfNeeded()
         })
@@ -307,5 +361,5 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
     func buttonUp(sender: UIButton) {
         sender.backgroundColor = UIColor.clearColor()
     }
-
+    
 }
