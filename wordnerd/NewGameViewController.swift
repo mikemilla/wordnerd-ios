@@ -12,7 +12,7 @@ import AudioToolbox
 import GameKit
 import SwiftyJSON
 
-class NewGameViewController: UIViewController, UITextFieldDelegate {
+class NewGameViewController: UIViewController, UITextFieldDelegate, GKGameCenterControllerDelegate {
     
     let defaults = NSUserDefaults.standardUserDefaults()
     let BIT_FONT:String = "8BITWONDERNominal"
@@ -62,11 +62,11 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func leaderboard(sender: AnyObject) {
-        print("Leaderboards")
+        showGameLeaderboard()
     }
     
     @IBAction func achievements(sender: AnyObject) {
-        print("achievements")
+        showGameAchievements()
     }
     
     @IBAction func backButton(sender: AnyObject) {
@@ -316,6 +316,8 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
             finalBestLabel.alpha = 0.26
         }
         
+        unlockAchievements(bestScore)
+        saveHighscore(bestScore)
         finalScoreAmountLabel.text = String(score)
         
         scoreView.hidden = false
@@ -473,6 +475,103 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
         } else {
             sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
         }
+    }
+    
+    // Save the highest score
+    func saveHighscore(score:Int) {
+        
+        // check if user is signed in
+        if GKLocalPlayer.localPlayer().authenticated {
+            let scoreReporter = GKScore(leaderboardIdentifier: "Best_Score_Leaderboard") // leaderboard id here
+            scoreReporter.value = Int64(score) // score variable here (same as above)
+            let scoreArray: [GKScore] = [scoreReporter]
+            GKScore.reportScores(scoreArray, withCompletionHandler: {(NSError) -> Void in
+                if NSError != nil {
+                    print(NSError!.localizedDescription)
+                } else {
+                    print("Score Complete")
+                }
+                
+            })
+        }
+    }
+    
+    // GameCenter
+    
+    func unlockAchievements(score: Int) {
+        
+        var achievementArray:[GKAchievement] = []
+        
+        // First rhyme
+        if (score > 0) {
+            let achievement = GKAchievement(identifier: "Rhyme_Time")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        // 10 Syllables
+        if (score >= 10) {
+            let achievement = GKAchievement(identifier: "Decade_Made")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        // 20 Syllables
+        if (score >= 20) {
+            let achievement = GKAchievement(identifier: "Spaghetti_Twenty")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        // 30 Syllables
+        if (score >= 30) {
+            let achievement = GKAchievement(identifier: "Dirty_Thirty")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        // 40 Syllables
+        if (score >= 40) {
+            let achievement = GKAchievement(identifier: "Forty_Shortie")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        // 50 Syllables
+        if (score >= 50) {
+            let achievement = GKAchievement(identifier: "Nifty_Fifty")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        GKAchievement.reportAchievements(achievementArray, withCompletionHandler: nil)
+    }
+    
+    func showGameLeaderboard() {
+        let vc = self
+        let gc = GKGameCenterViewController()
+        gc.gameCenterDelegate = self
+        gc.viewState = GKGameCenterViewControllerState.Leaderboards
+        vc.presentViewController(gc, animated: true, completion: nil)
+    }
+    
+    func showGameAchievements() {
+        let vc = self
+        let gc = GKGameCenterViewController()
+        gc.gameCenterDelegate = self
+        gc.viewState = GKGameCenterViewControllerState.Achievements
+        vc.presentViewController(gc, animated: true, completion: nil)
+    }
+    
+    // Hide GameCenter
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
     
 }
