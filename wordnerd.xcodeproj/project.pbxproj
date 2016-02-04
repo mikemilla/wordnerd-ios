@@ -14,6 +14,7 @@
 		7A28CF6D1AE47540008E9B9C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A28CF6B1AE47540008E9B9C /* LaunchScreen.xib */; };
 		7A28CF791AE47540008E9B9C /* wordnerdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A28CF781AE47540008E9B9C /* wordnerdTests.swift */; };
 		7A2921351B2C911E00AA7AB1 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2921341B2C911E00AA7AB1 /* MainMenuViewController.swift */; };
+		7A8A08A21C62D9FD00B90C4F /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A08A11C62D9FD00B90C4F /* Resources.swift */; };
 		7AAF9AA51B5A035800880F0E /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAF9AA41B5A035800880F0E /* AboutViewController.swift */; };
 		7AAF9AAA1B5ADCB700880F0E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAF9AA91B5ADCB700880F0E /* Extensions.swift */; };
 		7AAF9AAC1B5AE03200880F0E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AAF9AAB1B5AE03200880F0E /* GameKit.framework */; };
@@ -45,6 +46,7 @@
 		7A28CF771AE47540008E9B9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A28CF781AE47540008E9B9C /* wordnerdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wordnerdTests.swift; sourceTree = "<group>"; };
 		7A2921341B2C911E00AA7AB1 /* MainMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
+		7A8A08A11C62D9FD00B90C4F /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		7AAF9AA41B5A035800880F0E /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		7AAF9AA91B5ADCB700880F0E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7AAF9AAB1B5AE03200880F0E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
@@ -102,6 +104,7 @@
 			children = (
 				7AE342A01C448F24007C1B44 /* words.json */,
 				7A28CF621AE47540008E9B9C /* AppDelegate.swift */,
+				7A8A08A11C62D9FD00B90C4F /* Resources.swift */,
 				7AAF9AA91B5ADCB700880F0E /* Extensions.swift */,
 				7AAF9AA61B5A043900880F0E /* View Controllers */,
 				7AAF9AA71B5A045E00880F0E /* UI / UX */,
@@ -337,6 +340,7 @@
 			files = (
 				7A2921351B2C911E00AA7AB1 /* MainMenuViewController.swift in Sources */,
 				7AAF9AA51B5A035800880F0E /* AboutViewController.swift in Sources */,
+				7A8A08A21C62D9FD00B90C4F /* Resources.swift in Sources */,
 				7AAF9AAA1B5ADCB700880F0E /* Extensions.swift in Sources */,
 				7A28CF651AE47540008E9B9C /* GameViewController.swift in Sources */,
 				7A28CF631AE47540008E9B9C /* AppDelegate.swift in Sources */,

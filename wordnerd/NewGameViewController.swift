@@ -30,7 +30,18 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
     let SHOW_BACK_BUTTON:CGFloat = 0
     let HIDE_SCORE_VIEW:CGFloat = UIScreen.mainScreen().applicationFrame.height
     let SHOW_SCORE_VIEW:CGFloat = 0
+    var closeIcon:UIImage?
+    var tintedCloseIcon:UIImage?
     
+    @IBOutlet weak var gameView: UIView!
+    @IBOutlet weak var leaderboardButton: UIButton!
+    @IBOutlet weak var achievementsButton: UIButton!
+    @IBOutlet weak var restartButton: UIButton!
+    @IBOutlet weak var finalBestAmountLabel: UILabel!
+    @IBOutlet weak var finalScoreAmountLabel: UILabel!
+    @IBOutlet weak var finalBestLabel: UILabel!
+    @IBOutlet weak var finalScoreLabel: UILabel!
+    @IBOutlet weak var gameOverLabel: UILabel!
     @IBOutlet weak var backButtonLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var wordLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -46,6 +57,16 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func restartButton(sender: AnyObject) {
         restartGame()
+        backButton.tintColor = UIColor.whiteColor()
+        gameView.backgroundColor = setNextColor(gameView.backgroundColor!)
+    }
+    
+    @IBAction func leaderboard(sender: AnyObject) {
+        print("Leaderboards")
+    }
+    
+    @IBAction func achievements(sender: AnyObject) {
+        print("achievements")
     }
     
     @IBAction func backButton(sender: AnyObject) {
@@ -78,6 +99,11 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
         
         // Back Button
         setButtonObservers(backButton)
+        backButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
+        closeIcon = UIImage(named: "CloseIcon")!
+        tintedCloseIcon = closeIcon!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        backButton.setImage(tintedCloseIcon, forState: .Normal)
+        backButton.tintColor = UIColor.whiteColor()
         
         // Score Label
         scoreLabel.alpha = 0.5
@@ -87,12 +113,26 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
         // Rhyme Label
         wordLabel.font = UIFont(name: BIT_FONT, size: 34)
         
+        // Background Color
+        gameView.backgroundColor = randomColor()
+        restartButton.backgroundColor = gameView.backgroundColor!
+        
         // Set the word
         createRhyme()
         
         // Game Over View
         restartButtonWidth.constant = view.frame.width / 3
         scoreViewTopConstraint.constant = HIDE_SCORE_VIEW
+        gameOverLabel.font = UIFont(name: BIT_FONT, size: 20)
+        finalScoreLabel.font = UIFont(name: BIT_FONT, size: 18)
+        finalScoreAmountLabel.font = UIFont(name: BIT_FONT, size: 24)
+        finalBestLabel.font = UIFont(name: BIT_FONT, size: 18)
+        finalBestAmountLabel.font = UIFont(name: BIT_FONT, size: 24)
+        setButtonObservers(leaderboardButton)
+        setButtonObservers(achievementsButton)
+        setButtonObservers(restartButton)
+        leaderboardButton.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
+        achievementsButton.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
     }
     
     func textFieldDidChange(sender: NSNotification) {
@@ -121,6 +161,8 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
                         Int64(0.15 * Double(NSEC_PER_SEC))),
                         dispatch_get_main_queue()) {
                             self.userInput.text = nil
+                            self.createRandomUserRhymeAnimation()
+                            self.cursorImageView.hidden = false
                     }
                     return
             }
@@ -250,9 +292,8 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
     
     func gameOver() {
         
+        backButton.tintColor = Colors.greyIconColor
         isGameOver = true
-        
-        // Game Over
         timer.invalidate()
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         userInput.text = nil
@@ -262,9 +303,20 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
         if (score > bestScore) {
             defaults.setObject(score, forKey: HIGH_SCORE)
             print("New Best Score")
+            finalBestAmountLabel.text = String(score)
+            finalBestAmountLabel.textColor = Colors.blueColor
+            finalBestLabel.textColor = Colors.blueColor
+            finalBestLabel.text = "New Best"
+            finalBestLabel.alpha = 1
         } else {
-            print(bestScore)
+            finalBestAmountLabel.text = String(bestScore)
+            finalBestAmountLabel.textColor = UIColor.blackColor()
+            finalBestLabel.textColor = UIColor.blackColor()
+            finalBestLabel.text = "Best"
+            finalBestLabel.alpha = 0.26
         }
+        
+        finalScoreAmountLabel.text = String(score)
         
         scoreView.hidden = false
         if (backButtonLeftConstraint.constant != SHOW_BACK_BUTTON) {
@@ -348,6 +400,55 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
         cursorImageView.startAnimating()
     }
     
+    func randomColor(range: Range<Int> = 0...3) -> UIColor {
+        let min = range.startIndex
+        let max = range.endIndex
+        let number = Int(arc4random_uniform(UInt32(max - min))) + min
+        var color:UIColor?
+        
+        switch number {
+        case 0:
+            color = Colors.greenColor
+            break
+        case 1:
+            color = Colors.amberColor
+            break
+        case 2:
+            color = Colors.deepPurpleColor
+            break
+        case 3:
+            color = Colors.redColor
+            break
+        default:
+            color = Colors.greenColor
+            break
+        }
+        
+        return color!
+    }
+    
+    func setNextColor(currentColor: UIColor) -> UIColor {
+        var nextColor:UIColor?
+        switch currentColor {
+        case Colors.greenColor:
+            nextColor = Colors.deepPurpleColor
+            break
+        case Colors.amberColor:
+            nextColor = Colors.greenColor
+            break
+        case Colors.deepPurpleColor:
+            nextColor = Colors.redColor
+            break
+        case Colors.redColor:
+            nextColor = Colors.amberColor
+            break
+        default:
+            nextColor = Colors.deepPurpleColor
+            break
+        }
+        return nextColor!
+    }
+    
     func setButtonObservers(sender: UIButton) {
         sender.addTarget(self, action: "buttonDown:", forControlEvents: UIControlEvents.TouchDown)
         sender.addTarget(self, action: "buttonUp:", forControlEvents: UIControlEvents.TouchDragExit)
@@ -355,11 +456,23 @@ class NewGameViewController: UIViewController, UITextFieldDelegate {
     }
     
     func buttonDown(sender: UIButton) {
-        sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        if (sender == backButton) {
+            sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.1)
+        } else if (sender == restartButton) {
+            sender.backgroundColor = setNextColor(gameView.backgroundColor!)
+        } else {
+            sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.1)
+        }
     }
     
     func buttonUp(sender: UIButton) {
-        sender.backgroundColor = UIColor.clearColor()
+        if (sender == backButton) {
+            sender.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
+        } else if (sender == restartButton) {
+            sender.backgroundColor = gameView.backgroundColor!
+        } else {
+            sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
+        }
     }
     
 }
