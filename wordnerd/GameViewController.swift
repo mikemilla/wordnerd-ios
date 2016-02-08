@@ -1,9 +1,9 @@
 //
-//  ViewController.swift
+//  NewGameViewController.swift
 //  wordnerd
 //
-//  Created by Michael Miller on 4/19/15.
-//  Copyright (c) 2015 Michael Miller. All rights reserved.
+//  Created by Michael Miller on 1/13/16.
+//  Copyright © 2016 Michael Miller. All rights reserved.
 //
 
 import UIKit
@@ -14,80 +14,59 @@ import SwiftyJSON
 
 class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterControllerDelegate {
     
+    let defaults = NSUserDefaults.standardUserDefaults()
+    let BIT_FONT:String = "8BITWONDERNominal"
+    let HIGH_SCORE:String = "highScore"
+    var position = 0
+    var shuffledWordArray = [Int]()
     var json:JSON?
+    var gameTime:Double = 400
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var playedRhymes:NSMutableArray = []
+    var score = 0
+    var timer = NSTimer()
+    var isGameOver = false
     let HIDE_BACK_BUTTON:CGFloat = -60
     let SHOW_BACK_BUTTON:CGFloat = 0
+    let HIDE_SCORE_VIEW:CGFloat = UIScreen.mainScreen().applicationFrame.height
+    let SHOW_SCORE_VIEW:CGFloat = 0
+    var closeIcon:UIImage?
+    var tintedCloseIcon:UIImage?
     
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var backButtonLeadingConstraint: NSLayoutConstraint!
-    
-    // Outlets
-    @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet weak var computerRhyme: UILabel!
-    @IBOutlet weak var userRhyme: UITextField!
-    @IBOutlet weak var userRhymeAnimation: UIImageView!
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var homeView: UIView!
-    @IBOutlet weak var scoreView: UIView!
-    @IBOutlet weak var scoreViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var highScore: UILabel!
-    @IBOutlet weak var newScore: UILabel!
+    @IBOutlet weak var gameView: UIView!
+    @IBOutlet weak var leaderboardButton: UIButton!
+    @IBOutlet weak var achievementsButton: UIButton!
     @IBOutlet weak var restartButton: UIButton!
-    @IBOutlet weak var scoreAreaContainer: UIView!
+    @IBOutlet weak var finalBestAmountLabel: UILabel!
+    @IBOutlet weak var finalScoreAmountLabel: UILabel!
+    @IBOutlet weak var finalBestLabel: UILabel!
+    @IBOutlet weak var finalScoreLabel: UILabel!
     @IBOutlet weak var gameOverLabel: UILabel!
-    @IBOutlet weak var syllablesLabel: UILabel!
-    @IBOutlet weak var bestLabel: UILabel!
-    @IBOutlet weak var dashedLine: UIView!
-    
-    var playedRhymes:NSMutableArray = []
-    
-    let defaults = NSUserDefaults.standardUserDefaults()
-    
-    // Instances
-    var timer = NSTimer()
-    var gameTime:Double = 400
-    var shuffledWords = Array<String>()
-    var item: String = ""
-    var position = 0
-    var score = 0
-    var color = 0
-    var delayDuration = 0.15
-    var isGameOver = false
-    
-    var theme = 0
-    
-    var shuffledWordArray = [Int]()
-    
-    // Colors
-    var blue:Int = 0x2196F3
-    var indigo:Int = 0x3F51B5
-    var teal:Int = 0x009688
-    var deep_purple:Int = 0x673AB7
-    var red:Int = 0xF44336
-    var green:Int = 0x4CAF50
-    
-    // Actions
-    @IBAction func startGameButton(sender: AnyObject) {
-        homeView.slideInFromBottom(delayDuration, completionDelegate: self)
-        NSThread.sleepForTimeInterval(delayDuration)
-        homeView.hidden = true
-        userRhyme.becomeFirstResponder()
-        position = 0
-        createRhyme()
-    }
+    @IBOutlet weak var backButtonLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var wordLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var cursorImageView: UIImageView!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var progressBar: UIProgressView!
+    @IBOutlet weak var userInput: UITextField!
+    @IBOutlet weak var gameViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scoreView: UIView!
+    @IBOutlet weak var restartButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var scoreViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scoreViewHeight: NSLayoutConstraint!
     
     @IBAction func restartButton(sender: AnyObject) {
-        score = 0
-        position = 0
-        scoreLabel.text = nil
-        playedRhymes.removeAllObjects()
-        createRhyme()
+        restartGame()
+        backButton.tintColor = UIColor.whiteColor()
+        gameView.backgroundColor = setNextColor(gameView.backgroundColor!)
     }
     
-    @IBAction func gamesButton(sender: AnyObject) {
-        showGameCenter()
+    @IBAction func leaderboard(sender: AnyObject) {
+        showGameLeaderboard()
+    }
+    
+    @IBAction func achievements(sender: AnyObject) {
+        showGameAchievements()
     }
     
     @IBAction func backButton(sender: AnyObject) {
@@ -97,144 +76,199 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scoreView.hidden = true
-        
-        // Progress View Styles
-        let transform = CGAffineTransformMakeScale(1, 8)
-        progressBar.transform = transform
-        progressBar.trackTintColor = UIColor.clearColor()
-        progressBar.setProgress(0, animated: false)
-        
-        // Score Styles
-        scoreLabel.alpha = 0.5
-        scoreLabel.text = nil
-        
-        // Computer Rhyme Styles
-        computerRhyme.textAlignment = .Center
-        
-        // User Rhyme Styles
-        userRhyme.textAlignment = .Center
-        userRhyme.tintColor = UIColor.clearColor()
-        
-        // Restart Button Styles
-        //restartButton.layer.cornerRadius = 4
-        let borderLeftNotch = CALayer()
-        borderLeftNotch.borderColor = UIColor(hex: 0xffffff).CGColor
-        borderLeftNotch.frame = CGRect(x: 0, y: 0, width: 4, height: 4)
-        borderLeftNotch.borderWidth = 4
-        restartButton.layer.addSublayer(borderLeftNotch)
-        
-        let borderRightNotch = CALayer()
-        borderRightNotch.borderColor = UIColor(hex: 0xffffff).CGColor
-        borderRightNotch.frame = CGRect(x: restartButton.frame.size.width - 4, y: 0, width: 4, height: 4)
-        borderRightNotch.borderWidth = 4
-        restartButton.layer.addSublayer(borderRightNotch)
-        restartButton.layer.masksToBounds = true
-        setButtonObservers(restartButton)
-        setButtonObservers(backButton)
-        
-        // Open Keyboard on launch
-        userRhyme.delegate = self
-        userRhyme.becomeFirstResponder()
+        // Create the json
+        json = appDelegate.json
         
         // Keyboard notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil)
         
         // TextField textChangeListener notification
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userRhyme)
-        
-        // Set the font type for the View Controller
-        setFonts("8BITWONDERNominal")
-        
-        // Pass the JSON
-        json = appDelegate.json
-        
-        // Check if text is entered
-        checkUserRhyme()
-        
-        // Create a word to rhyme with
-        createRhyme()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // Add border to Score Game Over Label
-        let border = CALayer()
-        border.borderColor = UIColor(hex: 0xDDDDDD).CGColor
-        border.frame = CGRect(x: 0, y: gameOverLabel.frame.size.height - 3, width:  gameOverLabel.frame.size.width, height: gameOverLabel.frame.size.height)
-        border.borderWidth = 3
-        gameOverLabel.layer.addSublayer(border)
-        gameOverLabel.layer.masksToBounds = true
-    }
-    
-    /**
-    * Set the font of the view controller elements
-    * Storyboard couldn't find the font for some reason
-    */
-    func setFonts(name: String) {
-        userRhyme.font = UIFont (name: name, size: 34)
-        computerRhyme.font = UIFont(name: name, size: 34)
-        gameOverLabel.font = UIFont (name: name, size: 20)
-        scoreLabel.font = UIFont (name: name, size: 22)
-        newScore.font = UIFont (name: name, size: 20)
-        syllablesLabel.font = UIFont (name: name, size: 16)
-        highScore.font = UIFont (name: name, size: 16)
-        bestLabel.font = UIFont (name: name, size: 16)
-    }
-    
-    /**
-    * Set the computer rhyme word
-    */
-    func createRhyme() {
-        
-        // Create the dot animation
+        userInput.delegate = self
+        userInput.becomeFirstResponder()
+        userInput.font = UIFont(name: BIT_FONT, size: 34)
         createRandomUserRhymeAnimation()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userInput)
+        
+        // Progress Bar
+        // Progress View Styles
+        let transform = CGAffineTransformMakeScale(1, 8)
+        progressBar.transform = transform
+        progressBar.trackTintColor = UIColor.clearColor()
+        progressBar.setProgress(0, animated: false)
+        
+        // Back Button
+        setButtonObservers(backButton)
+        backButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
+        closeIcon = UIImage(named: "CloseIcon")!
+        tintedCloseIcon = closeIcon!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        backButton.setImage(tintedCloseIcon, forState: .Normal)
+        backButton.tintColor = UIColor.whiteColor()
+        
+        // Score Label
+        scoreLabel.alpha = 0.5
+        scoreLabel.text = nil
+        scoreLabel.font = UIFont(name: BIT_FONT, size: 22)
+        
+        // Rhyme Label
+        wordLabel.font = UIFont(name: BIT_FONT, size: 34)
+        
+        // Background Color
+        gameView.backgroundColor = randomColor()
+        restartButton.backgroundColor = gameView.backgroundColor!
+        
+        // Set the word
+        createRhyme()
+        
+        // Game Over View
+        restartButtonWidth.constant = view.frame.width / 3
+        scoreViewTopConstraint.constant = HIDE_SCORE_VIEW
+        gameOverLabel.font = UIFont(name: BIT_FONT, size: 20)
+        finalScoreLabel.font = UIFont(name: BIT_FONT, size: 18)
+        finalScoreAmountLabel.font = UIFont(name: BIT_FONT, size: 24)
+        finalBestLabel.font = UIFont(name: BIT_FONT, size: 18)
+        finalBestAmountLabel.font = UIFont(name: BIT_FONT, size: 24)
+        setButtonObservers(leaderboardButton)
+        setButtonObservers(achievementsButton)
+        setButtonObservers(restartButton)
+        leaderboardButton.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
+        achievementsButton.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
+    }
+    
+    func textFieldDidChange(sender: NSNotification) {
+        
+        
+        if (isGameOver) {
+            userInput.text = nil
+        } else {
+            
+            let userRhymeWithNoSpaces = userInput.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
+            userInput.text = userRhymeWithNoSpaces
+            
+            // Animation Logic
+            if (userInput.text == "" || userInput.text == nil) {
+                createRandomUserRhymeAnimation()
+                cursorImageView.hidden = false
+            } else {
+                cursorImageView.stopAnimating()
+                cursorImageView.hidden = true
+            }
+            
+            if (playedRhymes.containsObject(userInput.text!.lowercaseString)
+                || userInput.text!.lowercaseString == wordLabel.text) {
+                    userInput.shake()
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                        Int64(0.15 * Double(NSEC_PER_SEC))),
+                        dispatch_get_main_queue()) {
+                            self.userInput.text = nil
+                            self.createRandomUserRhymeAnimation()
+                            self.cursorImageView.hidden = false
+                    }
+                    return
+            }
+            
+            if let singles = json!["words"][shuffledWordArray[position]]["rhymes"]["singles"].object as? [String] {
+                if (singles.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(1)
+                }
+            }
+            if let doubles = json!["words"][shuffledWordArray[position]]["rhymes"]["doubles"].object as? [String] {
+                if (doubles.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(2)
+                }
+            }
+            if let triples = json!["words"][shuffledWordArray[position]]["rhymes"]["triples"].object as? [String] {
+                if (triples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(3)
+                }
+            }
+            if let quadruples = json!["words"][shuffledWordArray[position]]["rhymes"]["quadruples"].object as? [String] {
+                if (quadruples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(4)
+                }
+            }
+            if let quintuples = json!["words"][shuffledWordArray[position]]["rhymes"]["quintuples"].object as? [String] {
+                if (quintuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(5)
+                }
+            }
+            if let sextuples = json!["words"][shuffledWordArray[position]]["rhymes"]["sextuples"].object as? [String] {
+                if (sextuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(6)
+                }
+            }
+            if let septuples = json!["words"][shuffledWordArray[position]]["rhymes"]["septuples"].object as? [String] {
+                if (septuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(7)
+                }
+            }
+            if let octuples = json!["words"][shuffledWordArray[position]]["rhymes"]["octuples"].object as? [String] {
+                if (octuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(8)
+                }
+            }
+            if let nonuples = json!["words"][shuffledWordArray[position]]["rhymes"]["nonuples"].object as? [String] {
+                if (nonuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(9)
+                }
+            }
+            if let decuples = json!["words"][shuffledWordArray[position]]["rhymes"]["decuples"].object as? [String] {
+                if (decuples.contains(userInput.text!.lowercaseString)) {
+                    addScoreAndAdvance(10)
+                }
+            }
+        }
+    }
+    
+    func addScoreAndAdvance(points: Int) {
+        
+        playedRhymes.addObject(userInput.text!.lowercaseString)
+        score += points
+        scoreLabel.text = String(score)
+        position++
+        createRhyme()
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+            Int64(0.15 * Double(NSEC_PER_SEC))),
+            dispatch_get_main_queue()) {
+                self.userInput.text = nil
+                self.createRandomUserRhymeAnimation()
+                self.cursorImageView.hidden = false
+        }
+        
+        // Restart timer if game isn't over
+        if (!isGameOver) {
+            timer.invalidate()
+            gameTime = 400
+            progressBar.setProgress(1, animated: false)
+            timer = NSTimer.scheduledTimerWithTimeInterval(
+                0.01, target: self, selector: Selector("updateTime"), userInfo: nil, repeats: true)
+        }
+        
+        // Slide out the back button
+        if (backButtonLeftConstraint.constant != HIDE_BACK_BUTTON) {
+            backButtonLeftConstraint.constant = HIDE_BACK_BUTTON
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.backButton.layoutIfNeeded()
+            })
+        }
+        
+        return
+    }
+    
+    func createRhyme() {
         
         // Delay clearing text
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
             Int64(0.15 * Double(NSEC_PER_SEC))),
             dispatch_get_main_queue()) {
-                self.userRhyme.text = nil
-                self.checkUserRhyme()
+                self.userInput.text = nil
         }
         
         if (position == 0) {
-            
-            // Shuffle words if it's the first run
             shuffledWordArray = appDelegate.wordCountArray.shuffle()
-            
-            //var colorRandom = arc4random_uniform(5) + 1
-            
-            if (color == 0) {
-                color++
-                view.backgroundColor = UIColor(hex: blue)
-            } else if (color == 1) {
-                color++
-                view.backgroundColor = UIColor(hex: indigo)
-            } else if (color == 2) {
-                color++
-                view.backgroundColor = UIColor(hex: teal)
-            } else if (color == 3) {
-                color++
-                view.backgroundColor = UIColor(hex: deep_purple)
-            } else if (color == 4) {
-                color++
-                view.backgroundColor = UIColor(hex: red)
-            } else if (color == 5) {
-                color = 0
-                view.backgroundColor = UIColor(hex: green)
-            }
-            
-            scoreView.slideOutToTop(delayDuration, completionDelegate: self)
-            NSThread.sleepForTimeInterval(delayDuration)
-            scoreView.hidden = true
-            checkUserRhyme()
-            
         } else {
-            computerRhyme.slideOutIn(0.3, completionDelegate: self)
-            isGameOver = false
+            wordLabel.slideOutIn(0.3, completionDelegate: self)
         }
         
         // Index out of bounds will never happen again
@@ -244,18 +278,107 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         }
         
         // Set new computer rhyme text
-        item = json!["words"][shuffledWordArray[position]]["word"].stringValue
-        computerRhyme.text = item
+        wordLabel.text = json!["words"][shuffledWordArray[position]]["word"].stringValue
     }
     
-    /**
-    * Create a the animation for the user input area
-    */
-    func createRandomUserRhymeAnimation() {
+    func updateTime() {
+        progressBar.setProgress(Float(0.0025 * gameTime), animated: true)
+        if (gameTime > 0) {
+            gameTime--
+        } else {
+            gameOver()
+        }
+    }
+    
+    func gameOver() {
         
+        backButton.tintColor = Colors.greyIconColor
+        isGameOver = true
+        timer.invalidate()
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        userInput.text = nil
+        
+        // Create a constant for the high score
+        let bestScore = defaults.integerForKey(HIGH_SCORE)
+        if (score > bestScore) {
+            defaults.setObject(score, forKey: HIGH_SCORE)
+            print("New Best Score")
+            finalBestAmountLabel.text = String(score)
+            finalBestAmountLabel.textColor = Colors.blueColor
+            finalBestLabel.textColor = Colors.blueColor
+            finalBestLabel.text = "New Best"
+            finalBestLabel.alpha = 1
+        } else {
+            finalBestAmountLabel.text = String(bestScore)
+            finalBestAmountLabel.textColor = UIColor.blackColor()
+            finalBestLabel.textColor = UIColor.blackColor()
+            finalBestLabel.text = "Best"
+            finalBestLabel.alpha = 0.26
+        }
+        
+        unlockAchievements(bestScore)
+        saveHighscore(bestScore)
+        finalScoreAmountLabel.text = String(score)
+        
+        scoreView.hidden = false
+        if (backButtonLeftConstraint.constant != SHOW_BACK_BUTTON) {
+            backButtonLeftConstraint.constant = SHOW_BACK_BUTTON
+            scoreViewTopConstraint.constant = 0
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.backButton.layoutIfNeeded()
+                self.scoreView.layoutIfNeeded()
+            })
+        }
+    }
+    
+    func restartGame() {
+        userInput.text = nil
+        scoreLabel.text = nil
+        isGameOver = false
+        position = 0
+        score = 0
+        createRandomUserRhymeAnimation()
+        cursorImageView.hidden = false
+        playedRhymes.removeAllObjects()
+        createRhyme()
+        if (scoreViewTopConstraint.constant != HIDE_SCORE_VIEW) {
+            scoreViewTopConstraint.constant = HIDE_SCORE_VIEW
+            UIView.animateWithDuration(0.25, animations: {
+                self.scoreView.layoutIfNeeded()
+                }, completion: { finished in
+                    self.scoreView.hidden = true
+            })
+        }
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        userInput.text = nil
+        createRandomUserRhymeAnimation()
+        cursorImageView.hidden = false
+        return true;
+    }
+    
+    func keyboardWillShow(sender: NSNotification) {
+        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() {
+            gameViewBottomConstraint.constant = keyboardSize.height
+            scoreViewHeight.constant = UIScreen.mainScreen().applicationFrame.height - keyboardSize.height
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
+    
+    func keyboardWillHide(sender: NSNotification) {
+        gameViewBottomConstraint.constant = 0
+        scoreViewHeight.constant = UIScreen.mainScreen().applicationFrame.height
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    func createRandomUserRhymeAnimation() {
         let randomNumber: Int = random() % 3;
         var frames = "AFrame%03d"
-        
         switch(randomNumber) {
         case 0:
             frames = "AFrame%03d"
@@ -270,82 +393,91 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
             frames = "AFrame%03d"
             break
         }
-        
-        userRhymeAnimation.animationImages = [UIImage]()
-        
+        cursorImageView.animationImages = [UIImage]()
         for var index = 0; index < 4; index++ {
             let frameName = String(format: frames, index)
-            userRhymeAnimation.animationImages?.append(UIImage(named: frameName)!)
+            cursorImageView.animationImages?.append(UIImage(named: frameName)!)
         }
-        
-        userRhymeAnimation.animationDuration = 1
-        userRhymeAnimation.startAnimating()
+        cursorImageView.animationDuration = 1
+        cursorImageView.startAnimating()
     }
     
-    /*
-    * Update Progress bar and do countdown
-    */
-    func updateTime() {
-        progressBar.setProgress(Float(0.0025 * gameTime), animated: true)
-        if (gameTime > 0) {
-            gameTime--
-            isGameOver = false
+    func randomColor(range: Range<Int> = 0...3) -> UIColor {
+        let min = range.startIndex
+        let max = range.endIndex
+        let number = Int(arc4random_uniform(UInt32(max - min))) + min
+        var color:UIColor?
+        
+        switch number {
+        case 0:
+            color = Colors.greenColor
+            break
+        case 1:
+            color = Colors.amberColor
+            break
+        case 2:
+            color = Colors.deepPurpleColor
+            break
+        case 3:
+            color = Colors.redColor
+            break
+        default:
+            color = Colors.greenColor
+            break
+        }
+        
+        return color!
+    }
+    
+    func setNextColor(currentColor: UIColor) -> UIColor {
+        var nextColor:UIColor?
+        switch currentColor {
+        case Colors.greenColor:
+            nextColor = Colors.deepPurpleColor
+            break
+        case Colors.amberColor:
+            nextColor = Colors.greenColor
+            break
+        case Colors.deepPurpleColor:
+            nextColor = Colors.redColor
+            break
+        case Colors.redColor:
+            nextColor = Colors.amberColor
+            break
+        default:
+            nextColor = Colors.deepPurpleColor
+            break
+        }
+        return nextColor!
+    }
+    
+    func setButtonObservers(sender: UIButton) {
+        sender.addTarget(self, action: "buttonDown:", forControlEvents: UIControlEvents.TouchDown)
+        sender.addTarget(self, action: "buttonUp:", forControlEvents: UIControlEvents.TouchDragExit)
+        sender.addTarget(self, action: "buttonUp:", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    func buttonDown(sender: UIButton) {
+        if (sender == backButton) {
+            sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.1)
+        } else if (sender == restartButton) {
+            sender.backgroundColor = setNextColor(gameView.backgroundColor!)
         } else {
-            isGameOver = true
-            onGameOver()
+            sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.1)
         }
     }
     
-    func onGameOver(){
-        
-        if (backButtonLeadingConstraint.constant != SHOW_BACK_BUTTON) {
-            backButtonLeadingConstraint.constant = SHOW_BACK_BUTTON
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.backButton.layoutIfNeeded()
-            })
-        }
-        
-        // Kill timer
-        timer.invalidate()
-        
-        // Vibrate on gameover
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        
-        restartButton.backgroundColor = getThemeColor(true)
-        
-        // Reset for playing again
-        position = 0
-        
-        // Show the Score Screen
-        scoreView.hidden = false
-        scoreView.slideInFromBottom(delayDuration, completionDelegate: self)
-        userRhyme.text = ""
-        
-        // Create a constant for the high score
-        let bestScore = defaults.integerForKey("highScore")
-        
-        // Check if new score is better than old
-        if (score > bestScore) {
-            defaults.setObject(score, forKey: "highScore")
-            highScore.text = String(score)
-            bestLabel.text = "New Best"
-            bestLabel.textColor = getThemeColor(true)
-            highScore.textColor = getThemeColor(true)
-            saveHighscore(score)
+    func buttonUp(sender: UIButton) {
+        if (sender == backButton) {
+            sender.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
+        } else if (sender == restartButton) {
+            sender.backgroundColor = gameView.backgroundColor!
         } else {
-            highScore.text = String(bestScore)
-            bestLabel.text = "Best"
-            bestLabel.textColor = UIColor(hex: 0xBFBFBF)
-            highScore.textColor = UIColor(hex: 0xBFBFBF)
+            sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
         }
-        
-        // Show the score
-        newScore.text = String(score)
     }
     
-    /*
-    * Save the highest score
-    */
+    // Save the highest score
     func saveHighscore(score:Int) {
         
         // check if user is signed in
@@ -364,266 +496,82 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         }
     }
     
-    /*
-    * Show GameCenter
-    */
-    func showGameCenter() {
+    // GameCenter
+    
+    func unlockAchievements(score: Int) {
+        
+        var achievementArray:[GKAchievement] = []
+        
+        // First rhyme
+        if (score > 0) {
+            let achievement = GKAchievement(identifier: "Rhyme_Time")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        // 10 Syllables
+        if (score >= 10) {
+            let achievement = GKAchievement(identifier: "Decade_Made")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        // 20 Syllables
+        if (score >= 20) {
+            let achievement = GKAchievement(identifier: "Spaghetti_Twenty")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        // 30 Syllables
+        if (score >= 30) {
+            let achievement = GKAchievement(identifier: "Dirty_Thirty")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        // 40 Syllables
+        if (score >= 40) {
+            let achievement = GKAchievement(identifier: "Forty_Shortie")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        // 50 Syllables
+        if (score >= 50) {
+            let achievement = GKAchievement(identifier: "Nifty_Fifty")
+            achievement.showsCompletionBanner = true
+            achievement.percentComplete = 100
+            achievementArray.append(achievement)
+        }
+        
+        GKAchievement.reportAchievements(achievementArray, withCompletionHandler: nil)
+    }
+    
+    func showGameLeaderboard() {
         let vc = self
         let gc = GKGameCenterViewController()
         gc.gameCenterDelegate = self
+        gc.viewState = GKGameCenterViewControllerState.Leaderboards
         vc.presentViewController(gc, animated: true, completion: nil)
     }
     
-    /*
-    * Hide GameCenter
-    */
+    func showGameAchievements() {
+        let vc = self
+        let gc = GKGameCenterViewController()
+        gc.gameCenterDelegate = self
+        gc.viewState = GKGameCenterViewControllerState.Achievements
+        vc.presentViewController(gc, animated: true, completion: nil)
+    }
+    
+    // Hide GameCenter
     func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    /*
-    * Hide status bar
-    */
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
-    /*
-    * Check if keyboard is show
-    */
-    func keyboardWillShow(sender: NSNotification) {
-        
-        // Get Keyboard Height
-        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() {
-            
-            // Set the Bottom UITextfield Constraint
-            bottomConstraint.constant = keyboardSize.height
-            scoreViewBottomConstraint.constant = keyboardSize.height
-            
-            // Animate Changes
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.view.layoutIfNeeded()
-            })
-        }
-        
-    }
-    
-    /*
-    * Check if keyboard will hide
-    */
-    func keyboardWillHide(sender: NSNotification) {
-        
-        // Set the Bottom UITextfield Constraint
-        bottomConstraint.constant = 0
-        scoreViewBottomConstraint.constant = 0
-        
-        // Animate Changes
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.view.layoutIfNeeded()
-        })
-    }
-    
-    /*
-    * UITextField Change Listener
-    */
-    func textFieldDidChange(sender: NSNotification) {
-        
-        // Variable for handling userRhyme " " replacement
-        let userRhymeWithNoSpaces = userRhyme.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
-        
-        // Set text of userRhyme to the string with no spaces
-        userRhyme.text = userRhymeWithNoSpaces
-        
-        if (userRhyme.text!.lowercaseString == computerRhyme.text) {
-            
-            // Shake and clear if rhyme is same as generated
-            userRhyme.shake()
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
-                Int64(0.15 * Double(NSEC_PER_SEC))),
-                dispatch_get_main_queue()) {
-                    self.userRhyme.text = nil
-            }
-        }
-        
-        if (playedRhymes.containsObject(userRhyme.text!.lowercaseString)) {
-            
-            // Shake and clear if rhyme is same as generated
-            userRhyme.shake()
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
-                Int64(0.15 * Double(NSEC_PER_SEC))),
-                dispatch_get_main_queue()) {
-                    self.userRhyme.text = nil
-            }
-        }
-        
-        if let singles = json!["words"][shuffledWordArray[position]]["rhymes"]["singles"].object as? [String] {
-            if (singles.contains(userRhyme.text!.lowercaseString)) {
-                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 1)
-            }
-        }
-        if let doubles = json!["words"][shuffledWordArray[position]]["rhymes"]["doubles"].object as? [String] {
-            if (doubles.contains(userRhyme.text!.lowercaseString)) {
-               addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 2)
-            }
-        }
-        if let triples = json!["words"][shuffledWordArray[position]]["rhymes"]["triples"].object as? [String] {
-            if (triples.contains(userRhyme.text!.lowercaseString)) {
-                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 3)
-            }
-        }
-        if let quadruples = json!["words"][shuffledWordArray[position]]["rhymes"]["quadruples"].object as? [String] {
-            if (quadruples.contains(userRhyme.text!.lowercaseString)) {
-                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 4)
-            }
-        }
-        if let quintuples = json!["words"][shuffledWordArray[position]]["rhymes"]["quintuples"].object as? [String] {
-            if (quintuples.contains(userRhyme.text!.lowercaseString)) {
-                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 5)
-            }
-        }
-        if let sextuples = json!["words"][shuffledWordArray[position]]["rhymes"]["sextuples"].object as? [String] {
-            if (sextuples.contains(userRhyme.text!.lowercaseString)) {
-                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 6)
-            }
-        }
-        if let septuples = json!["words"][shuffledWordArray[position]]["rhymes"]["septuples"].object as? [String] {
-            if (septuples.contains(userRhyme.text!.lowercaseString)) {
-                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 7)
-            }
-        }
-        if let octuples = json!["words"][shuffledWordArray[position]]["rhymes"]["octuples"].object as? [String] {
-            if (octuples.contains(userRhyme.text!.lowercaseString)) {
-                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 8)
-            }
-        }
-        if let nonuples = json!["words"][shuffledWordArray[position]]["rhymes"]["nonuples"].object as? [String] {
-            if (nonuples.contains(userRhyme.text!.lowercaseString)) {
-                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 9)
-            }
-        }
-        if let decuples = json!["words"][shuffledWordArray[position]]["rhymes"]["decuples"].object as? [String] {
-            if (decuples.contains(userRhyme.text!.lowercaseString)) {
-                addScoreAndAdvance(userRhyme.text!.lowercaseString, points: 10)
-            }
-        }
-        
-        // Disable text in score view
-        if (!scoreView.hidden) {
-            userRhyme.text = nil
-        }
-        
-        // Check if the rhyme is null
-        checkUserRhyme()
-    }
-    
-    func addScoreAndAdvance(rhymePlayed: String, points: Int) {
-        playedRhymes.addObject(rhymePlayed)
-        score += points
-        scoreLabel.text = String(score)
-        advanceWord()
-        return
-    }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        
-        // Clear Text
-        userRhyme.text = nil
-        checkUserRhyme()
-        return true;
-    }
-    
-    func advanceWord() {
-        
-        // Slide out the back button
-        if (backButtonLeadingConstraint.constant != HIDE_BACK_BUTTON) {
-            backButtonLeadingConstraint.constant = HIDE_BACK_BUTTON
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.backButton.layoutIfNeeded()
-            })
-        }
-        
-        // Advance the list position
-        position++
-        
-        // Create new rhyme
-        createRhyme()
-        
-        // Restart timer if game isn't over
-        if (!isGameOver) {
-            timer.invalidate()
-            gameTime = 400
-            progressBar.setProgress(1, animated: false)
-            timer = NSTimer.scheduledTimerWithTimeInterval(
-                0.01, target: self, selector: Selector("updateTime"), userInfo: nil, repeats: true)
-        }
-    }
-    
-    // Check if the user rhyme has text
-    func checkUserRhyme() {
-        if (userRhyme.text == "" || userRhyme.text == nil) {
-            userRhymeAnimation.hidden = false
-        } else {
-            userRhymeAnimation.hidden = true
-        }
-    }
-    
-    func getThemeColor(up: Bool) -> UIColor {
-        if (up) {
-            // Handle Button Up State
-            if (color == 1) {
-                return UIColor(hex: blue)
-            } else if (color == 2) {
-                return UIColor(hex: indigo)
-            } else if (color == 3) {
-                return UIColor(hex: teal)
-            } else if (color == 4) {
-                return UIColor(hex: deep_purple)
-            } else if (color == 5) {
-                return UIColor(hex: red)
-            } else {
-                return UIColor(hex: green)
-            }
-        } else {
-            // Handle Button Down State
-            if (color == 1) {
-                return UIColor(hex: indigo)
-            } else if (color == 2) {
-                return UIColor(hex: teal)
-            } else if (color == 3) {
-                return UIColor(hex: deep_purple)
-            } else if (color == 4) {
-                return UIColor(hex: red)
-            } else if (color == 5) {
-                return UIColor(hex: green)
-            } else {
-                return UIColor(hex: blue)
-            }
-        }
-    }
-    
-    // Set the observers to both of the buttons
-    func setButtonObservers(sender: UIButton) {
-        sender.addTarget(self, action: "buttonDown:", forControlEvents: UIControlEvents.TouchDown)
-        sender.addTarget(self, action: "buttonUp:", forControlEvents: UIControlEvents.TouchDragExit)
-        sender.addTarget(self, action: "buttonUp:", forControlEvents: UIControlEvents.TouchUpInside)
-    }
-    
-    // Button is touched
-    func buttonDown(sender: UIButton) {
-        if (sender == backButton) {
-            sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
-        } else {
-            sender.backgroundColor = getThemeColor(false)
-        }
-    }
-    
-    // Button is dragged away and canceled
-    func buttonUp(sender: UIButton) {
-        if (sender == backButton) {
-            sender.backgroundColor = UIColor.clearColor()
-        } else {
-            sender.backgroundColor = getThemeColor(true)
-        }
     }
     
 }
