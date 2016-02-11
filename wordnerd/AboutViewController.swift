@@ -12,6 +12,7 @@ import SwiftyJSON
 
 class AboutViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    @IBOutlet weak var createdLabel: UILabel!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var mikeButton: UIButton!
     @IBOutlet weak var pageDots: UIPageControl!
@@ -45,6 +46,14 @@ class AboutViewController: UIViewController, UICollectionViewDelegate, UICollect
         let tintedCloseIcon = closeIcon.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         backButton.setImage(tintedCloseIcon, forState: .Normal)
         backButton.tintColor = UIColor.whiteColor()
+        
+        createdLabel.font = UIFont(name: BIT_FONT, size: 18)
+        createdLabel.text = "Created By\nMike Miller"
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 4
+        style.alignment = .Center
+        let attributes = [NSParagraphStyleAttributeName: style]
+        createdLabel.attributedText = NSAttributedString(string: createdLabel.text!, attributes:attributes)
     }
     
     func setButtonObservers(sender: UIButton) {

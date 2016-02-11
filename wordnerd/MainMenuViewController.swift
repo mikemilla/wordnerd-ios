@@ -38,13 +38,14 @@ class MainMenuViewController: UIViewController {
         logoLabel.attributedText = NSAttributedString(string: logoLabel.text!, attributes:attributes)
         
         // Text Looping Animations
-        loopTextChangeAnimation(true)
+        //loopTextChangeAnimation(true)
         
         // Sign Player into Game Center
         authenticateLocalPlayer()
         
         setButtonObservers(startButton)
         setButtonObservers(menuButton)
+        startButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
     }
     
     // Set the observers to both of the buttons
@@ -61,7 +62,11 @@ class MainMenuViewController: UIViewController {
     
     // Button is dragged away and canceled
     func buttonUp(sender: UIButton) {
-        sender.backgroundColor = UIColor.clearColor()
+        if (sender == startButton) {
+            sender.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
+        } else {
+            sender.backgroundColor = UIColor.clearColor()
+        }
     }
     
     func loopTextChangeAnimation(tutorialIsShowing: Bool) {

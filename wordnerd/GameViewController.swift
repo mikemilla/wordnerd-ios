@@ -33,6 +33,10 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     var closeIcon:UIImage?
     var tintedCloseIcon:UIImage?
     
+    @IBOutlet weak var triangleView: TriangleView!
+    @IBOutlet weak var rhymeWithLabel: UILabel!
+    @IBOutlet weak var rhymeWithView: UIView!
+    @IBOutlet weak var rhymeWithPivotPoint: NSLayoutConstraint!
     @IBOutlet weak var gameView: UIView!
     @IBOutlet weak var leaderboardButton: UIButton!
     @IBOutlet weak var achievementsButton: UIButton!
@@ -112,6 +116,10 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         
         // Rhyme Label
         wordLabel.font = UIFont(name: BIT_FONT, size: 34)
+        rhymeWithLabel.font = UIFont(name: BIT_FONT, size: 18)
+        rhymeWithLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(1)
+        rhymeWithView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        slideRhymeWithUp()
         
         // Background Color
         gameView.backgroundColor = randomColor()
@@ -133,6 +141,24 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         setButtonObservers(restartButton)
         leaderboardButton.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
         achievementsButton.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
+    }
+    
+    func slideRhymeWithUp() {
+        rhymeWithPivotPoint.constant = -72
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+            Int64(0.5 * Double(NSEC_PER_SEC))),
+            dispatch_get_main_queue()) {
+                self.slideRhymeWithDown()
+        }
+    }
+    
+    func slideRhymeWithDown() {
+        rhymeWithPivotPoint.constant = -68
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+            Int64(0.5 * Double(NSEC_PER_SEC))),
+            dispatch_get_main_queue()) {
+                self.slideRhymeWithUp()
+        }
     }
     
     func textFieldDidChange(sender: NSNotification) {
@@ -221,6 +247,11 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     }
     
     func addScoreAndAdvance(points: Int) {
+        
+        if (!rhymeWithView.hidden) {
+            rhymeWithView.hidden = true
+            triangleView.hidden = true
+        }
         
         playedRhymes.addObject(userInput.text!.lowercaseString)
         score += points
@@ -332,6 +363,14 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     }
     
     func restartGame() {
+        
+        if (rhymeWithView.hidden) {
+            rhymeWithView.hidden = false
+            rhymeWithPivotPoint.constant = -56
+            triangleView.hidden = false
+            slideRhymeWithUp()
+        }
+        
         userInput.text = nil
         scoreLabel.text = nil
         isGameOver = false
@@ -402,7 +441,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         cursorImageView.startAnimating()
     }
     
-    func randomColor(range: Range<Int> = 0...3) -> UIColor {
+    func randomColor(range: Range<Int> = 0...2) -> UIColor {
         let min = range.startIndex
         let max = range.endIndex
         let number = Int(arc4random_uniform(UInt32(max - min))) + min
@@ -417,9 +456,6 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
             break
         case 2:
             color = Colors.deepPurpleColor
-            break
-        case 3:
-            color = Colors.redColor
             break
         default:
             color = Colors.greenColor
