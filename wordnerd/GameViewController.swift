@@ -399,8 +399,10 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         userInput.text = nil
-        createRandomUserRhymeAnimation()
-        cursorImageView.hidden = false
+        if (score > 0) {
+            createRandomUserRhymeAnimation()
+            cursorImageView.hidden = false
+        }
         return true;
     }
     
