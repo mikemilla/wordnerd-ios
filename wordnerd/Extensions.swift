@@ -71,7 +71,7 @@ extension UIView {
         self.layer.addAnimation(slideOutToTopTransition, forKey: "slideInFromBottomTransition")
     }
     
-    func shake(){
+    func shake() {
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 0.075
         animation.repeatCount = 2

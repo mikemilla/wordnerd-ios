@@ -8,18 +8,20 @@
 
 import UIKit
 import GameKit
-import SwiftyJSON
+import Social
 
 class AboutViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-    
+
     @IBOutlet weak var createdLabel: UILabel!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var mikeButton: UIButton!
     @IBOutlet weak var pageDots: UIPageControl!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tipsLabel: UILabel!
+    let TWITTER_SCHEME:String = "twitter://post?message=@killamikemilla%20"
+    let TWITTER_WEB:String = "https://twitter.com/killamikemilla"
     let pageViewIdentifier:String = "PageView"
-    let tips:[String] = ["Rhymes dont have to be exact", "Score is the amount of syllables you played", "Swear words are acceptable"]
+    let tips:[String] = ["Tweet at the creator if a word is missing", "Rhymes dont have to be exact", "Score is amount of syllables played", "Swear words are acceptable"]
     let BIT_FONT:String = "8BITWONDERNominal"
     
     @IBAction func backButton(sender: AnyObject) {
@@ -70,6 +72,14 @@ class AboutViewController: UIViewController, UICollectionViewDelegate, UICollect
         sender.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.1)
     }
     
+    func tweetButton(sender: UIButton) {
+        if (UIApplication.sharedApplication().openURL(NSURL(string: TWITTER_SCHEME)!)) {
+            UIApplication.sharedApplication().openURL(NSURL(string: TWITTER_SCHEME)!)
+        } else {
+            UIApplication.sharedApplication().openURL(NSURL(string: TWITTER_WEB)!)
+        }
+    }
+    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(pageViewIdentifier, forIndexPath: indexPath) as! PageView
         cell.label.text = tips[indexPath.row]
@@ -78,6 +88,14 @@ class AboutViewController: UIViewController, UICollectionViewDelegate, UICollect
         style.alignment = .Center
         let attributes = [NSParagraphStyleAttributeName: style]
         cell.label.attributedText = NSAttributedString(string: cell.label.text!, attributes:attributes)
+        
+        if (indexPath.row == 0) {
+            cell.button.hidden = false
+            cell.button.addTarget(self, action: "tweetButton:", forControlEvents: .TouchUpInside)
+        } else {
+            cell.button.hidden = true
+        }
+        
         return cell
     }
     

@@ -33,7 +33,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     var closeIcon:UIImage?
     var tintedCloseIcon:UIImage?
     
-    @IBOutlet weak var triangleView: TriangleView!
+    @IBOutlet weak var arrowIcon: UIImageView!
     @IBOutlet weak var rhymeWithLabel: UILabel!
     @IBOutlet weak var rhymeWithView: UIView!
     @IBOutlet weak var rhymeWithPivotPoint: NSLayoutConstraint!
@@ -91,6 +91,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         userInput.delegate = self
         userInput.becomeFirstResponder()
         userInput.font = UIFont(name: BIT_FONT, size: 34)
+        userInput.tintColor = UIColor.clearColor()
         createRandomUserRhymeAnimation()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userInput)
         
@@ -118,7 +119,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         wordLabel.font = UIFont(name: BIT_FONT, size: 34)
         rhymeWithLabel.font = UIFont(name: BIT_FONT, size: 18)
         rhymeWithLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(1)
-        rhymeWithView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        rhymeWithView.backgroundColor = UIColor.clearColor()
         slideRhymeWithUp()
         
         // Background Color
@@ -250,7 +251,8 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         
         if (!rhymeWithView.hidden) {
             rhymeWithView.hidden = true
-            triangleView.hidden = true
+            arrowIcon.hidden = true
+            arrowIcon.stopAnimating()
         }
         
         playedRhymes.addObject(userInput.text!.lowercaseString)
@@ -367,7 +369,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         if (rhymeWithView.hidden) {
             rhymeWithView.hidden = false
             rhymeWithPivotPoint.constant = -56
-            triangleView.hidden = false
+            arrowIcon.hidden = false
             slideRhymeWithUp()
         }
         

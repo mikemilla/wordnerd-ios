@@ -9,6 +9,8 @@
 import UIKit
 
 class TriangleView: UIView {
+    
+    var color:UIColor = UIColor.blackColor()
 
     override func drawRect(rect: CGRect) {
         
@@ -25,7 +27,7 @@ class TriangleView: UIView {
         bezierPath.addLineToPoint(CGPointMake(0, 0))
         
         // Apply Color
-        UIColor.blackColor().setFill()
+        color.setFill()
         bezierPath.fill()
         
         // Mask to Path

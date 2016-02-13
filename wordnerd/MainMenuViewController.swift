@@ -13,6 +13,8 @@ import SwiftyJSON
 class MainMenuViewController: UIViewController {
     
     let WORD_KEY:String = "word_key"
+    let BIT_FONT:String = "8BITWONDERNominal"
+    @IBOutlet weak var copyRight: UILabel!
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var menuButton: UIButton!
@@ -26,7 +28,7 @@ class MainMenuViewController: UIViewController {
         super.viewDidLoad()
         
         // Change Label Fonts
-        logoLabel.font = UIFont(name: "8BITWONDERNominal", size: 52)
+        logoLabel.font = UIFont(name: BIT_FONT, size: 52)
         startButton.titleLabel!.font = UIFont(name: "8BITWONDERNominal", size: 12)
         
         // Set logo text
