@@ -50,7 +50,7 @@ class AboutViewController: UIViewController, UICollectionViewDelegate, UICollect
         backButton.tintColor = UIColor.whiteColor()
         
         createdLabel.font = UIFont(name: BIT_FONT, size: 18)
-        createdLabel.text = "Created By\nMike Miller"
+        createdLabel.text = "Created By\nMichael Miller"
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 4
         style.alignment = .Center

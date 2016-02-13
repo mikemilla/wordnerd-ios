@@ -12,6 +12,8 @@ import SwiftyJSON
 
 class MainMenuViewController: UIViewController {
     
+    @IBOutlet weak var nerdLabel: UILabel!
+    @IBOutlet weak var wordLabel: UILabel!
     let WORD_KEY:String = "word_key"
     let BIT_FONT:String = "8BITWONDERNominal"
     @IBOutlet weak var copyRight: UILabel!
@@ -29,12 +31,11 @@ class MainMenuViewController: UIViewController {
         
         // Change Label Fonts
         logoLabel.font = UIFont(name: BIT_FONT, size: 52)
-        startButton.titleLabel!.font = UIFont(name: "8BITWONDERNominal", size: 12)
         
         // Set logo text
         logoLabel.text = "Word\nNerd"
         let style = NSMutableParagraphStyle()
-        style.lineSpacing = 16
+        style.lineSpacing = 14
         style.alignment = .Center
         let attributes = [NSParagraphStyleAttributeName: style]
         logoLabel.attributedText = NSAttributedString(string: logoLabel.text!, attributes:attributes)
@@ -48,7 +49,66 @@ class MainMenuViewController: UIViewController {
         setButtonObservers(startButton)
         setButtonObservers(menuButton)
         startButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
+        
+        wordLabel.font = UIFont(name: BIT_FONT, size: 52)
+        nerdLabel.font = UIFont(name: BIT_FONT, size: 52)
+        
+        runOpeningAnimation()
     }
+    
+    let SECONDS_SHORT = dispatch_time(DISPATCH_TIME_NOW, Int64(0.15 * Double(NSEC_PER_SEC)))
+    let SECONDS_TWO = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
+    var canRunOpenningAnimation:Bool = true
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
+    
+    func runOpeningAnimation() {
+        self.delay(8) {
+            self.wordLabel.slideOutIn(0.4, completionDelegate: self)
+            self.nerdLabel.text = nil
+            
+            self.delay(1) {
+                self.nerdLabel.text = "N"
+                self.delay(0.1) {
+                    self.nerdLabel.text = "NE"
+                    self.delay(0.1) {
+                        self.nerdLabel.text = "NER"
+                        self.delay(0.1) {
+                            self.nerdLabel.text = "NERD"
+                            self.runOpeningAnimation()
+                        }
+                    }
+                }
+            }
+        }
+        
+        /*
+        dispatch_after(SECONDS_TWO, dispatch_get_main_queue()) {
+        self.nerdLabel.text = "N"
+        dispatch_after(self.SECONDS_SHORT, dispatch_get_main_queue()) {
+        self.nerdLabel.text = "NE"
+        dispatch_after(self.SECONDS_SHORT, dispatch_get_main_queue()) {
+        self.nerdLabel.text = "NER"
+        dispatch_after(self.SECONDS_SHORT, dispatch_get_main_queue()) {
+        self.nerdLabel.text = "NERD"
+        dispatch_after(self.SECONDS_SHORT, dispatch_get_main_queue()) {
+        self.runOpeningAnimation()
+        }
+        }
+        }
+        }
+        }
+        */
+    }
+    
+    @IBOutlet weak var logoImage: UIImageView!
     
     // Set the observers to both of the buttons
     func setButtonObservers(sender: UIButton) {

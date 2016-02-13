@@ -120,6 +120,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         rhymeWithLabel.font = UIFont(name: BIT_FONT, size: 18)
         rhymeWithLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(1)
         rhymeWithView.backgroundColor = UIColor.clearColor()
+        cursorImageView.hidden = true
         slideRhymeWithUp()
         
         // Background Color
@@ -173,12 +174,14 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
             userInput.text = userRhymeWithNoSpaces
             
             // Animation Logic
-            if (userInput.text == "" || userInput.text == nil) {
-                createRandomUserRhymeAnimation()
-                cursorImageView.hidden = false
-            } else {
-                cursorImageView.stopAnimating()
-                cursorImageView.hidden = true
+            if (score > 0) {
+                if (userInput.text == "" || userInput.text == nil) {
+                    createRandomUserRhymeAnimation()
+                    cursorImageView.hidden = false
+                } else {
+                    cursorImageView.stopAnimating()
+                    cursorImageView.hidden = true
+                }
             }
             
             if (playedRhymes.containsObject(userInput.text!.lowercaseString)
@@ -188,8 +191,10 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
                         Int64(0.15 * Double(NSEC_PER_SEC))),
                         dispatch_get_main_queue()) {
                             self.userInput.text = nil
-                            self.createRandomUserRhymeAnimation()
-                            self.cursorImageView.hidden = false
+                            if (self.score > 0) {
+                                self.createRandomUserRhymeAnimation()
+                                self.cursorImageView.hidden = false
+                            }
                     }
                     return
             }
@@ -379,7 +384,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         position = 0
         score = 0
         createRandomUserRhymeAnimation()
-        cursorImageView.hidden = false
+        cursorImageView.hidden = true
         playedRhymes.removeAllObjects()
         createRhyme()
         if (scoreViewTopConstraint.constant != HIDE_SCORE_VIEW) {
