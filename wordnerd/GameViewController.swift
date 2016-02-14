@@ -32,6 +32,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     let SHOW_SCORE_VIEW:CGFloat = 0
     var closeIcon:UIImage?
     var tintedCloseIcon:UIImage?
+    var mainViewController:MainMenuViewController?
     
     @IBOutlet weak var arrowIcon: UIImageView!
     @IBOutlet weak var rhymeWithLabel: UILabel!
@@ -74,6 +75,8 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     }
     
     @IBAction func backButton(sender: AnyObject) {
+        mainViewController?.canRunOpenningAnimation = true
+        mainViewController?.runOpeningAnimation()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -155,16 +158,17 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     }
     
     func slideRhymeWithDown() {
-        rhymeWithPivotPoint.constant = -68
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
-            Int64(0.5 * Double(NSEC_PER_SEC))),
-            dispatch_get_main_queue()) {
-                self.slideRhymeWithUp()
+        if (rhymeWithPivotPoint.constant == -72) {
+            rhymeWithPivotPoint.constant = -68
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                Int64(0.5 * Double(NSEC_PER_SEC))),
+                dispatch_get_main_queue()) {
+                    self.slideRhymeWithUp()
+            }
         }
     }
     
     func textFieldDidChange(sender: NSNotification) {
-        
         
         if (isGameOver) {
             userInput.text = nil
@@ -330,6 +334,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     
     func gameOver() {
         
+        rhymeWithPivotPoint.constant = -68
         backButton.tintColor = Colors.greyIconColor
         isGameOver = true
         timer.invalidate()

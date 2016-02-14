@@ -23,25 +23,15 @@ class MainMenuViewController: UIViewController {
     var fade = CATransition()
     
     @IBAction func playButton(sender: AnyObject) {
-        performSegueWithIdentifier("PlayNewGame", sender: self)
+        canRunOpenningAnimation = false
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("GameViewController") as! GameViewController
+        vc.mainViewController = self
+        self.presentViewController(vc, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Change Label Fonts
-        logoLabel.font = UIFont(name: BIT_FONT, size: 52)
-        
-        // Set logo text
-        logoLabel.text = "Word\nNerd"
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = 14
-        style.alignment = .Center
-        let attributes = [NSParagraphStyleAttributeName: style]
-        logoLabel.attributedText = NSAttributedString(string: logoLabel.text!, attributes:attributes)
-        
-        // Text Looping Animations
-        //loopTextChangeAnimation(true)
         
         // Sign Player into Game Center
         authenticateLocalPlayer()
@@ -70,42 +60,27 @@ class MainMenuViewController: UIViewController {
     }
     
     func runOpeningAnimation() {
-        self.delay(8) {
-            self.wordLabel.slideOutIn(0.4, completionDelegate: self)
-            self.nerdLabel.text = nil
-            
-            self.delay(1) {
-                self.nerdLabel.text = "N"
-                self.delay(0.1) {
-                    self.nerdLabel.text = "NE"
+        if (canRunOpenningAnimation) {
+            self.delay(4) {
+                self.wordLabel.slideOutIn(0.4, completionDelegate: self)
+                self.nerdLabel.text = nil
+                self.delay(1) {
+                    self.nerdLabel.text = "N"
                     self.delay(0.1) {
-                        self.nerdLabel.text = "NER"
+                        self.nerdLabel.text = "NE"
                         self.delay(0.1) {
-                            self.nerdLabel.text = "NERD"
-                            self.runOpeningAnimation()
+                            self.nerdLabel.text = "NER"
+                            self.delay(0.1) {
+                                self.nerdLabel.text = "NERD"
+                                self.runOpeningAnimation()
+                            }
                         }
                     }
                 }
             }
+        } else {
+            self.nerdLabel.text = "NERD"
         }
-        
-        /*
-        dispatch_after(SECONDS_TWO, dispatch_get_main_queue()) {
-        self.nerdLabel.text = "N"
-        dispatch_after(self.SECONDS_SHORT, dispatch_get_main_queue()) {
-        self.nerdLabel.text = "NE"
-        dispatch_after(self.SECONDS_SHORT, dispatch_get_main_queue()) {
-        self.nerdLabel.text = "NER"
-        dispatch_after(self.SECONDS_SHORT, dispatch_get_main_queue()) {
-        self.nerdLabel.text = "NERD"
-        dispatch_after(self.SECONDS_SHORT, dispatch_get_main_queue()) {
-        self.runOpeningAnimation()
-        }
-        }
-        }
-        }
-        }
-        */
     }
     
     @IBOutlet weak var logoImage: UIImageView!

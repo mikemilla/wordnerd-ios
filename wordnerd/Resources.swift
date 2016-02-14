@@ -11,7 +11,7 @@ import UIKit
 struct Colors {
     static var redColor = UIColor(hex: 0xF44336)
     static var deepPurpleColor = UIColor(hex: 0x673AB7)
-    static var blueColor = UIColor(hex: 0x2196F3)
+    static var blueColor = UIColor(hex: 0x118DF0)
     static var greenColor = UIColor(hex: 0x00C05F)
     static var greenDarkColor = UIColor(hex: 0x099C52)
     static var amberColor = UIColor(hex: 0xFFB007)
