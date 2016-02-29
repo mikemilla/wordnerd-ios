@@ -19,8 +19,6 @@
 		7AAF9AAC1B5AE03200880F0E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AAF9AAB1B5AE03200880F0E /* GameKit.framework */; };
 		7AD37CFC1C473E2E003943F3 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37CFB1C473E2E003943F3 /* GameViewController.swift */; };
 		7AD3AE511C70458E000D9B3B /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AD3AE501C70458E000D9B3B /* Launch Screen.storyboard */; };
-		7ADD03A61C67D6E800D90135 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADD03A41C67D6E800D90135 /* PageView.swift */; };
-		7ADD03A71C67D6E800D90135 /* PageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7ADD03A51C67D6E800D90135 /* PageView.xib */; };
 		7ADF628B1C46067F00F77A97 /* 8BITWONDERNominal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7ADF628A1C4604E700F77A97 /* 8BITWONDERNominal.ttf */; };
 		7AE342A11C448F24007C1B44 /* words.json in Resources */ = {isa = PBXBuildFile; fileRef = 7AE342A01C448F24007C1B44 /* words.json */; };
 		D13C17446FDA84A69C3C8398 /* Pods_wordnerd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A235E234BBF22D230A35D596 /* Pods_wordnerd.framework */; };
@@ -53,8 +51,6 @@
 		7AAF9AAB1B5AE03200880F0E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		7AD37CFB1C473E2E003943F3 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		7AD3AE501C70458E000D9B3B /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		7ADD03A41C67D6E800D90135 /* PageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
-		7ADD03A51C67D6E800D90135 /* PageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageView.xib; sourceTree = "<group>"; };
 		7ADF628A1C4604E700F77A97 /* 8BITWONDERNominal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 8BITWONDERNominal.ttf; sourceTree = "<group>"; };
 		7AE342A01C448F24007C1B44 /* words.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words.json; sourceTree = "<group>"; };
 		953D9C909FFB86F8AA97D461 /* Pods-wordnerd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wordnerd.release.xcconfig"; path = "Pods/Target Support Files/Pods-wordnerd/Pods-wordnerd.release.xcconfig"; sourceTree = "<group>"; };
@@ -149,8 +145,6 @@
 				7A2921341B2C911E00AA7AB1 /* MainMenuViewController.swift */,
 				7AAF9AA41B5A035800880F0E /* AboutViewController.swift */,
 				7AD37CFB1C473E2E003943F3 /* GameViewController.swift */,
-				7ADD03A41C67D6E800D90135 /* PageView.swift */,
-				7ADD03A51C67D6E800D90135 /* PageView.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -277,7 +271,6 @@
 				7AD3AE511C70458E000D9B3B /* Launch Screen.storyboard in Resources */,
 				7ADF628B1C46067F00F77A97 /* 8BITWONDERNominal.ttf in Resources */,
 				7A28CF681AE47540008E9B9C /* Main.storyboard in Resources */,
-				7ADD03A71C67D6E800D90135 /* PageView.xib in Resources */,
 				7A28CF6A1AE47540008E9B9C /* Images.xcassets in Resources */,
 				7AE342A11C448F24007C1B44 /* words.json in Resources */,
 			);
@@ -351,7 +344,6 @@
 				7AAF9AAA1B5ADCB700880F0E /* Extensions.swift in Sources */,
 				7A28CF631AE47540008E9B9C /* AppDelegate.swift in Sources */,
 				7AD37CFC1C473E2E003943F3 /* GameViewController.swift in Sources */,
-				7ADD03A61C67D6E800D90135 /* PageView.swift in Sources */,
 				7A2D38A71C6C2E3D005A6909 /* LaunchViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

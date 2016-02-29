@@ -12,14 +12,14 @@ import SwiftyJSON
 
 class MainMenuViewController: UIViewController {
     
+    @IBOutlet weak var moreButton: UIButton!
+    @IBOutlet weak var rateButton: UIButton!
     @IBOutlet weak var nerdLabel: UILabel!
     @IBOutlet weak var wordLabel: UILabel!
     let WORD_KEY:String = "word_key"
     let BIT_FONT:String = "8BITWONDERNominal"
     @IBOutlet weak var copyRight: UILabel!
-    @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
-    @IBOutlet weak var menuButton: UIButton!
     var fade = CATransition()
     
     @IBAction func playButton(sender: AnyObject) {
@@ -30,6 +30,10 @@ class MainMenuViewController: UIViewController {
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
+    @IBAction func rateAction(sender: AnyObject) {
+        UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/app/bars/id706081574")!)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,13 +41,27 @@ class MainMenuViewController: UIViewController {
         authenticateLocalPlayer()
         
         setButtonObservers(startButton)
-        setButtonObservers(menuButton)
-        startButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
+        setButtonObservers(rateButton)
+        setButtonObservers(moreButton)
+        startButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
+        rateButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
+        moreButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
         
         wordLabel.font = UIFont(name: BIT_FONT, size: 52)
         nerdLabel.font = UIFont(name: BIT_FONT, size: 52)
         
+        rateButton.titleLabel?.font = UIFont(name: BIT_FONT, size: 16)
+        moreButton.titleLabel?.font = UIFont(name: BIT_FONT, size: 16)
+        rateButton.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.5), forState: UIControlState.Normal)
+        moreButton.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.5), forState: UIControlState.Normal)
+        
         runOpeningAnimation()
+        
+        let date = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Year], fromDate: date)
+        let year = components.year
+        copyRight.text = "© Michael Miller \(year)"
     }
     
     let SECONDS_SHORT = dispatch_time(DISPATCH_TIME_NOW, Int64(0.15 * Double(NSEC_PER_SEC)))
@@ -83,8 +101,6 @@ class MainMenuViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var logoImage: UIImageView!
-    
     // Set the observers to both of the buttons
     func setButtonObservers(sender: UIButton) {
         sender.addTarget(self, action: "buttonDown:", forControlEvents: UIControlEvents.TouchDown)
@@ -99,11 +115,7 @@ class MainMenuViewController: UIViewController {
     
     // Button is dragged away and canceled
     func buttonUp(sender: UIButton) {
-        if (sender == startButton) {
-            sender.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
-        } else {
-            sender.backgroundColor = UIColor.clearColor()
-        }
+        sender.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
     }
     
     func loopTextChangeAnimation(tutorialIsShowing: Bool) {
@@ -136,7 +148,7 @@ class MainMenuViewController: UIViewController {
                 self.presentViewController(viewController!, animated: true, completion: nil)
             }
             else {
-                print((GKLocalPlayer.localPlayer().authenticated))
+                print("User is signed into Game Center \(GKLocalPlayer.localPlayer().authenticated)")
             }
         }
     }

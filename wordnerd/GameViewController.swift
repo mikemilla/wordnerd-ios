@@ -96,7 +96,6 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         userInput.font = UIFont(name: BIT_FONT, size: 34)
         userInput.tintColor = UIColor.clearColor()
         createRandomUserRhymeAnimation()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textFieldDidChange:"), name:UITextFieldTextDidChangeNotification, object:userInput)
         
         // Progress Bar
         // Progress View Styles
@@ -123,11 +122,11 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         rhymeWithLabel.font = UIFont(name: BIT_FONT, size: 18)
         rhymeWithLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(1)
         rhymeWithView.backgroundColor = UIColor.clearColor()
-        cursorImageView.hidden = true
         slideRhymeWithUp()
         
         // Background Color
         gameView.backgroundColor = randomColor()
+        
         restartButton.backgroundColor = gameView.backgroundColor!
         
         // Set the word
@@ -168,7 +167,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         }
     }
     
-    func textFieldDidChange(sender: NSNotification) {
+    @IBAction func userInput(sender: AnyObject) {
         
         if (isGameOver) {
             userInput.text = nil
@@ -178,14 +177,12 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
             userInput.text = userRhymeWithNoSpaces
             
             // Animation Logic
-            if (score > 0) {
-                if (userInput.text == "" || userInput.text == nil) {
-                    createRandomUserRhymeAnimation()
-                    cursorImageView.hidden = false
-                } else {
-                    cursorImageView.stopAnimating()
-                    cursorImageView.hidden = true
-                }
+            if (userInput.text == "" || userInput.text == nil) {
+                createRandomUserRhymeAnimation()
+                cursorImageView.hidden = false
+            } else {
+                cursorImageView.stopAnimating()
+                cursorImageView.hidden = true
             }
             
             if (playedRhymes.containsObject(userInput.text!.lowercaseString)
@@ -254,6 +251,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
                 }
             }
         }
+        
     }
     
     func addScoreAndAdvance(points: Int) {
@@ -389,7 +387,6 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         position = 0
         score = 0
         createRandomUserRhymeAnimation()
-        cursorImageView.hidden = true
         playedRhymes.removeAllObjects()
         createRhyme()
         if (scoreViewTopConstraint.constant != HIDE_SCORE_VIEW) {
@@ -404,10 +401,8 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         userInput.text = nil
-        if (score > 0) {
-            createRandomUserRhymeAnimation()
-            cursorImageView.hidden = false
-        }
+        createRandomUserRhymeAnimation()
+        cursorImageView.hidden = false
         return true;
     }
     
@@ -415,18 +410,12 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() {
             gameViewBottomConstraint.constant = keyboardSize.height
             scoreViewHeight.constant = UIScreen.mainScreen().applicationFrame.height - keyboardSize.height
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.view.layoutIfNeeded()
-            })
         }
     }
     
     func keyboardWillHide(sender: NSNotification) {
         gameViewBottomConstraint.constant = 0
         scoreViewHeight.constant = UIScreen.mainScreen().applicationFrame.height
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.view.layoutIfNeeded()
-        })
     }
     
     func createRandomUserRhymeAnimation() {
