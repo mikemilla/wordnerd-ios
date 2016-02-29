@@ -7,8 +7,7 @@
 //
 
 import UIKit
-import GameKit
-import Social
+import Google
 
 class AboutViewController: UIViewController {
 
@@ -25,15 +24,39 @@ class AboutViewController: UIViewController {
     }
     
     @IBAction func mikeButton(sender: AnyObject) {
+        
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Action",
+            action: "Me Button Click",
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
         UIApplication.sharedApplication().openURL(NSURL(string: "http://www.mikemilla.com")!)
     }
     
     @IBAction func tweetButton(sender: AnyObject) {
+        
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Action",
+            action: "Tweet Button Click",
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
         if (UIApplication.sharedApplication().openURL(NSURL(string: TWITTER_SCHEME)!)) {
             UIApplication.sharedApplication().openURL(NSURL(string: TWITTER_SCHEME)!)
         } else {
             UIApplication.sharedApplication().openURL(NSURL(string: TWITTER_WEB)!)
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Google Analytics
+        GAI.sharedInstance().defaultTracker.set(kGAIScreenName, value: "About")
+        
+        let builder = GAIDictionaryBuilder.createScreenView()
+        GAI.sharedInstance().defaultTracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     override func viewDidLoad() {

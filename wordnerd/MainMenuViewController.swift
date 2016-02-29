@@ -8,7 +8,7 @@
 
 import UIKit
 import GameKit
-import SwiftyJSON
+import Google
 
 class MainMenuViewController: UIViewController {
     
@@ -23,6 +23,13 @@ class MainMenuViewController: UIViewController {
     var fade = CATransition()
     
     @IBAction func playButton(sender: AnyObject) {
+        
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Action",
+            action: "Start Game Button Click",
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
         canRunOpenningAnimation = false
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("GameViewController") as! GameViewController
@@ -30,8 +37,34 @@ class MainMenuViewController: UIViewController {
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
+    @IBAction func moreAction(sender: AnyObject) {
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Action",
+            action: "More Button Click",
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
+    }
+    
     @IBAction func rateAction(sender: AnyObject) {
+        
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Action",
+            action: "Rate Button Click",
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
         UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/app/bars/id706081574")!)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Google Analytics
+        GAI.sharedInstance().defaultTracker.set(kGAIScreenName, value: "Main Menu")
+        
+        let builder = GAIDictionaryBuilder.createScreenView()
+        GAI.sharedInstance().defaultTracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     override func viewDidLoad() {

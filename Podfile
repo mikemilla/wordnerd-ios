@@ -3,6 +3,7 @@ use_frameworks!
 
 target 'wordnerd' do
 
+pod 'Google/Analytics'
 pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
 
 end

@@ -11,6 +11,7 @@ import Foundation
 import AudioToolbox
 import GameKit
 import SwiftyJSON
+import Google
 
 class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterControllerDelegate {
     
@@ -61,16 +62,37 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     @IBOutlet weak var scoreViewHeight: NSLayoutConstraint!
     
     @IBAction func restartButton(sender: AnyObject) {
+        
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Action",
+            action: "Rate Button Click",
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
         restartGame()
         backButton.tintColor = UIColor.whiteColor()
         gameView.backgroundColor = setNextColor(gameView.backgroundColor!)
     }
     
     @IBAction func leaderboard(sender: AnyObject) {
+        
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Action",
+            action: "Leaderboard Button Click",
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
         showGameLeaderboard()
     }
     
     @IBAction func achievements(sender: AnyObject) {
+        
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Action",
+            action: "Achievements Button Click",
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
         showGameAchievements()
     }
     
@@ -78,6 +100,16 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         mainViewController?.canRunOpenningAnimation = true
         mainViewController?.runOpeningAnimation()
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Google Analytics
+        GAI.sharedInstance().defaultTracker.set(kGAIScreenName, value: "Game")
+        
+        let builder = GAIDictionaryBuilder.createScreenView()
+        GAI.sharedInstance().defaultTracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     override func viewDidLoad() {
@@ -331,6 +363,34 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
     }
     
     func gameOver() {
+        
+        print("Last Generated Rhyme \( json!["words"][shuffledWordArray[position]]["word"].stringValue)")
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Last Generated Rhyme",
+            action:  json!["words"][shuffledWordArray[position]]["word"].stringValue,
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
+        print("Last Rhyme Attempt \(userInput.text)")
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Last Rhyme Attempt",
+            action: userInput.text,
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
+        print("Played Rhymes \(String(playedRhymes))")
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Played Rhymes",
+            action: String(playedRhymes),
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
+        
+        print("Amount of Rhymes \(String(playedRhymes.count))")
+        GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Amount of Rhymes",
+            action: String(playedRhymes.count),
+            label: nil,
+            value: nil)
+            .build() as [NSObject : AnyObject])
         
         rhymeWithPivotPoint.constant = -68
         backButton.tintColor = Colors.greyIconColor
