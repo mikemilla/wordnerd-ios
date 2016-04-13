@@ -54,7 +54,7 @@ class MainMenuViewController: UIViewController {
             value: nil)
             .build() as [NSObject : AnyObject])
         
-        UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/app/bars/id706081574")!)
+        UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/app/word-nerd-rhyming-game/id1020956210")!)
     }
     
     override func viewWillAppear(animated: Bool) {
