@@ -373,7 +373,7 @@ class GameViewController: UIViewController, UITextFieldDelegate, GKGameCenterCon
         
         print("Last Rhyme Attempt \(userInput.text)")
         GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory("Last Rhyme Attempt",
-            action: userInput.text,
+            action: "\(userInput.text) - \(json!["words"][shuffledWordArray[position]]["word"].stringValue)",
             label: nil,
             value: nil)
             .build() as [NSObject : AnyObject])
