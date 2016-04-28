@@ -1,21 +1,23 @@
-# Word Nerd - Rhyming Game (Android)
+# Word Nerd - Rhyming Game (iOS)
 
-The Android version of a game where you rhyme with as many words as you can until time runs out.
+A simple rhyming game
 
-![alt tag](https://raw.githubusercontent.com/mikemilla/wordnerd-android/master/screenshot.gif)
+
+![alt tag](https://raw.githubusercontent.com/mikemilla/wordnerd-ios/master/screenshot.gif)
+
 
 ## Download
 
-https://play.google.com/store/apps/details?id=com.mikemilla.wordnerd
+- https://itunes.apple.com/bt/app/word-nerd-rhyming-game/id1020956210?mt=8
+- http://mikemilla.com/wordnerd
 
 ## Contact
 
 Michael Miller
 
-- https://github.com/mikemilla
-- https://dribbble.com/mikemilla
-- http://mikemilla.com/
 - mail@mikemilla.com
+- http://mikemilla.com
+- https://dribbble.com/mikemilla
 
 ## License
 
